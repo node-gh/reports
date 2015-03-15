@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>NodeGH source code reports</title>
+<base href="/reports/" />
+<link rel="stylesheet" href="foundation.min.css">
+<style>
+.report {
+    white-space: pre-line;
+}
+</style>
+</head>
+<body>
+<div class="row">
+<div class="large-12 columns">
+<h1><a href="nodegh.io">NodeGH</a> Travis-generated source code reports</h1>
+<ul>
+<li><a href="https://node-gh.github.io/reports/coverage/lcov-report/index.html">Code coverage</a></li>
+<li><a href="https://node-gh.github.io/reports/complexity/">Static analysis &amp; code complexity</a></li>
+</ul>
+
+<p>More info on <a href="https://github.com/node-gh/gh/blob/master/CONTRIBUTING.md">gh/CONTRIBUTING.md</a>.</p>
+<h2 id="report-msg"></h2>
+<div class="report panel callout radius" id="report"></div>
+</div>
+</div>
+<script>
+var request = new XMLHttpRequest();
+
+request.onload = function() {
+    document.querySelector('#report-msg').innerHTML = 'Report build';
+    document.querySelector('#report').textContent = request.responseText;
+};
+
+request.open('GET', 'report');
+request.send();
+</script>
+</body>
+</html>
