@@ -1,0 +1,2766 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/cmds/pull-request.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../../prettify.css">
+
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">lib/cmds/pull-request.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">0.29% <small>(1 / 339)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">0% <small>(0 / 183)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">0% <small>(0 / 78)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">0.29% <small>(1 / 339)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/cmds/</a> &#187; pull-request.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
+ * Copyright 2013-2015, All Rights Reserved.
+ *
+ * Code licensed under the BSD License:
+ * https://github.com/node-gh/gh/blob/master/LICENSE.md
+ *
+ * @author Eduardo Lundgren &lt;edu@rdo.io&gt;
+ * @author Zeno Rocha &lt;zno.rocha@gmail.com&gt;
+ */
+&nbsp;
+'use strict';
+&nbsp;
+// -- Requires -------------------------------------------------------------------------------------
+&nbsp;
+<span class="cstat-no" title="statement not covered" >var async = require('async'),</span>
+    base = require('../base'),
+    git = require('../git'),
+    hooks = require('../hooks'),
+    logger = require('../logger'),
+    openUrl = require('open'),
+    Issues = require('./issue').Impl,
+    config = base.getConfig();
+&nbsp;
+// -- Constructor ----------------------------------------------------------------------------------
+&nbsp;
+<span class="fstat-no" title="function not covered" >function PullRequest(options) {</span>
+<span class="cstat-no" title="statement not covered" >    this.options = options;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!options.repo &amp;&amp; !options.all) {</span>
+<span class="cstat-no" title="statement not covered" >        logger.error('You must specify a Git repository with a GitHub remote to run this command');</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.issue = new Issues(options);</span>
+}
+&nbsp;
+// -- Constants ------------------------------------------------------------------------------------
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.DETAILS = {</span>
+    alias: 'pr',
+    description: 'Provides a set of util commands to work with Pull Requests.',
+    iterative: 'number',
+    commands: [
+        'browser',
+        'close',
+        'comment',
+        'fetch',
+        'fwd',
+        'list',
+        'merge',
+        'open',
+        'rebase',
+        'submit'
+    ],
+    options: {
+        'all': Boolean,
+        'branch': String,
+        'browser': Boolean,
+        'close': Boolean,
+        'comment': String,
+        'description': String,
+        'detailed': Boolean,
+        'direction': String,
+        'fetch': Boolean,
+        'fwd': String,
+        'issue': Number,
+        'list': Boolean,
+        'me': Boolean,
+        'merge': Boolean,
+        'number': [String, Array],
+        'open': Boolean,
+        'org': String,
+        'rebase': Boolean,
+        'remote': String,
+        'repo': String,
+        'sort': String,
+        'state': ['open', 'closed'],
+        'submit': String,
+        'title': String,
+        'user': String
+    },
+    shorthands: {
+        'a': ['--all'],
+        'b': ['--branch'],
+        'B': ['--browser'],
+        'C': ['--close'],
+        'c': ['--comment'],
+        'D': ['--description'],
+        'd': ['--detailed'],
+        'f': ['--fetch'],
+        'i': ['--issue'],
+        'l': ['--list'],
+        'M': ['--merge'],
+        'm': ['--me'],
+        'n': ['--number'],
+        'o': ['--open'],
+        'O': ['--org'],
+        'R': ['--rebase'],
+        'r': ['--repo'],
+        'S': ['--state'],
+        's': ['--submit'],
+        't': ['--title'],
+        'u': ['--user']
+    },
+    payload: <span class="fstat-no" title="function not covered" >function(payload, options) {</span>
+<span class="cstat-no" title="statement not covered" >        if (payload[0]) {</span>
+<span class="cstat-no" title="statement not covered" >            options.fetch = true;</span>
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            options.list = true;</span>
+        }
+    }
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.DIRECTION_DESC = 'desc';</span>
+<span class="cstat-no" title="statement not covered" >PullRequest.DIRECTION_ASC = 'asc';</span>
+<span class="cstat-no" title="statement not covered" >PullRequest.FETCH_TYPE_CHECKOUT = 'checkout';</span>
+<span class="cstat-no" title="statement not covered" >PullRequest.FETCH_TYPE_MERGE = 'merge';</span>
+<span class="cstat-no" title="statement not covered" >PullRequest.FETCH_TYPE_REBASE = 'rebase';</span>
+<span class="cstat-no" title="statement not covered" >PullRequest.FETCH_TYPE_SILENT = 'silent';</span>
+<span class="cstat-no" title="statement not covered" >PullRequest.SORT_CREATED = 'created';</span>
+<span class="cstat-no" title="statement not covered" >PullRequest.SORT_COMPLEXITY = 'complexity';</span>
+<span class="cstat-no" title="statement not covered" >PullRequest.STATE_CLOSED = 'closed';</span>
+<span class="cstat-no" title="statement not covered" >PullRequest.STATE_OPEN = 'open';</span>
+&nbsp;
+// -- Commands -------------------------------------------------------------------------------------
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.options = null;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.issues = null;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.run = <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        fetchType;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    options.number = options.number || instance.getPullRequestNumberFromBranch_();</span>
+<span class="cstat-no" title="statement not covered" >    options.pullBranch = instance.getBranchNameFromPullNumber_(options.number);</span>
+<span class="cstat-no" title="statement not covered" >    options.state = options.state || PullRequest.STATE_OPEN;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.browser) {</span>
+<span class="cstat-no" title="statement not covered" >        instance.browser(options.user, options.repo, options.number);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!options.list) {</span>
+<span class="cstat-no" title="statement not covered" >        options.branch = options.branch || config.default_branch;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.close) {</span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('pull-request.close', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >            logger.logTemplate(</span>
+                'Closing pull request {{greenBright "#" options.number}}', {
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            instance.close(<span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.warn('Can\'t close pull request ' + options.number + '.');</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                logger.logTemplate('{{link}}', {</span>
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                instance.setMergeCommentRequiredOptions_(afterHooksCallback);</span>
+            });
+        });
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.comment) {</span>
+<span class="cstat-no" title="statement not covered" >        logger.logTemplate(</span>
+            'Adding comment on pull request {{greenBright "#" options.number}}', {
+                options: options
+            });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        instance.issue.comment(<span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                logger.error('Can\'t comment on pull request ' + options.number + '.');</span>
+<span class="cstat-no" title="statement not covered" >                return;</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            logger.logTemplate('{{link}}', {</span>
+                options: options
+            });
+        });
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.fetch) {</span>
+<span class="cstat-no" title="statement not covered" >        fetchType = PullRequest.FETCH_TYPE_CHECKOUT;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (options.merge) {</span>
+<span class="cstat-no" title="statement not covered" >            fetchType = PullRequest.FETCH_TYPE_MERGE;</span>
+        }
+        else <span class="cstat-no" title="statement not covered" >if (options.rebase) {</span>
+<span class="cstat-no" title="statement not covered" >            fetchType = PullRequest.FETCH_TYPE_REBASE;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('pull-request.fetch', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >            logger.logTemplateFile('pr-fetch.handlebars', {</span>
+                currentBranch: options.currentBranch,
+                options: options
+            });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            instance.fetch(fetchType, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t fetch pull request ' + options.number + '.');</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                afterHooksCallback();</span>
+            });
+        });
+    }
+    else <span class="cstat-no" title="statement not covered" >if (options.merge || options.rebase) {</span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('pull-request.merge', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >            logger.logTemplateFile('pr-merge.handlebars', {</span>
+                options: options
+            });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            instance.merge(<span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >                instance.setMergeCommentRequiredOptions_(afterHooksCallback);</span>
+            });
+        });
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.fwd === '') {</span>
+<span class="cstat-no" title="statement not covered" >        options.fwd = config.default_pr_forwarder;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.fwd) {</span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('pull-request.fwd', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >            logger.logTemplate(</span>
+                'Forwarding pull request {{greenBright "#" options.number}} to {{{magentaBright "@" options.fwd}}}', {
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            instance.forward(<span class="fstat-no" title="function not covered" >function(err, pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t forward pull request ' + options.number + ' to ' + options.fwd + '.');</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if (pull) {</span>
+<span class="cstat-no" title="statement not covered" >                    options.forwardedPull = pull.number;</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                logger.logTemplate('{{forwardedLink}}', {</span>
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                instance.setMergeCommentRequiredOptions_(afterHooksCallback);</span>
+            });
+        });
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.list) {</span>
+<span class="cstat-no" title="statement not covered" >        options.sort = options.sort || PullRequest.SORT_CREATED;</span>
+<span class="cstat-no" title="statement not covered" >        options.direction = options.direction || PullRequest.DIRECTION_DESC;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (options.all) {</span>
+<span class="cstat-no" title="statement not covered" >            logger.logTemplate(</span>
+                'Listing all {{options.state}} pull requests for {{#if options.org}}{{greenBright options.org}}{{else}}{{greenBright options.user}}{{/if}}', {
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            instance.listFromAllRepositories(<span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t list all pull requests from repos.');</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+            });
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            if (options.me) {</span>
+<span class="cstat-no" title="statement not covered" >                logger.logTemplate(</span>
+                    'Listing {{options.state}} pull requests sent by {{greenBright options.loggedUser}} on {{greenBright options.user "/" options.repo}}', {
+                        options: options
+                    });
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                logger.logTemplate(</span>
+                    'Listing {{options.state}} pull requests on {{greenBright options.user "/" options.repo}}', {
+                        options: options
+                    });
+            }
+<span class="cstat-no" title="statement not covered" >            instance.list(options.user, options.repo, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t list pull requests.');</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+            });
+        }
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.open) {</span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('pull-request.open', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >            logger.logTemplate(</span>
+                'Opening pull request {{greenBright "#" options.number}}', {
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            instance.open(<span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t open pull request ' + options.number + '.');</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                logger.logTemplate('{{link}}', {</span>
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                afterHooksCallback();</span>
+            });
+        });
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.submit === '') {</span>
+<span class="cstat-no" title="statement not covered" >        options.submit = config.default_pr_reviewer;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.submit) {</span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('pull-request.submit', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >            logger.logTemplate(</span>
+                'Submitting pull request to {{{magentaBright "@" options.submit}}}', {
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            instance.submit(options.submit, <span class="fstat-no" title="function not covered" >function(err, pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t submit pull request. ' + JSON.parse(err.message).errors[0].message);</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if (pull) {</span>
+<span class="cstat-no" title="statement not covered" >                    options.submittedPull = pull.number;</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                logger.logTemplate('{{submittedLink}}', {</span>
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                instance.setMergeCommentRequiredOptions_(afterHooksCallback);</span>
+            });
+        });
+    }
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.addComplexityParamToPulls_ = <span class="fstat-no" title="function not covered" >function(pulls, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        metrics,
+        operations,
+        options = instance.options;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    operations = pulls.map(<span class="fstat-no" title="function not covered" >function(pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >        return <span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >            options.number = pull.number;</span>
+<span class="cstat-no" title="statement not covered" >            instance.getPullRequest_(<span class="fstat-no" title="function not covered" >function(err, pull2) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (!err) {</span>
+<span class="cstat-no" title="statement not covered" >                    metrics = {</span>
+                        additions: pull2.additions,
+                        changedFiles: pull2.changed_files,
+                        comments: pull2.comments,
+                        deletions: pull2.deletions,
+                        reviewComments: pull2.review_comments
+                    };
+<span class="cstat-no" title="statement not covered" >                    pull.complexity = instance.calculateComplexity_(metrics);</span>
+                }
+<span class="cstat-no" title="statement not covered" >                callback(err, pull);</span>
+            });
+        };
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function(err, results) {</span></span>
+<span class="cstat-no" title="statement not covered" >        opt_callback(err, results);</span>
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.browser = <span class="fstat-no" title="function not covered" >function(user, repo, number) {</span></span>
+<span class="cstat-no" title="statement not covered" >    openUrl('https://github.com/' + user + '/' + repo + '/pull/' + number);</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.calculateComplexity_ = <span class="fstat-no" title="function not covered" >function(metrics) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var complexity,</span>
+        weightAddition = 2,
+        weightChangedFile = 2,
+        weightComment = 2,
+        weightDeletion = 2,
+        weightReviewComment = 1;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    complexity = (metrics.additions * weightAddition) +</span>
+        (metrics.changedFiles * weightChangedFile) +
+        (metrics.comments * weightComment) +
+        (metrics.deletions * weightDeletion) +
+        (metrics.reviewComments * weightReviewComment);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return complexity;</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.close = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        operations,
+        pull;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    operations = [</span>
+&nbsp;
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            instance.getPullRequest_(<span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (!err) {</span>
+<span class="cstat-no" title="statement not covered" >                    pull = data;</span>
+                }
+<span class="cstat-no" title="statement not covered" >                callback(err);</span>
+            });
+        },
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            instance.updatePullRequest_(</span>
+                pull.title, pull.body, PullRequest.STATE_CLOSED, callback);
+        },
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            if (options.pullBranch === options.currentBranch) {</span>
+<span class="cstat-no" title="statement not covered" >                git.checkout(options.branch);</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if (options.pullBranch) {</span>
+<span class="cstat-no" title="statement not covered" >                git.deleteBranch(options.pullBranch);</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            callback();</span>
+        }
+    ];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback(err, pull);</span>
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.checkPullRequestIntegrity_ = <span class="fstat-no" title="function not covered" >function(originalError, user, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        payload,
+        pull;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    payload = {</span>
+        user: user,
+        repo: options.repo,
+        state: PullRequest.STATE_OPEN
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    base.github.pullRequests.getAll(payload, <span class="fstat-no" title="function not covered" >function(err, pulls) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (!err) {</span>
+<span class="cstat-no" title="statement not covered" >            pulls.forEach(<span class="fstat-no" title="function not covered" >function(data) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if ((data.base.ref === options.branch) &amp;&amp;</span>
+                    (data.head.ref === options.currentBranch) &amp;&amp;
+                    (data.base.sha === data.head.sha) &amp;&amp;
+                    (data.base.user.login === user) &amp;&amp;
+                    (data.head.user.login === options.user)) {
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                    pull = data;</span>
+<span class="cstat-no" title="statement not covered" >                    originalError = null;</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+            });
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback(originalError, pull);</span>
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.fetch = <span class="fstat-no" title="function not covered" >function(opt_type, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        headBranch,
+        repoUrl;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    instance.getPullRequest_(<span class="fstat-no" title="function not covered" >function(err, pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (err) {</span>
+<span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        headBranch = pull.head.ref;</span>
+<span class="cstat-no" title="statement not covered" >        repoUrl = pull.head.repo.ssh_url;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        git.fetch(repoUrl, headBranch, options.pullBranch);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (opt_type === PullRequest.FETCH_TYPE_REBASE) {</span>
+<span class="cstat-no" title="statement not covered" >            git.merge(options.pullBranch, true, true);</span>
+        }
+        else <span class="cstat-no" title="statement not covered" >if (opt_type === PullRequest.FETCH_TYPE_MERGE) {</span>
+<span class="cstat-no" title="statement not covered" >            git.merge(options.pullBranch, false, true);</span>
+        }
+        else <span class="cstat-no" title="statement not covered" >if (opt_type === PullRequest.FETCH_TYPE_CHECKOUT) {</span>
+<span class="cstat-no" title="statement not covered" >            git.checkout(options.pullBranch);</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        opt_callback(err, pull);</span>
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.filterPullsSentByMe_ = <span class="fstat-no" title="function not covered" >function(pulls) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    pulls = pulls.filter(<span class="fstat-no" title="function not covered" >function(pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (options.loggedUser === pull.user.login) {</span>
+<span class="cstat-no" title="statement not covered" >            return pull;</span>
+        }
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return pulls;</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.forward = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        operations,
+        submittedPull,
+        pull;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    operations = [</span>
+&nbsp;
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            instance.fetch(PullRequest.FETCH_TYPE_SILENT, <span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
+<span class="cstat-no" title="statement not covered" >                pull = data;</span>
+<span class="cstat-no" title="statement not covered" >                callback(err);</span>
+            });
+        },
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            options.title = pull.title;</span>
+<span class="cstat-no" title="statement not covered" >            options.description = pull.body;</span>
+<span class="cstat-no" title="statement not covered" >            options.submittedUser = pull.user.login;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            instance.submit(options.fwd, <span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    callback(err);</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                options.submittedPullNumber = data.number;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                submittedPull = data;</span>
+<span class="cstat-no" title="statement not covered" >                callback();</span>
+            });
+        }
+    ];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback(err, submittedPull);</span>
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.getPullRequest_ = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        payload;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    payload = {</span>
+        number: options.number,
+        repo: options.repo,
+        user: options.user
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    base.github.pullRequests.get(payload, opt_callback);</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.getBranchNameFromPullNumber_ = <span class="fstat-no" title="function not covered" >function(number) {</span></span>
+<span class="cstat-no" title="statement not covered" >    if (number) {</span>
+<span class="cstat-no" title="statement not covered" >        return config.pull_branch_name_prefix + number;</span>
+    }
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.getPullRequestNumberFromBranch_ = <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        prefix;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    prefix = config.pull_branch_name_prefix;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.currentBranch &amp;&amp; options.currentBranch.indexOf(prefix) &gt; -1) {</span>
+<span class="cstat-no" title="statement not covered" >        return options.currentBranch.replace(prefix, '');</span>
+    }
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.getPullsTemplateJson_ = <span class="fstat-no" title="function not covered" >function(pulls, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        branch,
+        branches,
+        json;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    branches = {};</span>
+<span class="cstat-no" title="statement not covered" >    json = {</span>
+        branches: []
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    pulls.forEach(<span class="fstat-no" title="function not covered" >function(pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >        branch = pull.base.ref;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!options.branch || options.branch === branch) {</span>
+<span class="cstat-no" title="statement not covered" >            branches[branch] = branches[branch] || [];</span>
+<span class="cstat-no" title="statement not covered" >            branches[branch].push(pull);</span>
+        }
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    Object.keys(branches).forEach(<span class="fstat-no" title="function not covered" >function(branch) {</span></span>
+<span class="cstat-no" title="statement not covered" >        json.branches.push({</span>
+            name: branch,
+            pulls: branches[branch],
+            total: branches[branch].length
+        });
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    opt_callback &amp;&amp; opt_callback(null, json);</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.list = <span class="fstat-no" title="function not covered" >function(user, repo, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        json,
+        operations,
+        payload,
+        pulls,
+        sort;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    sort = options.sort;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.sort === PullRequest.SORT_COMPLEXITY) {</span>
+<span class="cstat-no" title="statement not covered" >        sort = PullRequest.SORT_CREATED;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    payload = {</span>
+        direction: options.direction,
+        repo: repo,
+        sort: sort,
+        state: options.state,
+        user: user
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    operations = [</span>
+&nbsp;
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            base.github.pullRequests.getAll(payload, <span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
+<span class="cstat-no" title="statement not covered" >                pulls = [];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if (!err) {</span>
+<span class="cstat-no" title="statement not covered" >                    if (options.me) {</span>
+<span class="cstat-no" title="statement not covered" >                        pulls = instance.filterPullsSentByMe_(data);</span>
+                    }
+                    else {
+<span class="cstat-no" title="statement not covered" >                        pulls = data;</span>
+                    }
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if (err &amp;&amp; err.code === 404) {</span>
+                    // some times a repo is found, but you can't listen its prs
+                    // due to the repo being disabled (e.g., private repo with debt)
+<span class="cstat-no" title="statement not covered" >                    logger.warn('Can\'t list pull requests for ' + user + '/' + payload.repo);</span>
+<span class="cstat-no" title="statement not covered" >                    callback();</span>
+                }
+                else {
+<span class="cstat-no" title="statement not covered" >                    callback(err);</span>
+                }
+            });
+        },
+&nbsp;
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            if (options.sort &amp;&amp; options.sort === PullRequest.SORT_COMPLEXITY) {</span>
+<span class="cstat-no" title="statement not covered" >                instance.addComplexityParamToPulls_(pulls, <span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    if (!err) {</span>
+<span class="cstat-no" title="statement not covered" >                        pulls = instance.sortPullsByComplexity_(data);</span>
+                    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                    callback(err);</span>
+                });
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                callback();</span>
+            }
+        },
+&nbsp;
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            instance.getPullsTemplateJson_(pulls, <span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (!err) {</span>
+<span class="cstat-no" title="statement not covered" >                    json = data;</span>
+                }
+<span class="cstat-no" title="statement not covered" >                callback(err);</span>
+            });
+        }
+    ];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (!err &amp;&amp; pulls.length) {</span>
+<span class="cstat-no" title="statement not covered" >            json.repo = repo;</span>
+<span class="cstat-no" title="statement not covered" >            json.user = user;</span>
+<span class="cstat-no" title="statement not covered" >            json.detailed = options.detailed;</span>
+<span class="cstat-no" title="statement not covered" >            logger.logTemplateFile('pr.handlebars', json);</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback(err);</span>
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.listFromAllRepositories = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        payload,
+        apiMethod;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    payload = {</span>
+        type: 'all',
+        user: options.user
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if(options.org) {</span>
+<span class="cstat-no" title="statement not covered" >        apiMethod = 'getFromOrg';</span>
+<span class="cstat-no" title="statement not covered" >        payload.org = options.org;</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >        apiMethod = 'getAll';</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    base.github.repos[apiMethod](payload, <span class="fstat-no" title="function not covered" >function(err, repositories) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (err) {</span>
+<span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            repositories.forEach(<span class="fstat-no" title="function not covered" >function(repository) {</span></span>
+<span class="cstat-no" title="statement not covered" >                instance.list(repository.owner.login, repository.name, opt_callback);</span>
+            });
+        }
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.listFromAllOrgRepositories = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        payload;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    payload = {</span>
+        type: 'all',
+        user: options.user,
+        org: options.org
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    base.github.repos.getFromOrg(payload, <span class="fstat-no" title="function not covered" >function(err, repositories) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (err) {</span>
+<span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            repositories.forEach(<span class="fstat-no" title="function not covered" >function(repository) {</span></span>
+<span class="cstat-no" title="statement not covered" >                instance.list(repository.owner.login, repository.name, opt_callback);</span>
+            });
+        }
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.merge = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        operations,
+        pull;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    operations = [</span>
+&nbsp;
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            git.checkout(options.branch);</span>
+<span class="cstat-no" title="statement not covered" >            git.merge(options.pullBranch, options.rebase, false);</span>
+<span class="cstat-no" title="statement not covered" >            git.push(config.default_remote, options.branch);</span>
+<span class="cstat-no" title="statement not covered" >            git.deleteBranch(options.pullBranch);</span>
+<span class="cstat-no" title="statement not covered" >            callback();</span>
+        }
+    ];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback(err, pull);</span>
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.open = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    instance.getPullRequest_(<span class="fstat-no" title="function not covered" >function(err, pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (err) {</span>
+<span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            instance.updatePullRequest_(</span>
+                pull.title, pull.body, PullRequest.STATE_OPEN, opt_callback);
+        }
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.setMergeCommentRequiredOptions_ = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var options = this.options,</span>
+        lastCommitSHA = git.getLastCommitSHA(),
+        changes = git.countUserAdjacentCommits();
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    options.currentSHA = lastCommitSHA;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (changes &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >        options.changes = changes;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    options.pullHeadSHA = lastCommitSHA + '~' + changes;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    opt_callback &amp;&amp; opt_callback();</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.sortPullsByComplexity_ = <span class="fstat-no" title="function not covered" >function(data) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    data.sort(<span class="fstat-no" title="function not covered" >function(a, b) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (a.complexity &gt; b.complexity) {</span>
+<span class="cstat-no" title="statement not covered" >            return -1;</span>
+        }
+        else <span class="cstat-no" title="statement not covered" >if (a.complexity &lt; b.complexity) {</span>
+<span class="cstat-no" title="statement not covered" >            return +1;</span>
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            return 0;</span>
+        }
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.direction === PullRequest.DIRECTION_ASC) {</span>
+<span class="cstat-no" title="statement not covered" >        data.reverse();</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return data;</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.submit = <span class="fstat-no" title="function not covered" >function(user, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        operations,
+        pullBranch;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    pullBranch = options.pullBranch || options.currentBranch;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    operations = [</span>
+&nbsp;
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            git.push(config.default_remote, pullBranch);</span>
+<span class="cstat-no" title="statement not covered" >            callback();</span>
+        },
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            if (!options.title) {</span>
+<span class="cstat-no" title="statement not covered" >                options.title = git.getLastCommitMessage(pullBranch);</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            callback();</span>
+        },
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            var payload = {</span>
+                base: options.branch,
+                head: options.user + ':' + pullBranch,
+                repo: options.repo,
+                user: user
+            };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if (options.issue) {</span>
+<span class="cstat-no" title="statement not covered" >                payload.issue = options.issue;</span>
+<span class="cstat-no" title="statement not covered" >                base.github.pullRequests.createFromIssue(payload, callback);</span>
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                payload.body = options.description;</span>
+<span class="cstat-no" title="statement not covered" >                payload.title = options.title;</span>
+<span class="cstat-no" title="statement not covered" >                base.github.pullRequests.create(payload, callback);</span>
+            }
+        }
+    ];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function(err, results) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (err) {</span>
+<span class="cstat-no" title="statement not covered" >            instance.checkPullRequestIntegrity_(err, user, opt_callback);</span>
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err, results[2]);</span>
+        }
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >PullRequest.prototype.updatePullRequest_ = <span class="fstat-no" title="function not covered" >function(title, opt_body, state, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        payload;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (opt_body) {</span>
+<span class="cstat-no" title="statement not covered" >        opt_body = logger.applyReplacements(opt_body, config.replace);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    payload = {</span>
+        body: opt_body,
+        number: options.number,
+        repo: options.repo,
+        state: state,
+        title: title,
+        user: options.user
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    base.github.pullRequests.update(payload, opt_callback);</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.Impl = PullRequest;</span>
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Mar 15 2015 05:48:42 GMT+0000 (UTC)</div>
+</div>
+
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+
+<script src="../../sorter.js"></script>
+</body>
+</html>

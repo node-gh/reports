@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - lib/cmd.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>lib/cmd.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">65.67</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">226</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">25.50</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">1.72</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">/*
+ * Copyright 2013-2015, All Rights Reserved.
+ *
+ * Code licensed under the BSD License:
+ * https://github.com/node-gh/gh/blob/master/LICENSE.md
+ *
+ * @author Eduardo Lundgren &lt;edu@rdo.io&gt;
+ */
+
+&#039;use strict&#039;;
+
+// -- Requires -------------------------------------------------------------------------------------
+
+var async = require(&#039;async&#039;),
+    base = require(&#039;./base&#039;),
+    configs = require(&#039;./configs&#039;),
+    fs = require(&#039;fs&#039;),
+    git = require(&#039;./git&#039;),
+    logger = require(&#039;./logger&#039;),
+    nopt = require(&#039;nopt&#039;),
+    path = require(&#039;path&#039;),
+    semver = require(&#039;semver&#039;),
+    pkg = require(&#039;../package.json&#039;),
+    tracker = require(&#039;./tracker&#039;),
+    User = require(&#039;./cmds/user&#039;).Impl,
+    config = configs.getConfig();
+
+// -- Utils ----------------------------------------------------------------------------------------
+
+function isCompatibleNodeVersion() {
+    return semver.satisfies(process.version, pkg.engines.node);
+}
+
+function hasCommandInOptions(commands, options) {
+    if (commands) {
+        return commands.some(function(c) {
+            return options[c] !== undefined;
+        });
+    }
+
+    return false;
+}
+
+
+function invokePayload(options, command, cooked, remain) {
+    var payload;
+
+    if (command.DETAILS.payload &amp;&amp; !hasCommandInOptions(command.DETAILS.commands, options)) {
+        payload = remain.concat();
+        payload.shift();
+        command.DETAILS.payload(payload, options);
+    }
+}
+
+function findCommand(name) {
+    var Command,
+        commandDir,
+        commandFiles,
+        commandPath;
+
+    commandDir = path.join(__dirname, &#039;cmds&#039;);
+    commandPath = path.join(commandDir, name + &#039;.js&#039;);
+
+    if (fs.existsSync(commandPath)) {
+        Command = require(commandPath).Impl;
+    }
+    else {
+        commandFiles = base.find(commandDir, /\.js$/i);
+        commandFiles.every(function(file) {
+            commandPath = path.join(commandDir, file);
+            Command = require(commandPath).Impl;
+
+            if (Command.DETAILS.alias === name) {
+                return false;
+            }
+
+            Command = null;
+            return true;
+        });
+    }
+
+    return Command;
+}
+
+function loadCommand(name) {
+    var Command = findCommand(name),
+        plugin;
+
+    // If command was not found, check if it is registered as a plugin.
+    if (!Command) {
+        try {
+            plugin = configs.getPlugin(name);
+        }
+        catch(e) {
+            return null;
+        }
+
+        Command = plugin.Impl;
+
+        // If plugin command exists, register the executed plugin name on
+        // process.env. This may simplify core plugin infrastructure.
+        process.env.NODEGH_PLUGIN = name;
+    }
+
+    return Command;
+}
+
+exports.setUp = function () {
+    var Command,
+        iterative,
+        operations = [],
+        options,
+        parsed = nopt(process.argv),
+        remain = parsed.argv.remain,
+        cooked = parsed.argv.cooked;
+
+    operations.push(function(callback) {
+        base.checkVersion();
+
+        if (tracker.optOut !== undefined) {
+            callback();
+            return;
+        }
+
+        tracker.askPermission(null, function() {
+            callback();
+        });
+    });
+
+    operations.push(function(callback) {
+        var module = remain[0];
+
+        if (cooked[0] === &#039;--version&#039; || cooked[0] === &#039;-v&#039;) {
+            module = &#039;version&#039;;
+        }
+        else if (!remain.length ||
+            (cooked.indexOf(&#039;-h&#039;) &gt;= 0) ||
+            (cooked.indexOf(&#039;--help&#039;) &gt;= 0)) {
+            module = &#039;help&#039;;
+        }
+
+        Command = loadCommand(module);
+
+        if (!Command) {
+            tracker.trackCommand(remain);
+            logger.error(&#039;Command not found&#039;);
+            return;
+        }
+
+        options = nopt(
+            Command.DETAILS.options,
+            Command.DETAILS.shorthands, process.argv, 2);
+
+        iterative = Command.DETAILS.iterative;
+
+        cooked = options.argv.cooked;
+        remain = options.argv.remain;
+
+        options.number = options.number || [remain[1]];
+        options.remote = options.remote || config.default_remote;
+
+        if (module === &#039;help&#039;) {
+            callback();
+        }
+        else {
+            User.login(callback);
+        }
+    });
+
+    async.series(operations, function() {
+        var iterativeValues,
+            remoteUrl = git.getRemoteUrl(options.remote);
+
+        options.loggedUser = base.getUser();
+        options.remoteUser = git.getUserFromRemoteUrl(remoteUrl);
+
+        if (!options.user) {
+            if (options.repo || options.all) {
+                options.user = options.loggedUser;
+            }
+            else {
+                options.user = options.remoteUser || options.loggedUser;
+            }
+        }
+
+        options.repo = options.repo || git.getRepoFromRemoteURL(remoteUrl);
+        options.currentBranch = options.currentBranch || git.getCurrentBranch();
+
+        base.expandAliases(options);
+
+        // Try to retrieve iterative values from iterative option key,
+        // e.g. option[&#039;number&#039;] === [1,2,3]. If iterative option key is not
+        // present, assume [undefined] in order to initialize the loop.
+        iterativeValues = options[iterative] || [undefined];
+
+        iterativeValues.forEach(function(value) {
+            options = base.clone(options);
+
+            // Value can be undefined when the command doesn&#039;t have a iterative
+            // option.
+            options[iterative] = value;
+
+            invokePayload(options, Command, cooked, remain);
+
+            new Command(options).run();
+
+            tracker.trackCommand(options.argv.original, Command.DETAILS);
+        });
+    });
+};
+
+exports.run = function() {
+    if (!isCompatibleNodeVersion()) {
+        logger.error(&#039;Please update your NodeJS version: http://nodejs.org/download&#039;);
+    }
+
+    if (!fs.existsSync(configs.getUserHomePath())) {
+        configs.createGlobalConfig();
+    }
+
+    // If configs.PLUGINS_PATH_KEY is undefined, try to cache it before proceeding.
+    if (configs.getConfig()[configs.PLUGINS_PATH_KEY] === undefined) {
+        configs.getNodeModulesGlobalPath();
+    }
+
+    try {
+        process.env.GH_PATH = path.join(__dirname, &#039;../&#039;);
+
+        this.setUp();
+    } catch (e) {
+        tracker.track(&#039;error&#039;);
+        console.error(e.stack || e);
+    }
+
+};</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

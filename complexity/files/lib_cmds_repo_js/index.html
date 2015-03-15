@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - lib/cmds/repo.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>lib/cmds/repo.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">67.96</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">315</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">34.06</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">2.54</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">/*
+ * Copyright 2013-2015, All Rights Reserved.
+ *
+ * Code licensed under the BSD License:
+ * https://github.com/node-gh/gh/blob/master/LICENSE.md
+ *
+ * @author Henrique Vicente &lt;henriquevicente@gmail.com&gt;
+ * @author Eduardo Lundgren &lt;eduardo.lundgren@gmail.com&gt;
+ * @author Zeno Rocha &lt;zno.rocha@gmail.com&gt;
+ */
+
+&#039;use strict&#039;;
+
+// -- Requires -------------------------------------------------------------------------------------
+
+var base = require(&#039;../base&#039;),
+    git = require(&#039;../git&#039;),
+    hooks = require(&#039;../hooks&#039;),
+    logger = require(&#039;../logger&#039;),
+    openUrl = require(&#039;open&#039;),
+    inquirer = require(&#039;inquirer&#039;),
+    url = require(&#039;url&#039;);
+
+// -- Constructor ----------------------------------------------------------------------------------
+
+function Repo(options) {
+    this.options = options;
+}
+
+// -- Constants ------------------------------------------------------------------------------------
+
+Repo.DETAILS = {
+    alias: &#039;re&#039;,
+    description: &#039;Provides a set of util commands to work with Repositories.&#039;,
+    commands: [
+        &#039;browser&#039;,
+        &#039;clone&#039;,
+        &#039;delete&#039;,
+        &#039;fork&#039;,
+        &#039;list&#039;,
+        &#039;new&#039;
+    ],
+    options: {
+        &#039;browser&#039;: Boolean,
+        &#039;clone&#039;: Boolean,
+        &#039;delete&#039;: String,
+        &#039;description&#039;: String,
+        &#039;detailed&#039;: Boolean,
+        &#039;gitignore&#039;: String,
+        &#039;fork&#039;: String,
+        &#039;homepage&#039;: String,
+        &#039;init&#039;: Boolean,
+        &#039;list&#039;: Boolean,
+        &#039;new&#039;: String,
+        &#039;organization&#039;: String,
+        &#039;private&#039;: Boolean,
+        &#039;repo&#039;: String,
+        &#039;type&#039;: [&#039;all&#039;, &#039;member&#039;, &#039;owner&#039;, &#039;public&#039;, &#039;private&#039;],
+        &#039;user&#039;: String
+    },
+    shorthands: {
+        &#039;B&#039;: [&#039;--browser&#039;],
+        &#039;c&#039;: [&#039;--clone&#039;],
+        &#039;D&#039;: [&#039;--delete&#039;],
+        &#039;d&#039;: [&#039;--detailed&#039;],
+        &#039;f&#039;: [&#039;--fork&#039;],
+        &#039;l&#039;: [&#039;--list&#039;],
+        &#039;N&#039;: [&#039;--new&#039;],
+        &#039;O&#039;: [&#039;--organization&#039;],
+        &#039;p&#039;: [&#039;--private&#039;],
+        &#039;r&#039;: [&#039;--repo&#039;],
+        &#039;t&#039;: [&#039;--type&#039;],
+        &#039;u&#039;: [&#039;--user&#039;]
+    },
+    payload: function(payload, options) {
+        options.browser = true;
+    }
+};
+
+Repo.TYPE_ALL = &#039;all&#039;;
+Repo.TYPE_MEMBER = &#039;member&#039;;
+Repo.TYPE_OWNER = &#039;owner&#039;;
+Repo.TYPE_PRIVATE = &#039;private&#039;;
+Repo.TYPE_PUBLIC = &#039;public&#039;;
+
+// -- Commands -------------------------------------------------------------------------------------
+
+Repo.prototype.run = function() {
+    var instance = this,
+        options = instance.options;
+
+    options.type = options.type || Repo.TYPE_ALL;
+
+    if (options.browser) {
+        instance.browser(options.user, options.repo);
+    }
+
+    if (options.delete) {
+        hooks.invoke(&#039;repo.delete&#039;, instance, function(afterHooksCallback) {
+            logger.logTemplate(
+                &#039;Deleting repo {{greenBright options.user &quot;/&quot; options.delete}}&#039;, {
+                    options: options
+                });
+
+            inquirer.prompt(
+                [
+                    {
+                        type: &#039;input&#039;,
+                        message: &#039;Are you sure? This action CANNOT be undone. [y/N]&#039;,
+                        name: &#039;confirmation&#039;
+                    }
+                ], function(answers) {
+                    if (answers.confirmation.toLowerCase() === &#039;y&#039;) {
+                        instance.delete(options.user, options.delete, function(err) {
+                            if (err) {
+                                logger.error(&#039;Can\&#039;t delete repo.&#039;);
+                                return;
+                            }
+
+                            afterHooksCallback();
+                        });
+                    }
+                    else {
+                        logger.log(&#039;Not deleted.&#039;);
+                    }
+                });
+        });
+    }
+
+    if (options.fork) {
+        hooks.invoke(&#039;repo.fork&#039;, instance, function(afterHooksCallback) {
+            var user = options.loggedUser;
+
+            if (options.organization) {
+                user = options.organization;
+            }
+
+            options.repo = options.fork;
+
+            logger.logTemplate(
+                &#039;Forking repo {{greenBright options.user &quot;/&quot; options.repo}} on {{greenBright user &quot;/&quot; options.repo}}&#039;, {
+                    options: options,
+                    user: user
+                });
+
+            instance.fork(function(err1, repo) {
+                if (err1) {
+                    logger.error(&#039;Can\&#039;t fork. &#039; + JSON.parse(err1).message);
+                    return;
+                }
+
+                logger.logTemplate(&#039;https://github.com/&#039; + user + &#039;/&#039; +
+                    options.repo, {options: options});
+
+                if (repo &amp;&amp; options.clone) {
+                    instance.clone_(options.loggedUser, options.repo, repo.ssh_url);
+                }
+
+                afterHooksCallback();
+            });
+        });
+    }
+
+    if (options.list) {
+        logger.logTemplate(
+            &#039;Listing {{greenBright options.type}} repos for {{greenBright options.user}}&#039;, {
+                options: options
+            });
+
+        instance.list(options.user, function(err) {
+            if (err) {
+                logger.error(&#039;Can\&#039;t list repos.&#039;);
+            }
+        });
+    }
+
+    if (options.new) {
+        hooks.invoke(&#039;repo.new&#039;, instance, function(afterHooksCallback) {
+            options.repo = options.new;
+
+            logger.logTemplate(
+                &#039;Creating a new repo on {{greenBright options.loggedUser &quot;/&quot; options.new}}&#039;, {
+                    options: options
+                });
+
+            instance.new(function(err1, repo) {
+                if (err1) {
+                    logger.error(&#039;Can\&#039;t create new repo. &#039; + JSON.parse(err1.message).message);
+                    return;
+                }
+
+                logger.logTemplate(&#039;{{repoLink}}&#039;, {
+                    options: options
+                });
+
+                if (repo &amp;&amp; options.clone) {
+                    instance.clone_(options.loggedUser, options.repo, repo.ssh_url);
+                }
+
+                afterHooksCallback();
+            });
+        });
+    }
+};
+
+Repo.prototype.browser = function(user, repo) {
+    openUrl(&#039;https://github.com/&#039; + user + &#039;/&#039; + repo);
+};
+
+Repo.prototype.clone_ = function(user, repo, repo_url) {
+    logger.logTemplate(
+        &#039;Cloning {{greenBright user &quot;/&quot; repo}}&#039;, {
+            user: user,
+            repo: repo
+        });
+
+    git.clone(url.parse(repo_url).href, repo);
+};
+
+Repo.prototype.delete = function(user, repo, opt_callback) {
+    var payload;
+
+    payload = {
+        user: user,
+        repo: repo
+    };
+
+    base.github.repos.delete(payload, opt_callback);
+};
+
+Repo.prototype.list = function(user, opt_callback) {
+    var instance = this,
+        options = instance.options,
+        payload;
+
+    payload = {
+        type: options.type,
+        user: user
+    };
+
+    if (options.type === &#039;public&#039; || options.type === &#039;private&#039;) {
+        if (user !== options.user) {
+            logger.error(&#039;You can only list public and private repos of your own.&#039;);
+        }
+        else {
+            base.github.repos.getAll(payload, function(err, repos) {
+                instance.listCallback_(err, repos, opt_callback);
+            });
+        }
+    }
+    else {
+        base.github.repos.getFromUser(payload, function(err, repos) {
+            instance.listCallback_(err, repos, opt_callback);
+        });
+    }
+};
+
+Repo.prototype.listCallback_ = function(err, repos, opt_callback) {
+    var instance = this,
+        options = instance.options;
+
+    if (err &amp;&amp; !options.all) {
+        logger.error(logger.getErrorMessage(err));
+    }
+
+    if (repos &amp;&amp; repos.length &gt; 0) {
+        logger.logTemplateFile(&#039;repo.handlebars&#039;, {
+            detailed: options.detailed,
+            repos: repos,
+            user: options.user
+        });
+
+        opt_callback &amp;&amp; opt_callback(err);
+    }
+};
+
+Repo.prototype.fork = function(opt_callback) {
+    var instance = this,
+        options = instance.options,
+        payload;
+
+    payload = {
+        user: options.user,
+        repo: options.repo
+    };
+
+    if (options.organization) {
+        payload.organization = options.organization;
+    }
+
+    base.github.repos.fork(payload, opt_callback);
+};
+
+Repo.prototype.new = function(opt_callback) {
+    var instance = this,
+        options = instance.options,
+        payload;
+
+    options.description = options.description || &#039;&#039;;
+    options.gitignore = options.gitignore || &#039;&#039;;
+    options.homepage = options.homepage || &#039;&#039;;
+    options.init = options.init || false;
+
+    if (options.type === Repo.TYPE_PRIVATE) {
+        options.private = true;
+    }
+
+    options.private = options.private || false;
+
+    if (options.gitignore) {
+        options.init = true;
+    }
+
+    payload = {
+        auto_init: options.init,
+        description: options.description,
+        gitignore_template: options.gitignore,
+        homepage: options.homepage,
+        name: options.new,
+        private: options.private
+    };
+
+    base.github.repos.create(payload, opt_callback);
+};
+
+exports.Impl = Repo;</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

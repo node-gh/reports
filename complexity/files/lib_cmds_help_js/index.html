@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - lib/cmds/help.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>lib/cmds/help.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">61.43</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">206</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">37.82</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">1.54</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">/*
+ * Copyright 2013-2015, All Rights Reserved.
+ *
+ * Code licensed under the BSD License:
+ * https://github.com/node-gh/gh/blob/master/LICENSE.md
+ *
+ * @author Zeno Rocha &lt;zno.rocha@gmail.com&gt;
+ * @author Eduardo Lundgren &lt;edu@rdo.io&gt;
+ */
+
+&#039;use strict&#039;;
+
+// -- Requires -------------------------------------------------------------------------------------
+
+var base = require(&#039;../base&#039;),
+    configs = require(&#039;../configs&#039;),
+    logger = require(&#039;../logger&#039;),
+    nopt = require(&#039;nopt&#039;),
+    path = require(&#039;path&#039;),
+    stream = require(&#039;stream&#039;),
+    url = require(&#039;url&#039;);
+
+// -- Constructor ----------------------------------------------------------------------------------
+
+function Help() {
+    this.options = nopt(
+        Help.DETAILS.options,
+        Help.DETAILS.shorthands, process.argv, 2);
+}
+
+// -- Constants ------------------------------------------------------------------------------------
+
+Help.DETAILS = {
+    description: &#039;List all commands and options available.&#039;,
+    options: {
+        &#039;all&#039;: Boolean,
+        &#039;help&#039;: Boolean
+    },
+    shorthands: {
+        &#039;a&#039;: [&#039;--all&#039;],
+        &#039;h&#039;: [&#039;--help&#039;]
+    }
+};
+
+// -- Commands -------------------------------------------------------------------------------------
+
+Help.prototype.run = function() {
+    var instance = this,
+        commands = [],
+        cmdDir = path.join(__dirname, &#039;../cmds/&#039;),
+        files = base.find(cmdDir, /\.js$/),
+        filter,
+        options = this.options,
+        plugins;
+
+    // Remove help from command list
+    files.splice(files.indexOf(&#039;help.js&#039;), 1);
+    files.splice(files.indexOf(&#039;version.js&#039;), 1);
+
+    // Get external plugins
+    plugins = configs.getPlugins();
+
+    plugins.forEach(function(plugin) {
+        try {
+            files.push(configs.getPluginPath(plugin));
+        }
+        catch (e) {
+            logger.warn(&#039;Can\&#039;t get &#039; + plugin + &#039; plugin path.&#039;);
+        }
+    });
+
+    filter = options.argv.remain[0];
+
+    if (filter === &#039;help&#039;) {
+        filter = options.argv.remain[1];
+    }
+
+    files.forEach(function(dir) {
+        var cmd = require(path.resolve(cmdDir, dir)),
+            alias = cmd.Impl.DETAILS.alias || &#039;&#039;,
+            flags = [],
+            name = path.basename(dir, &#039;.js&#039;).replace(/^gh-/, &#039;&#039;),
+            offset = 20 - alias.length - name.length;
+
+        if (offset &lt; 1) {
+            offset = 1;
+        }
+
+        if (offset !== 1 &amp;&amp; alias.length === 0) {
+            offset += 2;
+        }
+
+        if (filter &amp;&amp; (filter !== alias) &amp;&amp; (filter !== name)) {
+            return;
+        }
+
+        if (filter || options.all) {
+            flags = instance.groupOptions_(cmd.Impl.DETAILS);
+            offset = 1;
+        }
+
+        commands.push({
+            alias: alias,
+            description: cmd.Impl.DETAILS.description,
+            flags: flags,
+            name: name,
+            offset: new Array(offset + 1).join(&#039; &#039;)
+        });
+    });
+
+    if (filter &amp;&amp; commands.length === 0) {
+        logger.error(&#039;No manual entry for &#039; + filter);
+        return;
+    }
+
+    logger.logTemplateFile(&#039;help.handlebars&#039;, {
+        commands: commands
+    });
+};
+
+Help.prototype.groupOptions_ = function(details) {
+    var instance = this,
+        cmd,
+        options,
+        shorthands,
+        grouped = [];
+
+    options = Object.keys(details.options);
+    shorthands = Object.keys(details.shorthands);
+
+    options.forEach(function(option) {
+        var foundShorthand,
+            type;
+
+        shorthands.forEach(function(shorthand) {
+            var shorthandValue = details.shorthands[shorthand][0];
+
+            if (shorthandValue === &#039;--&#039; + option) {
+                foundShorthand = shorthand;
+            }
+        });
+
+        cmd = instance.isCommand_(details, option);
+        type = instance.getType_(details.options[option]);
+
+        grouped.push({
+            cmd: cmd,
+            option: option,
+            shorthand: foundShorthand,
+            type: type
+        });
+    });
+
+    return grouped;
+};
+
+Help.prototype.getType_ = function(type) {
+    var types,
+        separator = &#039;, &#039;;
+
+    if (Array.isArray(type)) {
+        types = type;
+
+        // Iterative options have an Array reference as the last type
+        // e.g. [String, Array], [Boolean, Number, Array], [.., Array]
+        if (type[type.length - 1] === Array) {
+            type.pop();
+        }
+
+        type = &#039;&#039;;
+
+        types.forEach(function (eachType) {
+            type += this.getType_(eachType) + separator;
+        }, this);
+
+        type = type.substr(0, type.length - separator.length);
+
+        return type;
+    }
+
+    switch (type) {
+        case String:
+            type = &#039;String&#039;;
+            break;
+        case url:
+            type = &#039;Url&#039;;
+            break;
+        case Number:
+            type = &#039;Number&#039;;
+            break;
+        case path:
+            type = &#039;Path&#039;;
+            break;
+        case stream.Stream:
+            type = &#039;Stream&#039;;
+            break;
+        case Date:
+            type = &#039;Date&#039;;
+            break;
+        case Boolean:
+            type = &#039;Boolean&#039;;
+            break;
+    }
+
+    return type;
+};
+
+Help.prototype.isCommand_ = function(details, option) {
+    if (details.commands &amp;&amp; (details.commands.indexOf(option) &gt; -1)) {
+        return true;
+    }
+
+    return false;
+};
+
+exports.Impl = Help;</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

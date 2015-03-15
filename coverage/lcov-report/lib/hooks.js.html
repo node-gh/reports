@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/hooks.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../prettify.css">
+
+    <link rel="stylesheet" href="../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">lib/hooks.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">0% <small>(0 / 66)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">0% <small>(0 / 30)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">0% <small>(0 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">0% <small>(0 / 66)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">lib/</a> &#187; hooks.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
+ * Copyright 2013-2015, All Rights Reserved.
+ *
+ * Code licensed under the BSD License:
+ * https://github.com/node-gh/gh/blob/master/LICENSE.md
+ *
+ * @author Eduardo Lundgren &lt;edu@rdo.io&gt;
+ */
+&nbsp;
+'use strict';
+&nbsp;
+<span class="cstat-no" title="statement not covered" >var async = require('async'),</span>
+    configs = require('./configs'),
+    exec = require('./exec'),
+    truncate = require('truncate'),
+    logger = require('./logger'),
+    config = configs.getConfig(true);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.createContext = <span class="fstat-no" title="function not covered" >function(scope) {</span></span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
+        options: scope.options,
+        signature: config.signature
+    };
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.getHooksArrayFromPath_ = <span class="fstat-no" title="function not covered" >function(path, opt_config) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var keys = path.split('.'),</span>
+        key = keys.shift(),
+        hooks;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    opt_config = opt_config || config;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    hooks = opt_config.hooks || {};</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    while (hooks[key]) {</span>
+<span class="cstat-no" title="statement not covered" >        hooks = hooks[key];</span>
+<span class="cstat-no" title="statement not covered" >        key = keys.shift();</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return Array.isArray(hooks) ? hooks : [];</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.getHooksFromPath = <span class="fstat-no" title="function not covered" >function(path) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var hooks,</span>
+        plugins = configs.getPlugins(),
+        pluginHooks = [];
+&nbsp;
+    // First, load all core hooks for the specified path.
+<span class="cstat-no" title="statement not covered" >    hooks = exports.getHooksArrayFromPath_(path);</span>
+&nbsp;
+    // Second, search all installed plugins and load the hooks for each into
+    // core hooks array.
+<span class="cstat-no" title="statement not covered" >    plugins.forEach(<span class="fstat-no" title="function not covered" >function(plugin) {</span></span>
+<span class="cstat-no" title="statement not covered" >        var pluginConfig;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        plugin = configs.getPluginBasename(plugin);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (config.plugins &amp;&amp; !configs.isPluginIgnored(plugin)) {</span>
+<span class="cstat-no" title="statement not covered" >            pluginConfig = config.plugins[plugin];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if (pluginConfig) {</span>
+<span class="cstat-no" title="statement not covered" >                pluginHooks = pluginHooks.concat(</span>
+                    exports.getHooksArrayFromPath_(path, pluginConfig));
+            }
+        }
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return hooks.concat(pluginHooks);</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.invoke = <span class="fstat-no" title="function not covered" >function(path, scope, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var after = exports.getHooksFromPath(path + '.after'),</span>
+        before = exports.getHooksFromPath(path + '.before'),
+        beforeOperations,
+        afterOperations,
+        context;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (process.env.NODEGH_HOOK_IS_LOCKED) {</span>
+<span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback();</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    context = exports.createContext(scope);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    beforeOperations = [</span>
+&nbsp;
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            exports.setupPlugins_(context, 'setupBeforeHooks', callback);</span>
+        }
+    ];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    before.forEach(<span class="fstat-no" title="function not covered" >function(cmd) {</span></span>
+<span class="cstat-no" title="statement not covered" >        beforeOperations.push(exports.wrapCommand_(cmd, context, 'before'));</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    afterOperations = [</span>
+&nbsp;
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            exports.setupPlugins_(context, 'setupAfterHooks', callback);</span>
+        }
+    ];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    after.forEach(<span class="fstat-no" title="function not covered" >function(cmd) {</span></span>
+<span class="cstat-no" title="statement not covered" >        afterOperations.push(exports.wrapCommand_(cmd, context, 'after'));</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    afterOperations.push(<span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        process.env.NODEGH_HOOK_IS_LOCKED = false;</span>
+<span class="cstat-no" title="statement not covered" >        callback();</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    process.env.NODEGH_HOOK_IS_LOCKED = true;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    async.series(beforeOperations, <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback(<span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >            async.series(afterOperations);</span>
+        });
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.setupPlugins_ = <span class="fstat-no" title="function not covered" >function(context, setupFn, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var plugins = configs.getPlugins(),</span>
+        operations = [];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    plugins.forEach(<span class="fstat-no" title="function not covered" >function(plugin) {</span></span>
+<span class="cstat-no" title="statement not covered" >        try {</span>
+<span class="cstat-no" title="statement not covered" >            plugin = configs.getPlugin(plugin);</span>
+        }
+        catch(e) {
+<span class="cstat-no" title="statement not covered" >            logger.warn('Can\'t get ' + plugin + ' plugin.');</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (plugin &amp;&amp; plugin[setupFn]) {</span>
+<span class="cstat-no" title="statement not covered" >            operations.push(<span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >                plugin[setupFn](context, callback);</span>
+            });
+        }
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback();</span>
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.wrapCommand_ = <span class="fstat-no" title="function not covered" >function(cmd, context, when) {</span></span>
+<span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        var raw = logger.compileTemplate(cmd, context);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!raw) {</span>
+<span class="cstat-no" title="statement not covered" >            callback &amp;&amp; callback();</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        logger.log(logger.clc.cyanBright('[hook]'), truncate(raw.trim(), 120));</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        try {</span>
+<span class="cstat-no" title="statement not covered" >            exec.execSync(raw, {cwd: process.cwd()});</span>
+        } catch(e) {
+<span class="cstat-no" title="statement not covered" >            logger.debug('[' + when + ' hook failure]');</span>
+        } finally {
+<span class="cstat-no" title="statement not covered" >            logger.debug(logger.clc.cyanBright('[end of ' + when + ' hook]'));</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        callback &amp;&amp; callback();</span>
+    };
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Mar 15 2015 05:48:42 GMT+0000 (UTC)</div>
+</div>
+
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+
+<script src="../sorter.js"></script>
+</body>
+</html>

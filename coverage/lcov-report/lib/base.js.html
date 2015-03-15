@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/base.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../prettify.css">
+
+    <link rel="stylesheet" href="../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">lib/base.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">2.86% <small>(1 / 35)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">0% <small>(0 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">0% <small>(0 / 10)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">2.86% <small>(1 / 35)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">lib/</a> &#187; base.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
+ * Copyright 2013-2015, All Rights Reserved.
+ *
+ * Code licensed under the BSD License:
+ * https://github.com/node-gh/gh/blob/master/LICENSE.md
+ *
+ * @author Eduardo Lundgren &lt;edu@rdo.io&gt;
+ */
+&nbsp;
+'use strict';
+&nbsp;
+<span class="cstat-no" title="statement not covered" >var configs = require('./configs'),</span>
+    fs = require('fs'),
+    Github = require('github'),
+    path = require('path'),
+    tracker = require('./tracker'),
+    updateNotifier = require('update-notifier'),
+    baseConfig;
+&nbsp;
+// -- Config -------------------------------------------------------------------
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.clone = <span class="fstat-no" title="function not covered" >function(o) {</span></span>
+<span class="cstat-no" title="statement not covered" >    return JSON.parse(JSON.stringify(o));</span>
+};
+&nbsp;
+// -- Utils --------------------------------------------------------------------
+&nbsp;
+<span class="cstat-no" title="statement not covered" >baseConfig = configs.getConfig();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.github = new Github({</span>
+    debug: false,
+    host: baseConfig.api.host,
+    protocol: baseConfig.api.protocol,
+    version: baseConfig.api.version,
+    pathPrefix: baseConfig.api.pathPrefix
+});
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.asyncReadPackages = <span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="fstat-no" title="function not covered" >    function async(err, data) {</span>
+<span class="cstat-no" title="statement not covered" >        if (err) {</span>
+<span class="cstat-no" title="statement not covered" >            throw err;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        callback(JSON.parse(data));</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    fs.readFile(path.join(__dirname, '..', 'package.json'), async);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    configs.getPlugins().forEach(<span class="fstat-no" title="function not covered" >function(plugin) {</span></span>
+<span class="cstat-no" title="statement not covered" >        fs.readFile(path.join(</span>
+            configs.getNodeModulesGlobalPath(), plugin, 'package.json'), async);
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.notifyVersion = <span class="fstat-no" title="function not covered" >function(pkg) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var notifier = updateNotifier({pkg: pkg}),</span>
+        update,
+        track = 'notify/';
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (notifier.update) {</span>
+<span class="cstat-no" title="statement not covered" >        update = notifier.update;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        track += update.name + '/' + update.latest + '/from/' + update.current;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        tracker.track(track);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        notifier.notify();</span>
+    }
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.checkVersion = <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >    exports.asyncReadPackages(exports.notifyVersion);</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.expandAliases = <span class="fstat-no" title="function not covered" >function(options) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var config = configs.getConfig();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (config.alias) {</span>
+<span class="cstat-no" title="statement not covered" >        options.fwd = config.alias[options.fwd] || options.fwd;</span>
+<span class="cstat-no" title="statement not covered" >        options.submit = config.alias[options.submit] || options.submit;</span>
+<span class="cstat-no" title="statement not covered" >        options.user = config.alias[options.user] || options.user;</span>
+    }
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.find = <span class="fstat-no" title="function not covered" >function(filepath, opt_pattern) {</span></span>
+<span class="cstat-no" title="statement not covered" >    return fs.readdirSync(filepath).filter(<span class="fstat-no" title="function not covered" >function(file) {</span></span>
+<span class="cstat-no" title="statement not covered" >        return (opt_pattern || /.*/).test(file);</span>
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.getUser = <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >    return configs.getConfig().github_user;</span>
+};
+&nbsp;
+// Export some config methods to allow plugins to access them
+<span class="cstat-no" title="statement not covered" >exports.getConfig = configs.getConfig;</span>
+<span class="cstat-no" title="statement not covered" >exports.writeGlobalConfig = configs.writeGlobalConfig;</span>
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Mar 15 2015 05:48:42 GMT+0000 (UTC)</div>
+</div>
+
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+
+<script src="../sorter.js"></script>
+</body>
+</html>

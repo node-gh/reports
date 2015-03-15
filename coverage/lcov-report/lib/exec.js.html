@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/exec.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../prettify.css">
+
+    <link rel="stylesheet" href="../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">lib/exec.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">16% <small>(4 / 25)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">0% <small>(0 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">0% <small>(0 / 3)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">16% <small>(4 / 25)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">lib/</a> &#187; exec.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
+ * Copyright 2013-2015, All Rights Reserved.
+ *
+ * Code licensed under the BSD License:
+ * https://github.com/node-gh/gh/blob/master/LICENSE.md
+ *
+ * @author Zeno Rocha &lt;zno.rocha@gmail.com&gt;
+ * @author Henrique Vicente &lt;henriquevicente@gmail.com&gt;
+ */
+&nbsp;
+'use strict';
+&nbsp;
+var child_process = require('child_process'),
+    logger = require('./logger');
+&nbsp;
+exports.spawnSync = <span class="fstat-no" title="function not covered" >function(cmd, args, options) {</span>
+<span class="cstat-no" title="statement not covered" >    var exec;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    logger.debug('spawnSync: ' + cmd + ' ' + args.join(' '));</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    exec = child_process.spawnSync(cmd, args, options);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return {</span>
+        stdout: exec.stdout.toString().trim(),
+        stderr: exec.stderr.toString().trim(),
+        status: exec.status
+    };
+};
+&nbsp;
+exports.spawnSyncStream = <span class="fstat-no" title="function not covered" >function(cmd, args, options) {</span>
+<span class="cstat-no" title="statement not covered" >    var proc,</span>
+        err;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!options) {</span>
+<span class="cstat-no" title="statement not covered" >        options = {};</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    options.stdio = ['pipe', process.stdout, process.stderr];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    logger.debug('spawnSyncStream: ' + cmd + ' ' + args.join(' '));</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    proc = child_process.spawnSync(cmd, args, options);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (proc.status !== 0) {</span>
+<span class="cstat-no" title="statement not covered" >        err = new Error();</span>
+<span class="cstat-no" title="statement not covered" >        err.code = proc.status;</span>
+<span class="cstat-no" title="statement not covered" >        err.message = 'Child process terminated with error code ' + err.code;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        throw err;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return proc;</span>
+};
+&nbsp;
+exports.execSync = <span class="fstat-no" title="function not covered" >function(cmd, options) {</span>
+<span class="cstat-no" title="statement not covered" >    if (!options) {</span>
+<span class="cstat-no" title="statement not covered" >        options = {};</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    logger.debug('execSync: ' + cmd);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    options.stdio = ['pipe', process.stdout, process.stderr];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return child_process.execSync(cmd, options);</span>
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Mar 15 2015 05:48:42 GMT+0000 (UTC)</div>
+</div>
+
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+
+<script src="../sorter.js"></script>
+</body>
+</html>

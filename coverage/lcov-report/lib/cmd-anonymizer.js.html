@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/cmd-anonymizer.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../prettify.css">
+
+    <link rel="stylesheet" href="../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">lib/cmd-anonymizer.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">2.13% <small>(1 / 47)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">0% <small>(0 / 27)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">0% <small>(0 / 8)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">2.13% <small>(1 / 47)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">lib/</a> &#187; cmd-anonymizer.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
+ * Copyright 2015, All Rights Reserved.
+ *
+ * Code licensed under the BSD License:
+ * https://github.com/node-gh/gh/blob/master/LICENSE.md
+ *
+ * @author Henrique Vicente &lt;henriquevicente@gmail.com&gt;
+ */
+&nbsp;
+'use strict';
+&nbsp;
+<span class="fstat-no" title="function not covered" >function CmdAnonymizer(commandDetails, redaction) {</span>
+<span class="cstat-no" title="statement not covered" >    this.last = null;</span>
+<span class="cstat-no" title="statement not covered" >    this.invoked = [];</span>
+<span class="cstat-no" title="statement not covered" >    this.redaction = redaction;</span>
+<span class="cstat-no" title="statement not covered" >    this.options = commandDetails.options;</span>
+<span class="cstat-no" title="statement not covered" >    this.shorthands = commandDetails.shorthands;</span>
+}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >CmdAnonymizer.prototype.extractArgument = <span class="fstat-no" title="function not covered" >function(word) {</span></span>
+<span class="cstat-no" title="statement not covered" >    return word.replace(/-{0,2}/, '');</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >CmdAnonymizer.prototype.isOptionValue = <span class="fstat-no" title="function not covered" >function(option, value) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var choice = this.options[option],</span>
+        booleans = ['true', 'false'];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return ((choice instanceof Array &amp;&amp; choice.indexOf(value) !== -1) ||</span>
+        (choice === Boolean &amp;&amp; booleans.indexOf(value.toLowerCase()) !== -1) ||
+        (typeof choice === 'string' &amp;&amp; choice === value));
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >CmdAnonymizer.prototype.isValueInOptions = <span class="fstat-no" title="function not covered" >function(options, value) {</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!(options instanceof Array)) {</span>
+<span class="cstat-no" title="statement not covered" >        return this.isOptionValue(options, value);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return options.some(<span class="fstat-no" title="function not covered" >function(each) {</span></span>
+<span class="cstat-no" title="statement not covered" >        return this.isOptionValue(this.extractArgument(each), value);</span>
+    }, this);
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >CmdAnonymizer.prototype.classify = <span class="fstat-no" title="function not covered" >function(word) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var arg = this.extractArgument(word);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (arg === 'verbose') {</span>
+<span class="cstat-no" title="statement not covered" >        this.invoked.push(word);</span>
+<span class="cstat-no" title="statement not covered" >        this.last = 'verbose';</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (this.shorthands &amp;&amp; this.shorthands[arg]) {</span>
+<span class="cstat-no" title="statement not covered" >        this.invoked.push(word);</span>
+<span class="cstat-no" title="statement not covered" >        this.last = this.shorthands[arg];</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (this.options &amp;&amp; this.options[arg]) {</span>
+<span class="cstat-no" title="statement not covered" >        this.invoked.push(word);</span>
+<span class="cstat-no" title="statement not covered" >        this.last = arg;</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (this.options &amp;&amp; this.isValueInOptions(this.last, word)) {</span>
+<span class="cstat-no" title="statement not covered" >        this.invoked.push(word);</span>
+<span class="cstat-no" title="statement not covered" >        this.last = undefined;</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (this.options &amp;&amp; this.options[this.last] instanceof Array &amp;&amp;</span>
+        this.options[this.last].indexOf(word) !== -1) {
+<span class="cstat-no" title="statement not covered" >        this.invoked.push(word);</span>
+<span class="cstat-no" title="statement not covered" >        this.last = undefined;</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.invoked.push(this.redaction);</span>
+<span class="cstat-no" title="statement not covered" >    this.last = undefined;</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >CmdAnonymizer.prototype.resolve = <span class="fstat-no" title="function not covered" >function(cmd) {</span></span>
+    // quasi-strict white list approach (best-effort)
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.invoked.push(cmd.shift());</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    cmd.forEach(this.classify, this);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return this.invoked;</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >CmdAnonymizer.prototype.resolveToString = <span class="fstat-no" title="function not covered" >function(cmd) {</span></span>
+<span class="cstat-no" title="statement not covered" >    return this.resolve(cmd).join(' ');</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >module.exports = CmdAnonymizer;</span>
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Mar 15 2015 05:48:42 GMT+0000 (UTC)</div>
+</div>
+
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+
+<script src="../sorter.js"></script>
+</body>
+</html>

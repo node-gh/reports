@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - lib/cmds/user.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>lib/cmds/user.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">71.93</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">186</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">20.61</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">1.23</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">/*
+ * Copyright 2013-2015, All Rights Reserved.
+ *
+ * Code licensed under the BSD License:
+ * https://github.com/node-gh/gh/blob/master/LICENSE.md
+ *
+ * @author Elad Elrom &lt;elad.ny@gmail.com&gt;
+ * @author Zeno Rocha &lt;zno.rocha@gmail.com&gt;
+ * @author Eduardo Lundgren &lt;eduardo.lundgren@gmail.com&gt;
+ */
+
+&#039;use strict&#039;;
+
+// -- Requires -------------------------------------------------------------------------------------
+
+var base = require(&#039;../base&#039;),
+    configs = require(&#039;../configs&#039;),
+    logger = require(&#039;../logger&#039;),
+    inquirer = require(&#039;inquirer&#039;),
+    moment = require(&#039;moment&#039;),
+    config = configs.getConfig();
+
+// -- Constructor ----------------------------------------------------------------------------------
+
+function User(options) {
+    this.options = options;
+}
+
+// -- Constants ------------------------------------------------------------------------------------
+
+User.DETAILS = {
+    alias: &#039;us&#039;,
+    description: &#039;Provides the ability to login and logout if needed.&#039;,
+    commands: [
+        &#039;login&#039;,
+        &#039;logout&#039;,
+        &#039;whoami&#039;
+    ],
+    options: {
+        &#039;login&#039;: Boolean,
+        &#039;logout&#039;: Boolean,
+        &#039;whoami&#039;: Boolean
+    },
+    shorthands: {
+        &#039;l&#039;: [&#039;--login&#039;],
+        &#039;L&#039;: [&#039;--logout&#039;],
+        &#039;w&#039;: [&#039;--whoami&#039;]
+    },
+    payload: function(payload, options) {
+        options.login = true;
+    }
+};
+
+// -- Commands -------------------------------------------------------------------------------------
+
+User.prototype.run = function() {
+    var instance = this,
+        options = instance.options;
+
+    options.user = options.loggedUser;
+
+    if (options.login) {
+        if (User.hasCredentials()) {
+            logger.logTemplate(
+                &#039;You\&#039;re logged in as {{greenBright options.user}}&#039;, {
+                    options: options
+                });
+        }
+    }
+
+    if (options.logout) {
+        logger.logTemplate(&#039;Logging out of user {{greenBright options.user}}&#039;, {
+            options: options
+        });
+
+        User.logout();
+    }
+
+    if (options.whoami) {
+        logger.log(options.user);
+    }
+};
+
+// -- Static ---------------------------------------------------------------------------------------
+
+User.authorize = function() {
+    config = configs.getConfig();
+
+    base.github.authenticate({
+        type: &#039;oauth&#039;,
+        token: config.github_token
+    });
+};
+
+User.authorizationCallback_ = function(user, err, res) {
+    if (err) {
+        logger.error(err);
+        return;
+    }
+
+    if (res.token) {
+        configs.writeGlobalConfigCredentials(user, res.token);
+
+        User.authorize();
+    }
+
+    logger.log(&#039;Authentication succeed.&#039;);
+};
+
+User.createAuthorization = function(opt_callback) {
+    logger.log(&#039;First we need authorization to use GitHub\&#039;s API. Login with your GitHub account.&#039;);
+
+    inquirer.prompt(
+        [
+            {
+                type: &#039;input&#039;,
+                message: &#039;Enter your GitHub user&#039;,
+                name: &#039;user&#039;
+            },
+            {
+                type: &#039;password&#039;,
+                message: &#039;Enter your GitHub password&#039;,
+                name: &#039;password&#039;
+            }
+        ], function(answers) {
+            var payload = {
+                note: &#039;Node GH (&#039; + moment().format(&#039;MMMM Do YYYY, h:mm:ss a&#039;) + &#039;)&#039;,
+                note_url: &#039;https://github.com/eduardolundgren/node-gh&#039;,
+                scopes: [&#039;user&#039;, &#039;public_repo&#039;, &#039;repo&#039;, &#039;repo:status&#039;, &#039;delete_repo&#039;, &#039;gist&#039;]
+            };
+
+            base.github.authenticate({
+                type: &#039;basic&#039;,
+                username: answers.user,
+                password: answers.password
+            });
+
+            base.github.authorization.create(payload, function(err, res) {
+                var isTwoFactorAuthentication = err &amp;&amp; err.message &amp;&amp; err.message.indexOf(&#039;OTP&#039;) &gt; 0;
+
+                if (isTwoFactorAuthentication) {
+                    User.twoFactorAuthenticator_(payload, answers.user, opt_callback);
+                }
+                else {
+                    User.authorizationCallback_(answers.user, err, res);
+                    opt_callback &amp;&amp; opt_callback(err);
+                }
+            });
+        });
+};
+
+User.hasCredentials = function() {
+    if (config.github_token &amp;&amp; config.github_user) {
+        return true;
+    }
+
+    return false;
+};
+
+User.login = function(opt_callback) {
+    if (User.hasCredentials()) {
+        User.authorize();
+        opt_callback &amp;&amp; opt_callback();
+    }
+    else {
+        User.createAuthorization(opt_callback);
+    }
+};
+
+User.logout = function() {
+    configs.removeGlobalConfig(&#039;github_user&#039;);
+    configs.removeGlobalConfig(&#039;github_token&#039;);
+};
+
+User.twoFactorAuthenticator_ = function(payload, user, opt_callback) {
+    inquirer.prompt(
+        [
+            {
+                type: &#039;input&#039;,
+                message: &#039;Enter your two-factor code&#039;,
+                name: &#039;otp&#039;
+            }
+        ], function(factor) {
+            if (!payload.headers) {
+                payload.headers = [];
+            }
+
+            payload.headers[&#039;X-GitHub-OTP&#039;] = factor.otp;
+
+            base.github.authorization.create(payload, function(err, res) {
+                User.authorizationCallback_(user, err, res);
+                opt_callback &amp;&amp; opt_callback(err);
+            });
+        });
+};
+
+exports.Impl = User;</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

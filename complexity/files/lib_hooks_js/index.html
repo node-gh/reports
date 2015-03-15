@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - lib/hooks.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>lib/hooks.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">73.46</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">157</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">27.77</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">1.11</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">/*
+ * Copyright 2013-2015, All Rights Reserved.
+ *
+ * Code licensed under the BSD License:
+ * https://github.com/node-gh/gh/blob/master/LICENSE.md
+ *
+ * @author Eduardo Lundgren &lt;edu@rdo.io&gt;
+ */
+
+&#039;use strict&#039;;
+
+var async = require(&#039;async&#039;),
+    configs = require(&#039;./configs&#039;),
+    exec = require(&#039;./exec&#039;),
+    truncate = require(&#039;truncate&#039;),
+    logger = require(&#039;./logger&#039;),
+    config = configs.getConfig(true);
+
+exports.createContext = function(scope) {
+    return {
+        options: scope.options,
+        signature: config.signature
+    };
+};
+
+exports.getHooksArrayFromPath_ = function(path, opt_config) {
+    var keys = path.split(&#039;.&#039;),
+        key = keys.shift(),
+        hooks;
+
+    opt_config = opt_config || config;
+
+    hooks = opt_config.hooks || {};
+
+    while (hooks[key]) {
+        hooks = hooks[key];
+        key = keys.shift();
+    }
+
+    return Array.isArray(hooks) ? hooks : [];
+};
+
+exports.getHooksFromPath = function(path) {
+    var hooks,
+        plugins = configs.getPlugins(),
+        pluginHooks = [];
+
+    // First, load all core hooks for the specified path.
+    hooks = exports.getHooksArrayFromPath_(path);
+
+    // Second, search all installed plugins and load the hooks for each into
+    // core hooks array.
+    plugins.forEach(function(plugin) {
+        var pluginConfig;
+
+        plugin = configs.getPluginBasename(plugin);
+
+        if (config.plugins &amp;&amp; !configs.isPluginIgnored(plugin)) {
+            pluginConfig = config.plugins[plugin];
+
+            if (pluginConfig) {
+                pluginHooks = pluginHooks.concat(
+                    exports.getHooksArrayFromPath_(path, pluginConfig));
+            }
+        }
+    });
+
+    return hooks.concat(pluginHooks);
+};
+
+exports.invoke = function(path, scope, opt_callback) {
+    var after = exports.getHooksFromPath(path + &#039;.after&#039;),
+        before = exports.getHooksFromPath(path + &#039;.before&#039;),
+        beforeOperations,
+        afterOperations,
+        context;
+
+    if (process.env.NODEGH_HOOK_IS_LOCKED) {
+        opt_callback &amp;&amp; opt_callback();
+        return;
+    }
+
+    context = exports.createContext(scope);
+
+    beforeOperations = [
+
+        function(callback) {
+            exports.setupPlugins_(context, &#039;setupBeforeHooks&#039;, callback);
+        }
+    ];
+
+    before.forEach(function(cmd) {
+        beforeOperations.push(exports.wrapCommand_(cmd, context, &#039;before&#039;));
+    });
+
+    afterOperations = [
+
+        function(callback) {
+            exports.setupPlugins_(context, &#039;setupAfterHooks&#039;, callback);
+        }
+    ];
+
+    after.forEach(function(cmd) {
+        afterOperations.push(exports.wrapCommand_(cmd, context, &#039;after&#039;));
+    });
+
+    afterOperations.push(function(callback) {
+        process.env.NODEGH_HOOK_IS_LOCKED = false;
+        callback();
+    });
+
+    process.env.NODEGH_HOOK_IS_LOCKED = true;
+
+    async.series(beforeOperations, function() {
+        opt_callback &amp;&amp; opt_callback(function() {
+            async.series(afterOperations);
+        });
+    });
+};
+
+exports.setupPlugins_ = function(context, setupFn, opt_callback) {
+    var plugins = configs.getPlugins(),
+        operations = [];
+
+    plugins.forEach(function(plugin) {
+        try {
+            plugin = configs.getPlugin(plugin);
+        }
+        catch(e) {
+            logger.warn(&#039;Can\&#039;t get &#039; + plugin + &#039; plugin.&#039;);
+        }
+
+        if (plugin &amp;&amp; plugin[setupFn]) {
+            operations.push(function(callback) {
+                plugin[setupFn](context, callback);
+            });
+        }
+    });
+
+    async.series(operations, function() {
+        opt_callback &amp;&amp; opt_callback();
+    });
+};
+
+exports.wrapCommand_ = function(cmd, context, when) {
+    return function(callback) {
+        var raw = logger.compileTemplate(cmd, context);
+
+        if (!raw) {
+            callback &amp;&amp; callback();
+            return;
+        }
+
+        logger.log(logger.clc.cyanBright(&#039;[hook]&#039;), truncate(raw.trim(), 120));
+
+        try {
+            exec.execSync(raw, {cwd: process.cwd()});
+        } catch(e) {
+            logger.debug(&#039;[&#039; + when + &#039; hook failure]&#039;);
+        } finally {
+            logger.debug(logger.clc.cyanBright(&#039;[end of &#039; + when + &#039; hook]&#039;));
+        }
+
+        callback &amp;&amp; callback();
+    };
+};</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

@@ -1,0 +1,1431 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/cmds/issue.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../../prettify.css">
+
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">lib/cmds/issue.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">0.65% <small>(1 / 154)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">0% <small>(0 / 90)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">0% <small>(0 / 32)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">0.65% <small>(1 / 154)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/cmds/</a> &#187; issue.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
+ * Copyright 2013-2015, All Rights Reserved.
+ *
+ * Code licensed under the BSD License:
+ * https://github.com/node-gh/gh/blob/master/LICENSE.md
+ *
+ * @author Zeno Rocha &lt;zno.rocha@gmail.com&gt;
+ * @author Eduardo Lundgren &lt;edu@rdo.io&gt;
+ */
+&nbsp;
+'use strict';
+&nbsp;
+// -- Requires -------------------------------------------------------------------------------------
+&nbsp;
+<span class="cstat-no" title="statement not covered" >var async = require('async'),</span>
+    base = require('../base'),
+    hooks = require('../hooks'),
+    logger = require('../logger'),
+    openUrl = require('open'),
+    config = base.getConfig();
+&nbsp;
+// -- Constructor ----------------------------------------------------------------------------------
+&nbsp;
+<span class="fstat-no" title="function not covered" >function Issue(options) {</span>
+<span class="cstat-no" title="statement not covered" >    this.options = options;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!options.repo &amp;&amp; !options.all) {</span>
+<span class="cstat-no" title="statement not covered" >        logger.error('You must specify a Git repository with a GitHub remote to run this command');</span>
+    }
+}
+&nbsp;
+// -- Constants ------------------------------------------------------------------------------------
+&nbsp;
+<span class="cstat-no" title="statement not covered" >Issue.DETAILS = {</span>
+    alias: 'is',
+    description: 'Provides a set of util commands to work with Issues.',
+    iterative: 'number',
+    commands: [
+        'browser',
+        'close',
+        'comment',
+        'list',
+        'new',
+        'open'
+    ],
+    options: {
+        'all': Boolean,
+        'assignee': String,
+        'browser': Boolean,
+        'close': Boolean,
+        'comment': String,
+        'detailed': Boolean,
+        'label': String,
+        'list': Boolean,
+        'message': String,
+        'milestone': [Number, String],
+        'no-milestone': Boolean,
+        'new': Boolean,
+        'number': [String, Array],
+        'open': Boolean,
+        'remote': String,
+        'repo': String,
+        'state': ['open', 'closed'],
+        'title': String,
+        'user': String
+    },
+    shorthands: {
+        'a': ['--all'],
+        'A': ['--assignee'],
+        'B': ['--browser'],
+        'C': ['--close'],
+        'c': ['--comment'],
+        'd': ['--detailed'],
+        'L': ['--label'],
+        'l': ['--list'],
+        'm': ['--message'],
+        'M': ['--milestone'],
+        'N': ['--new'],
+        'n': ['--number'],
+        'o': ['--open'],
+        'r': ['--repo'],
+        'S': ['--state'],
+        't': ['--title'],
+        'u': ['--user']
+    },
+    payload: <span class="fstat-no" title="function not covered" >function(payload, options) {</span>
+<span class="cstat-no" title="statement not covered" >        if (payload[0]) {</span>
+<span class="cstat-no" title="statement not covered" >            if (/^\d+$/.test(payload[0])) {</span>
+<span class="cstat-no" title="statement not covered" >                options.browser = true;</span>
+<span class="cstat-no" title="statement not covered" >                options.number = payload[0];</span>
+<span class="cstat-no" title="statement not covered" >                return;</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            options.new = true;</span>
+<span class="cstat-no" title="statement not covered" >            options.title = options.title || payload[0];</span>
+<span class="cstat-no" title="statement not covered" >            options.message = options.message || payload[1];</span>
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            options.list = true;</span>
+        }
+    }
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >Issue.STATE_CLOSED = 'closed';</span>
+<span class="cstat-no" title="statement not covered" >Issue.STATE_OPEN = 'open';</span>
+&nbsp;
+// -- Commands -------------------------------------------------------------------------------------
+&nbsp;
+<span class="cstat-no" title="statement not covered" >Issue.prototype.run = <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    options.state = options.state || Issue.STATE_OPEN;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.browser) {</span>
+<span class="cstat-no" title="statement not covered" >        instance.browser(options.user, options.repo, options.number);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.close) {</span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('issue.close', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >            options.state = Issue.STATE_CLOSED;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            logger.logTemplate(</span>
+                'Closing issue {{greenBright "#" options.number}} on {{greenBright options.user "/" options.repo}}', {
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            instance.close(<span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t close issue.');</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                logger.logTemplate('{{issueLink}}', {</span>
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                afterHooksCallback();</span>
+            });
+        });
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.comment) {</span>
+<span class="cstat-no" title="statement not covered" >        logger.logTemplate(</span>
+            'Adding comment on issue {{greenBright "#" options.number}}', {
+                options: options
+            });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        instance.comment(<span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                logger.error('Can\'t add comment.');</span>
+<span class="cstat-no" title="statement not covered" >                return;</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            logger.logTemplate('{{issueLink}}', {</span>
+                options: options
+            });
+        });
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.list) {</span>
+<span class="cstat-no" title="statement not covered" >        if (options.all) {</span>
+<span class="cstat-no" title="statement not covered" >            logger.logTemplate(</span>
+                'Listing {{greenBright options.state}} issues for {{greenBright options.user}}', {
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            instance.listFromAllRepositories(<span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t list issues for ' + options.user + '.');</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+            });
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            logger.logTemplate(</span>
+                'Listing {{greenBright options.state}} issues on {{greenBright options.user "/" options.repo}}', {
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            instance.list(options.user, options.repo, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t list issues on ' + options.user + '/' + options.repo);</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+            });
+        }
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.new) {</span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('issue.new', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >            logger.logTemplate(</span>
+                'Creating a new issue on {{greenBright options.user "/" options.repo}}', {
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            instance.new(<span class="fstat-no" title="function not covered" >function(err, issue) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t create new issue.');</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if (issue) {</span>
+<span class="cstat-no" title="statement not covered" >                    options.number = issue.number;</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                logger.logTemplate('{{issueLink}}', {</span>
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                afterHooksCallback();</span>
+            });
+        });
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.open) {</span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('issue.open', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >            logger.logTemplate(</span>
+                'Opening issue {{greenBright "#" options.number}} on {{greenBright options.user "/" options.repo}}', {
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            instance.open(<span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t open issue.');</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                logger.logTemplate('{{issueLink}}', {</span>
+                    options: options
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                afterHooksCallback();</span>
+            });
+        });
+    }
+&nbsp;
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >Issue.prototype.browser = <span class="fstat-no" title="function not covered" >function(user, repo, number) {</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!number) {</span>
+<span class="cstat-no" title="statement not covered" >        number = '';</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    openUrl('https://github.com/' + user + '/' + repo + '/issues/' + number);</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >Issue.prototype.close = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    instance.getIssue_(<span class="fstat-no" title="function not covered" >function(err, issue) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (err) {</span>
+<span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            instance.editIssue_(issue.title, Issue.STATE_CLOSED, opt_callback);</span>
+        }
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >Issue.prototype.comment = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        payload;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    options.comment = logger.applyReplacements(options.comment, config.replace) + config.signature;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    payload = {</span>
+        body: options.comment,
+        number: options.number,
+        repo: options.repo,
+        user: options.user
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    base.github.issues.createComment(payload, opt_callback);</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >Issue.prototype.editIssue_ = <span class="fstat-no" title="function not covered" >function(title, state, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        payload;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    options.label = options.label || [];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    payload = {</span>
+        labels: options.label,
+        number: options.number,
+        assignee: options.assignee,
+        milestone: options.milestone,
+        repo: options.repo,
+        state: state,
+        title: title,
+        user: options.user
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    base.github.issues.edit(payload, opt_callback);</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >Issue.prototype.getIssue_ = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        payload;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    payload = {</span>
+        number: options.number,
+        repo: options.repo,
+        user: options.user
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    base.github.issues.getRepoIssue(payload, opt_callback);</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >Issue.prototype.list = <span class="fstat-no" title="function not covered" >function(user, repo, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        operations = [],
+        payload;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    options.label = options.label || '';</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    payload = {</span>
+        labels: options.label,
+        repo: repo,
+        state: options.state,
+        user: user
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options['no-milestone']) {</span>
+<span class="cstat-no" title="statement not covered" >        payload.milestone = 'none';</span>
+    } else <span class="cstat-no" title="statement not covered" >if (options.milestone) {</span>
+<span class="cstat-no" title="statement not covered" >        payload.milestone = options.milestone;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.milestone) {</span>
+<span class="cstat-no" title="statement not covered" >        operations.push(<span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >            base.github.issues.getAllMilestones({</span>
+                repo: repo,
+                user: user
+            }, <span class="fstat-no" title="function not covered" >function(err, results) {</span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.warn(err.message);</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                results.some(<span class="fstat-no" title="function not covered" >function (milestone) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    if (options.milestone === milestone.title) {</span>
+<span class="cstat-no" title="statement not covered" >                        logger.debug('Milestone ' + milestone.title + ' number: ' + milestone.number);</span>
+<span class="cstat-no" title="statement not covered" >                        payload.milestone = milestone.number;</span>
+<span class="cstat-no" title="statement not covered" >                        return true;</span>
+                    }
+                });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                callback();</span>
+            });
+        });
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.assignee) {</span>
+<span class="cstat-no" title="statement not covered" >        payload.assignee = options.assignee;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    operations.push(<span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        base.github.issues.repoIssues(payload, callback);</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function(err, results) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (err &amp;&amp; !options.all) {</span>
+<span class="cstat-no" title="statement not covered" >            logger.error(logger.getErrorMessage(err));</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        var issues = [];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        results.forEach(<span class="fstat-no" title="function not covered" >function(result) {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (result) {</span>
+<span class="cstat-no" title="statement not covered" >                issues = issues.concat(result);</span>
+            }
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        issues.sort(<span class="fstat-no" title="function not covered" >function(a, b) {</span></span>
+<span class="cstat-no" title="statement not covered" >            return a.number &gt; b.number ? -1 : 1;</span>
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (issues &amp;&amp; issues.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >            logger.logTemplateFile('issue.handlebars', {</span>
+                detailed: options.detailed,
+                issues: issues,
+                repo: repo,
+                user: user
+            });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
+        }
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >Issue.prototype.listFromAllRepositories = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        payload;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    payload = {</span>
+        type: 'all',
+        user: options.user
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    base.github.repos.getAll(payload, <span class="fstat-no" title="function not covered" >function(err, repositories) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (err) {</span>
+<span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            repositories.forEach(<span class="fstat-no" title="function not covered" >function(repository) {</span></span>
+<span class="cstat-no" title="statement not covered" >                instance.list(repository.owner.login, repository.name, opt_callback);</span>
+            });
+        }
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >Issue.prototype.new = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this,</span>
+        options = instance.options,
+        payload;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.message) {</span>
+<span class="cstat-no" title="statement not covered" >        options.message = logger.applyReplacements(options.message, config.replace);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.label) {</span>
+<span class="cstat-no" title="statement not covered" >        options.label = options.label.split(',');</span>
+    }
+    else {
+<span class="cstat-no" title="statement not covered" >        options.label = [];</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    payload = {</span>
+        assignee: options.assignee,
+        body: options.message,
+        repo: options.repo,
+        title: options.title,
+        user: options.user,
+        labels: options.label
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    base.github.issues.create(payload, opt_callback);</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >Issue.prototype.open = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var instance = this;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    instance.getIssue_(<span class="fstat-no" title="function not covered" >function(err, issue) {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (err) {</span>
+<span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            instance.editIssue_(issue.title, Issue.STATE_OPEN, opt_callback);</span>
+        }
+    });
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.Impl = Issue;</span>
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Mar 15 2015 05:48:42 GMT+0000 (UTC)</div>
+</div>
+
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+
+<script src="../../sorter.js"></script>
+</body>
+</html>
