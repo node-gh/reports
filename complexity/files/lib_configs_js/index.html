@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">73.15</p>
+      <p class="stat">72.80</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">239</p>
+      <p class="stat">244</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">47.25</p>
+      <p class="stat">46.76</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">1.78</p>
+      <p class="stat">1.82</p>
     </div>
   </div>
 </div>
@@ -154,6 +154,8 @@ function getConfig(opt_plugin) {
         return result;
     }
     catch (e) {
+        logger.debug(e.message);
+
         if (e.code !== &#039;MODULE_NOT_FOUND&#039; &amp;&amp; e.code !== &#039;ENOENT&#039;) {
             throw e;
         }
@@ -163,11 +165,14 @@ function getConfig(opt_plugin) {
 }
 
 exports.getConfig = function(opt_plugin) {
-    if (!cache[opt_plugin]) {
-        cache[opt_plugin] = getConfig(opt_plugin);
+    var config = cache[opt_plugin];
+
+    if (!config) {
+        config = getConfig(opt_plugin);
+        cache[opt_plugin] = config;
     }
 
-    return cache[opt_plugin];
+    return config;
 };
 
 exports.getGlobalConfig = function(opt_plugin) {
@@ -267,7 +272,7 @@ exports.addPluginConfig = function(config, plugin) {
         plugin = exports.getPluginBasename(plugin || process.env.NODEGH_PLUGIN);
 
         pluginConfig = require(path.join(
-            exports.getNodeModulesGlobalPath(), &#039;gh-&#039; + plugin, &#039;.gh.json&#039;));
+            exports.getNodeModulesGlobalPath(), &#039;gh-&#039; + plugin, &#039;gh-plugin.json&#039;));
 
         // Merge default plugin configuration with the user&#039;s.
         userConfig = config.plugins[plugin] || {};

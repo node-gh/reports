@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">67.96</p>
+      <p class="stat">67.40</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">315</p>
+      <p class="stat">325</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">33.85</p>
+      <p class="stat">34.32</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">2.54</p>
+      <p class="stat">2.61</p>
     </div>
   </div>
 </div>
@@ -240,7 +240,7 @@ Repo.prototype.run = function() {
                     return;
                 }
 
-                logger.compileTemplate(&#039;https://github.com/&#039; + user + &#039;/&#039; +
+                logger.logTemplate(&#039;https://github.com/&#039; + user + &#039;/&#039; +
                     options.repo, {options: options});
 
                 if (repo &amp;&amp; options.clone) {
@@ -269,8 +269,12 @@ Repo.prototype.run = function() {
         hooks.invoke(&#039;repo.new&#039;, instance, function(afterHooksCallback) {
             options.repo = options.new;
 
+            if (options.organization) {
+                options.user = options.organization;
+            }
+
             logger.logTemplate(
-                &#039;Creating a new repo on {{greenBright options.loggedUser &quot;/&quot; options.new}}&#039;, {
+                &#039;Creating a new repo on {{greenBright options.user &quot;/&quot; options.new}}&#039;, {
                     options: options
                 });
 
@@ -280,12 +284,12 @@ Repo.prototype.run = function() {
                     return;
                 }
 
-                logger.compileTemplate(&#039;{{repoLink}}&#039;, {
+                logger.logTemplate(&#039;{{repoLink}}&#039;, {
                     options: options
                 });
 
                 if (repo &amp;&amp; options.clone) {
-                    instance.clone_(options.loggedUser, options.repo, repo.ssh_url);
+                    instance.clone_(options.user, options.repo, repo.ssh_url);
                 }
 
                 afterHooksCallback();
@@ -385,7 +389,8 @@ Repo.prototype.fork = function(opt_callback) {
 Repo.prototype.new = function(opt_callback) {
     var instance = this,
         options = instance.options,
-        payload;
+        payload,
+        method = &#039;create&#039;;
 
     options.description = options.description || &#039;&#039;;
     options.gitignore = options.gitignore || &#039;&#039;;
@@ -411,7 +416,12 @@ Repo.prototype.new = function(opt_callback) {
         private: options.private
     };
 
-    base.github.repos.create(payload, opt_callback);
+    if (options.organization) {
+        method = &#039;createFromOrg&#039;;
+        payload.org = options.organization;
+    }
+
+    base.github.repos[method](payload, opt_callback);
 };
 
 exports.Impl = Repo;</textarea>

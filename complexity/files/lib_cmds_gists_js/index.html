@@ -48,7 +48,7 @@
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">247</p>
+      <p class="stat">246</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">28.89</p>
+      <p class="stat">29.35</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">1.77</p>
+      <p class="stat">1.75</p>
     </div>
   </div>
 </div>
@@ -104,8 +104,7 @@
 
 // -- Requires -------------------------------------------------------------------------------------
 
-var async = require(&#039;async&#039;),
-    base = require(&#039;../base&#039;),
+var base = require(&#039;../base&#039;),
     hooks = require(&#039;../hooks&#039;),
     inquirer = require(&#039;inquirer&#039;),
     logger = require(&#039;../logger&#039;),
@@ -220,7 +219,7 @@ Gists.prototype.run = function() {
                     return;
                 }
 
-                logger.compileTemplate(
+                logger.logTemplate(
                     &#039;https://gist.github.com/{{options.id}}&#039;, {
                     options: options
                 });
@@ -264,7 +263,7 @@ Gists.prototype.run = function() {
                     return;
                 }
 
-                logger.compileTemplate(&#039;{{gistLink}}&#039;, {
+                logger.log(&#039;{{gistLink}}&#039;, {
                     options: options
                 });
 

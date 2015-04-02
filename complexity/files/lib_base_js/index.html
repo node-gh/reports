@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">78.40</p>
+      <p class="stat">76.80</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">86</p>
+      <p class="stat">89</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">17.41</p>
+      <p class="stat">17.59</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.72</p>
+      <p class="stat">0.75</p>
     </div>
   </div>
 </div>
@@ -102,7 +102,7 @@
 
 var configs = require(&#039;./configs&#039;),
     fs = require(&#039;fs&#039;),
-    github = require(&#039;github&#039;),
+    Github = require(&#039;github&#039;),
     path = require(&#039;path&#039;),
     tracker = require(&#039;./tracker&#039;),
     updateNotifier = require(&#039;update-notifier&#039;);
@@ -115,14 +115,17 @@ exports.clone = function(o) {
 
 // -- Utils --------------------------------------------------------------------
 
-var baseConfig = configs.getConfig();
+exports.load = function() {
+    var config = configs.getConfig();
 
-exports.github = new github({
-    debug: false,
-    host: baseConfig.api.host,
-    protocol: baseConfig.api.protocol,
-    version: baseConfig.api.version
-});
+    exports.github = new Github({
+        debug: false,
+        host: config.api.host,
+        protocol: config.api.protocol,
+        version: config.api.version,
+        pathPrefix: config.api.pathPrefix
+    });
+};
 
 exports.asyncReadPackages = function(callback) {
     function async(err, data) {

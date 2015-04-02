@@ -3,9 +3,7 @@
 <head>
     <title>Code coverage report for lib/cmds/repo.js</title>
     <meta charset="utf-8">
-
     <link rel="stylesheet" href="../../prettify.css">
-
     <link rel="stylesheet" href="../../base.css">
     <style type='text/css'>
         div.coverage-summary .sorter {
@@ -17,18 +15,10 @@
 <div class="header low">
     <h1>Code coverage report for <span class="entity">lib/cmds/repo.js</span></h1>
     <h2>
-        
-        Statements: <span class="metric">0.96% <small>(1 / 104)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        
-        Branches: <span class="metric">0% <small>(0 / 64)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        
+        Statements: <span class="metric">0.92% <small>(1 / 109)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 68)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Functions: <span class="metric">0% <small>(0 / 20)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        
-        Lines: <span class="metric">0.96% <small>(1 / 104)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
+        Lines: <span class="metric">0.92% <small>(1 / 109)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/cmds/</a> &#187; repo.js</div>
@@ -361,7 +351,17 @@
 324
 325
 326
-327</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -542,6 +542,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -659,15 +663,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -676,11 +675,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -867,8 +877,12 @@
 <span class="cstat-no" title="statement not covered" >        hooks.invoke('repo.new', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >            options.repo = options.new;</span>
 &nbsp;
+<span class="cstat-no" title="statement not covered" >            if (options.organization) {</span>
+<span class="cstat-no" title="statement not covered" >                options.user = options.organization;</span>
+            }
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            logger.logTemplate(</span>
-                'Creating a new repo on {{greenBright options.loggedUser "/" options.new}}', {
+                'Creating a new repo on {{greenBright options.user "/" options.new}}', {
                     options: options
                 });
 &nbsp;
@@ -883,7 +897,7 @@
                 });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >                if (repo &amp;&amp; options.clone) {</span>
-<span class="cstat-no" title="statement not covered" >                    instance.clone_(options.loggedUser, options.repo, repo.ssh_url);</span>
+<span class="cstat-no" title="statement not covered" >                    instance.clone_(options.user, options.repo, repo.ssh_url);</span>
                 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >                afterHooksCallback();</span>
@@ -983,7 +997,8 @@
 <span class="cstat-no" title="statement not covered" >Repo.prototype.new = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
-        payload;
+        payload,
+        method = 'create';
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    options.description = options.description || '';</span>
 <span class="cstat-no" title="statement not covered" >    options.gitignore = options.gitignore || '';</span>
@@ -1009,7 +1024,12 @@
         private: options.private
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    base.github.repos.create(payload, opt_callback);</span>
+<span class="cstat-no" title="statement not covered" >    if (options.organization) {</span>
+<span class="cstat-no" title="statement not covered" >        method = 'createFromOrg';</span>
+<span class="cstat-no" title="statement not covered" >        payload.org = options.organization;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    base.github.repos[method](payload, opt_callback);</span>
 };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >exports.Impl = Repo;</span>
@@ -1018,9 +1038,8 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Mar 15 2015 05:48:42 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 02 2015 20:35:50 GMT+0000 (UTC)</div>
 </div>
-
 <script src="../../prettify.js"></script>
 <script>
 window.onload = function () {
@@ -1029,7 +1048,6 @@ window.onload = function () {
         }
 };
 </script>
-
 <script src="../../sorter.js"></script>
 </body>
 </html>
