@@ -48,7 +48,7 @@
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">88</p>
+      <p class="stat">86</p>
     </div>
   </div>
   <div class="row historical">
@@ -66,7 +66,7 @@
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.74</p>
+      <p class="stat">0.72</p>
     </div>
   </div>
 </div>
@@ -102,11 +102,10 @@
 
 var configs = require(&#039;./configs&#039;),
     fs = require(&#039;fs&#039;),
-    Github = require(&#039;github&#039;),
+    github = require(&#039;github&#039;),
     path = require(&#039;path&#039;),
     tracker = require(&#039;./tracker&#039;),
-    updateNotifier = require(&#039;update-notifier&#039;),
-    baseConfig;
+    updateNotifier = require(&#039;update-notifier&#039;);
 
 // -- Config -------------------------------------------------------------------
 
@@ -116,14 +115,13 @@ exports.clone = function(o) {
 
 // -- Utils --------------------------------------------------------------------
 
-baseConfig = configs.getConfig();
+var baseConfig = configs.getConfig();
 
-exports.github = new Github({
+exports.github = new github({
     debug: false,
     host: baseConfig.api.host,
     protocol: baseConfig.api.protocol,
-    version: baseConfig.api.version,
-    pathPrefix: baseConfig.api.pathPrefix
+    version: baseConfig.api.version
 });
 
 exports.asyncReadPackages = function(callback) {

@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - lib/cmds/pr.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>lib/cmds/pr.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">71.77</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">555</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">45.61</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">4.85</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">/*
+ * Copyright 2013 Eduardo Lundgren, All Rights Reserved.
+ *
+ * Code licensed under the BSD License:
+ * https://github.com/eduardolundgren/blob/master/LICENSE.md
+ *
+ * @author Eduardo Lundgren &lt;eduardolundgren@gmail.com&gt;
+ */
+
+// -- Requires -----------------------------------------------------------------
+var async = require(&#039;async&#039;),
+    base = require(&#039;../base&#039;),
+    clc = require(&#039;cli-color&#039;),
+    fs = require(&#039;fs&#039;),
+    git = require(&#039;../git&#039;),
+    open = require(&#039;open&#039;),
+    path = require(&#039;path&#039;),
+    logger = require(&#039;../logger&#039;),
+    stripNewLines,
+    issueImpl = require(&#039;./is&#039;).Impl;
+
+// -- Constructor --------------------------------------------------------------
+function PullRequest(options) {
+    this.options = options;
+
+    if (!options.repo) {
+        logger.error(&#039;You must specify a Git repository to run this command&#039;);
+    }
+
+    this.issue = new issueImpl(options);
+}
+
+// -- Constants ----------------------------------------------------------------
+PullRequest.DETAILS = {
+    options: {
+        &#039;all&#039;     : Boolean,
+        &#039;branch&#039;  : String,
+        &#039;close&#039;   : Boolean,
+        &#039;comment&#039; : String,
+        &#039;detailed&#039;: Boolean,
+        &#039;fetch&#039;   : Boolean,
+        &#039;fwd&#039;     : String,
+        &#039;list&#039;    : Boolean,
+        &#039;merge&#039;   : Boolean,
+        &#039;number&#039;  : Number,
+        &#039;open&#039;    : Boolean,
+        &#039;rebase&#039;  : Boolean,
+        &#039;repo&#039;    : String,
+        &#039;state&#039;   : [ &#039;open&#039;, &#039;closed&#039; ],
+        &#039;submit&#039;  : String,
+        &#039;title&#039;   : String,
+        &#039;user&#039;    : String
+    },
+    shorthands: {
+        &#039;a&#039;: [ &#039;--all&#039; ],
+        &#039;b&#039;: [ &#039;--branch&#039; ],
+        &#039;C&#039;: [ &#039;--close&#039; ],
+        &#039;c&#039;: [ &#039;--comment&#039; ],
+        &#039;d&#039;: [ &#039;--detailed&#039; ],
+        &#039;f&#039;: [ &#039;--fetch&#039; ],
+        &#039;l&#039;: [ &#039;--list&#039; ],
+        &#039;M&#039;: [ &#039;--merge&#039; ],
+        &#039;n&#039;: [ &#039;--number&#039; ],
+        &#039;o&#039;: [ &#039;--open&#039; ],
+        &#039;R&#039;: [ &#039;--rebase&#039; ],
+        &#039;r&#039;: [ &#039;--repo&#039; ],
+        &#039;S&#039;: [ &#039;--state&#039; ],
+        &#039;s&#039;: [ &#039;--submit&#039; ],
+        &#039;t&#039;: [ &#039;--title&#039; ],
+        &#039;u&#039;: [ &#039;--user&#039; ]
+    },
+    description: &#039;Provides a set of util commands to work with Pull Requests.&#039;
+};
+
+PullRequest.FETCH_TYPE_CHECKOUT = &#039;checkout&#039;;
+
+PullRequest.FETCH_TYPE_MERGE = &#039;merge&#039;;
+
+PullRequest.FETCH_TYPE_REBASE = &#039;rebase&#039;;
+
+PullRequest.FETCH_TYPE_SILENT = &#039;silent&#039;;
+
+PullRequest.STATE_CLOSED = &#039;closed&#039;;
+
+PullRequest.STATE_OPEN = &#039;open&#039;;
+
+// -- Commands -----------------------------------------------------------------
+PullRequest.prototype.options = null;
+
+PullRequest.prototype.issues = null;
+
+PullRequest.prototype.run = function() {
+    var instance = this,
+        options = instance.options,
+        config = base.getGlobalConfig(),
+        fetchType;
+
+    options.state = options.state || PullRequest.STATE_OPEN;
+    options.number = options.number || instance.getPullRequestNumberFromBranch_();
+    options.pullBranch = instance.getBranchNameFromPullNumber_(options.number);
+
+    if (!options.list) {
+        options.branch = options.branch || config.default_branch;
+    }
+
+    if (options.close) {
+        logger.logTemplate(&#039;{{prefix}} [info] Closing pull request {{greenBright &quot;#&quot; options.number}}&#039;, {
+            options: options
+        });
+
+        instance.close(function(err) {
+            logger.defaultCallback(
+                err, null, logger.compileTemplate(&#039;{{link}}&#039;, { options: options }));
+        });
+    }
+
+    if (options.comment) {
+        logger.logTemplate(&#039;{{prefix}} [info] Adding comment on pull request {{greenBright &quot;#&quot; options.number}}&#039;, {
+            options: options
+        });
+
+        instance.issue.comment(function(err) {
+            logger.defaultCallback(
+                err, null, logger.compileTemplate(&#039;{{link}}&#039;, { options: options }));
+        });
+    }
+
+    if (options.fetch) {
+        fetchType = PullRequest.FETCH_TYPE_CHECKOUT;
+
+        if (options.merge) {
+            fetchType = PullRequest.FETCH_TYPE_MERGE;
+        }
+        else if (options.rebase) {
+            fetchType = PullRequest.FETCH_TYPE_REBASE;
+        }
+
+        logger.logTemplateFile(&#039;pr-fetch.handlebars&#039;, {
+            currentBranch: options.currentBranch,
+            options: options
+        });
+
+        instance.fetch(fetchType, logger.defaultCallback);
+    }
+    else if (options.merge || options.rebase) {
+        logger.logTemplateFile(&#039;pr-merge.handlebars&#039;, {
+            options: options
+        });
+
+        instance.merge();
+    }
+
+    if (options.fwd) {
+        logger.logTemplate(&#039;{{prefix}} [info] Forwarding pull request {{greenBright &quot;#&quot; options.number}} to {{{magentaBright &quot;@&quot; options.fwd}}}&#039;, {
+            options: options
+        });
+
+        instance.forward(function(err, pull) {
+            if (pull) {
+                options.forwardedPull = pull.number;
+            }
+            logger.defaultCallback(
+                err, null, logger.compileTemplate(&#039;{{forwardedLink}}&#039;, { options: options }));
+        });
+    }
+
+    if (options.list) {
+        if (options.all) {
+            logger.logTemplate(&#039;{{prefix}} [info] Listing {{options.state}} pull requests for {{greenBright options.user}}&#039;, {
+                options: options
+            });
+
+            instance.listFromAllRepositories(function(err) {
+                logger.defaultCallback(err, null, false);
+            });
+        }
+        else {
+            logger.logTemplate(&#039;{{prefix}} [info] Listing {{options.state}} pull requests on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
+                options: options
+            });
+
+            instance.list(options.repo, function(err) {
+                logger.defaultCallback(err, null, false);
+            });
+        }
+    }
+
+    if (options.open) {
+        logger.logTemplate(&#039;{{prefix}} [info] Opening pull request {{greenBright &quot;#&quot; options.number}}&#039;, {
+            options: options
+        });
+
+        instance.open(function(err) {
+            logger.defaultCallback(
+                err, null, logger.compileTemplate(&#039;{{link}}&#039;, { options: options }));
+        });
+    }
+
+    if (options.submit) {
+        logger.logTemplate(&#039;{{prefix}} [info] Submitting pull request to {{{magentaBright &quot;@&quot; options.submit}}}&#039;, {
+            options: options
+        });
+
+        instance.submit(options.submit, function(err, pull) {
+            if (pull) {
+                options.submittedPull = pull.number;
+
+                if (config.open_pull_request_in_browser) {
+                    open(pull.html_url);
+                }
+            }
+            logger.defaultCallback(
+                err, null, logger.compileTemplate(&#039;{{submittedLink}}&#039;, { options: options }));
+        });
+    }
+};
+
+PullRequest.prototype.close = function(opt_callback) {
+    var instance = this,
+        options = instance.options,
+        operations,
+        pull;
+
+    operations = [
+        function(callback) {
+            instance.getPullRequest_(function(err, data) {
+                if (!err) {
+                    pull = data;
+                }
+                callback(err);
+            });
+        },
+        function(callback) {
+            instance.updatePullRequest_(
+                pull.title, pull.body, PullRequest.STATE_CLOSED, callback);
+        },
+        function(callback) {
+            if (options.pullBranch === options.currentBranch) {
+                git.checkout(options.branch, null, callback);
+            }
+            else {
+                callback();
+            }
+        },
+        function(callback) {
+            if (options.pullBranch) {
+                git.exec(&#039;branch&#039;, [ &#039;-D&#039;, options.pullBranch ]);
+            }
+
+            callback();
+        }
+    ];
+
+    async.series(operations, opt_callback);
+};
+
+PullRequest.prototype.checkPullRequestIntegrity_ = function(originalError, user, opt_callback) {
+    var instance = this,
+        options = instance.options,
+        payload,
+        pull;
+
+    payload = {
+        user: user,
+        repo: options.repo,
+        state: PullRequest.STATE_OPEN
+    };
+
+    base.github.pullRequests.getAll(payload, function(err, pulls) {
+        if (!err) {
+            pulls.forEach(function(data) {
+                if ((data.base.ref === options.branch) &amp;&amp;
+                    (data.head.ref === options.currentBranch) &amp;&amp;
+                    (data.base.user.login === user) &amp;&amp;
+                    (data.head.user.login === options.user)) {
+
+                    pull = data;
+                    originalError = null;
+                    return;
+                }
+            });
+        }
+
+        opt_callback &amp;&amp; opt_callback(originalError, pull);
+    });
+};
+
+PullRequest.prototype.fetch = function(opt_type, opt_callback) {
+    var instance = this,
+        options = instance.options,
+        headBranch,
+        operations,
+        pull,
+        repoUrl;
+
+    operations = [
+        function(callback) {
+            instance.getPullRequest_(function(err, data) {
+                if (!err) {
+                    pull = data;
+                    headBranch = pull.head.ref;
+                    repoUrl = pull.head.repo.git_url;
+                }
+                callback(err);
+            });
+        },
+        function(callback) {
+            git.exec(&#039;fetch&#039;, [ repoUrl, headBranch + &#039;:&#039; + options.pullBranch ], callback);
+        },
+        function(callback) {
+            if (opt_type === PullRequest.FETCH_TYPE_REBASE) {
+                git.merge(options.pullBranch, true, true, callback);
+            }
+            else if (opt_type === PullRequest.FETCH_TYPE_MERGE) {
+                git.merge(options.pullBranch, false, true, callback);
+            }
+            else if (opt_type === PullRequest.FETCH_TYPE_CHECKOUT) {
+                git.checkout(options.pullBranch, null, callback);
+            }
+            else {
+                callback();
+            }
+        }
+    ];
+
+    async.series(operations, function(err) {
+        opt_callback &amp;&amp; opt_callback(err, pull);
+    });
+};
+
+PullRequest.prototype.forward = function(opt_callback) {
+    var instance = this,
+        options = instance.options,
+        config = base.getGlobalConfig(),
+        operations,
+        pull;
+
+    operations = [
+        function(callback) {
+            instance.fetch(PullRequest.FETCH_TYPE_SILENT, callback);
+        },
+        function(callback) {
+            instance.submit(options.fwd, function(err, data) {
+                pull = data;
+                callback(err);
+            });
+        },
+        function(callback) {
+            instance.close(callback);
+        }
+    ];
+
+    async.series(operations, function(err) {
+        opt_callback &amp;&amp; opt_callback(err, pull);
+    });
+};
+
+PullRequest.prototype.getPullRequest_ = function(opt_callback) {
+    var instance = this,
+        options = instance.options,
+        payload;
+
+    payload = {
+        number: options.number,
+        repo: options.repo,
+        user: options.user
+    };
+
+    base.github.pullRequests.get(payload, opt_callback);
+};
+
+PullRequest.prototype.getBranchNameFromPullNumber_ = function(number) {
+    if (number) {
+        return logger.compileTemplate(
+            base.getGlobalConfig().branch_name, { number: number });
+    }
+};
+
+PullRequest.prototype.getPullRequestNumberFromBranch_ = function() {
+    var instance = this,
+        options = instance.options,
+        match;
+
+    if (options.currentBranch) {
+        match = options.currentBranch.match(/\d+$/);
+
+        return match &amp;&amp; match[0];
+    }
+};
+
+PullRequest.prototype.getPullsTemplateJson_ = function(pulls, opt_callback) {
+    var instance = this,
+        options = instance.options,
+        branch,
+        branches,
+        json;
+
+    branches = {};
+    json = {
+        branches: []
+    };
+
+    pulls.forEach(function(pull) {
+        branch = pull.base.ref;
+
+        if (!options.branch || options.branch === branch) {
+            branches[branch] = branches[branch] || [];
+            branches[branch].push(pull);
+        }
+    });
+
+    Object.keys(branches).forEach(function(branch) {
+        json.branches.push({
+            name: branch,
+            pulls: branches[branch],
+            total: branches[branch].length
+        });
+    });
+
+    opt_callback &amp;&amp; opt_callback(null, json);
+};
+
+PullRequest.prototype.list = function(repo, opt_callback) {
+    var instance = this,
+        options = instance.options,
+        json,
+        operations,
+        payload,
+        pulls;
+
+    payload = {
+        repo: repo,
+        state: options.state,
+        user: options.user
+    };
+
+    operations = [
+        function(callback) {
+            base.github.pullRequests.getAll(payload, function(err, data) {
+                if (!err) {
+                    pulls = data;
+                }
+                callback(err);
+            });
+        },
+        function(callback) {
+            instance.getPullsTemplateJson_(pulls, function(err, data) {
+                if (!err) {
+                    json = data;
+                }
+                callback(err);
+            });
+        }
+    ];
+
+    async.series(operations, function(err) {
+        if (!err &amp;&amp; pulls.length) {
+            json.repo = repo;
+            json.user = options.user;
+            json.detailed = options.detailed;
+            logger.logTemplateFile(&#039;pr.handlebars&#039;, json);
+        }
+
+        opt_callback &amp;&amp; opt_callback(err);
+    });
+};
+
+PullRequest.prototype.listFromAllRepositories = function() {
+    var instance = this;
+
+    base.github.repos.getAll({ type: &#039;all&#039; }, function(err, repositories) {
+        repositories.forEach(function(repository) {
+            instance.list(repository.name);
+        });
+    });
+};
+
+PullRequest.prototype.merge = function(opt_callback) {
+    var instance = this,
+        options = instance.options,
+        operations;
+
+    operations = [
+        function(callback) {
+            git.checkout(options.branch, null, callback);
+        },
+        function(callback) {
+            git.merge(options.pullBranch, options.rebase, false, function(err, data) {
+                console.log(data);
+                callback(err);
+            });
+        },
+        function(callback) {
+            instance.close(callback);
+        }
+    ];
+
+    async.series(operations, opt_callback);
+};
+
+PullRequest.prototype.open = function(opt_callback) {
+    var instance = this;
+
+    instance.getPullRequest_(function(err, pull) {
+        instance.updatePullRequest_(
+            pull.title, pull.body, PullRequest.STATE_OPEN, opt_callback);
+    });
+};
+
+PullRequest.prototype.submit = function(user, opt_callback) {
+    var instance = this,
+        options = instance.options,
+        operations,
+        pullBranch;
+
+    pullBranch = options.pullBranch || options.currentBranch;
+
+    operations = [
+        function(callback) {
+            git.exec(&#039;push&#039;, [ &#039;origin&#039;, pullBranch ], callback);
+        },
+        function(callback) {
+            base.github.pullRequests.create({
+                base: options.branch,
+                body: &#039;&#039;,
+                head: options.user + &#039;:&#039; + pullBranch,
+                repo: options.repo,
+                title: options.title || pullBranch,
+                user: user
+            }, callback);
+        }
+    ];
+
+    async.series(operations, function(err, results) {
+        if (err) {
+            instance.checkPullRequestIntegrity_(err, user, opt_callback);
+        }
+        else {
+            opt_callback &amp;&amp; opt_callback(err, results[1]);
+        }
+    });
+};
+
+PullRequest.prototype.updatePullRequest_ = function(title, opt_body, state, opt_callback) {
+    var instance = this,
+        options = instance.options,
+        payload;
+
+    if (opt_body) {
+        opt_body = logger.applyReplacements(opt_body);
+    }
+
+    payload = {
+        body: opt_body,
+        number: options.number,
+        repo: options.repo,
+        state: state,
+        title: title,
+        user: options.user
+    };
+
+    base.github.pullRequests.update(payload, opt_callback);
+};
+
+exports.Impl = PullRequest;</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

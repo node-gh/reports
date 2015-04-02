@@ -62,7 +62,7 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">34.06</p>
+      <p class="stat">33.85</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
@@ -240,7 +240,7 @@ Repo.prototype.run = function() {
                     return;
                 }
 
-                logger.logTemplate(&#039;https://github.com/&#039; + user + &#039;/&#039; +
+                logger.compileTemplate(&#039;https://github.com/&#039; + user + &#039;/&#039; +
                     options.repo, {options: options});
 
                 if (repo &amp;&amp; options.clone) {
@@ -280,7 +280,7 @@ Repo.prototype.run = function() {
                     return;
                 }
 
-                logger.logTemplate(&#039;{{repoLink}}&#039;, {
+                logger.compileTemplate(&#039;{{repoLink}}&#039;, {
                     options: options
                 });
 

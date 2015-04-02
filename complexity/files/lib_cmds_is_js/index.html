@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - lib/cmds/is.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>lib/cmds/is.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">68.67</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">278</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">29.46</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">2.31</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">/*
+ * Copyright 2013 Zeno Rocha, All Rights Reserved.
+ *
+ * Code licensed under the BSD License:
+ * https://github.com/eduardolundgren/blob/master/LICENSE.md
+ *
+ * @author Zeno Rocha &lt;zno.rocha@gmail.com&gt;
+ */
+
+// -- Requires -----------------------------------------------------------------
+var async = require(&#039;async&#039;),
+    base = require(&#039;../base&#039;),
+    clc = require(&#039;cli-color&#039;),
+    logger = require(&#039;../logger&#039;),
+    open = require(&#039;open&#039;);
+
+// -- Constructor --------------------------------------------------------------
+function Issue(options) {
+    this.options = options;
+
+    if (!options.repo) {
+        logger.error(&#039;You must specify a Git repository to run this command&#039;);
+    }
+}
+
+// -- Constants ----------------------------------------------------------------
+Issue.DETAILS = {
+    options: {
+        &#039;all&#039;     : Boolean,
+        &#039;close&#039;   : Boolean,
+        &#039;comment&#039; : String,
+        &#039;detailed&#039;: Boolean,
+        &#039;label&#039;   : String,
+        &#039;list&#039;    : Boolean,
+        &#039;message&#039; : String,
+        &#039;new&#039;     : Boolean,
+        &#039;number&#039;  : Number,
+        &#039;open&#039;    : Boolean,
+        &#039;repo&#039;    : String,
+        &#039;state&#039;   : [ &#039;open&#039;, &#039;closed&#039; ],
+        &#039;title&#039;   : String,
+        &#039;user&#039;    : String
+    },
+    shorthands: {
+        &#039;a&#039;: [ &#039;--all&#039; ],
+        &#039;C&#039;: [ &#039;--close&#039; ],
+        &#039;c&#039;: [ &#039;--comment&#039; ],
+        &#039;d&#039;: [ &#039;--detailed&#039; ],
+        &#039;L&#039;: [ &#039;--label&#039; ],
+        &#039;l&#039;: [ &#039;--list&#039; ],
+        &#039;m&#039;: [ &#039;--message&#039; ],
+        &#039;N&#039;: [ &#039;--new&#039; ],
+        &#039;n&#039;: [ &#039;--number&#039; ],
+        &#039;o&#039;: [ &#039;--open&#039; ],
+        &#039;r&#039;: [ &#039;--repo&#039; ],
+        &#039;S&#039;: [ &#039;--state&#039; ],
+        &#039;t&#039;: [ &#039;--title&#039; ],
+        &#039;u&#039;: [ &#039;--user&#039; ]
+    },
+    description: &#039;Provides a set of util commands to work with Issues.&#039;
+};
+
+Issue.STATE_CLOSED = &#039;closed&#039;;
+Issue.STATE_OPEN = &#039;open&#039;;
+
+// -- Commands -----------------------------------------------------------------
+Issue.prototype.run = function() {
+    var instance = this,
+        options = instance.options,
+        config = base.getGlobalConfig();
+
+    options.state = options.state || Issue.STATE_OPEN;
+
+    if (options.close) {
+        options.state = Issue.STATE_CLOSED;
+
+        logger.logTemplate(&#039;{{prefix}} [info] Closing issue {{greenBright &quot;#&quot; options.number}} on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
+            options: options
+        });
+
+        instance.close(function(err) {
+            logger.defaultCallback(
+                err, null, logger.compileTemplate(&#039;{{issueLink}}&#039;, { options: options }));
+        });
+    }
+
+    if (options.comment) {
+        logger.logTemplate(&#039;{{prefix}} [info] Adding comment on issue {{greenBright &quot;#&quot; options.number}}&#039;, {
+            options: options
+        });
+
+        instance.comment(function(err) {
+            logger.defaultCallback(
+                err, null, logger.compileTemplate(&#039;{{issueLink}}&#039;, { options: options }));
+        });
+    }
+
+    if (options.list) {
+        if (options.all) {
+            logger.logTemplate(&#039;{{prefix}} [info] Listing {{options.state}} issues for {{greenBright options.user}}&#039;, {
+                options: options
+            });
+
+            instance.listFromAllRepositories(function(err) {
+                logger.defaultCallback(err, null, false);
+            });
+        }
+        else {
+            logger.logTemplate(&#039;{{prefix}} [info] Listing {{options.state}} issues on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
+                options: options
+            });
+
+            instance.list(options.repo, function(err) {
+                logger.defaultCallback(err, null, false);
+            });
+        }
+    }
+
+    if (options.new) {
+        logger.logTemplate(&#039;{{prefix}} [info] Creating a new issue on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
+            options: options
+        });
+
+        instance.new(function(err, issue) {
+            if (issue) {
+                options.number = issue.number;
+
+                if (config.open_issue_in_browser) {
+                    open(issue.html_url);
+                }
+            }
+
+            logger.defaultCallback(
+                err, null, logger.compileTemplate(&#039;{{issueLink}}&#039;, { options: options }));
+        });
+    }
+
+    if (options.open) {
+        logger.logTemplate(&#039;{{prefix}} [info] Opening issue {{greenBright &quot;#&quot; options.number}} on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
+            options: options
+        });
+
+        instance.open(function(err) {
+            logger.defaultCallback(
+                err, null, logger.compileTemplate(&#039;{{issueLink}}&#039;, { options: options }));
+        });
+    }
+
+};
+
+Issue.prototype.close = function(opt_callback) {
+    var instance = this;
+
+    instance.getIssue_(function(err, issue) {
+        instance.editIssue_(issue.title, Issue.STATE_CLOSED, opt_callback);
+    });
+};
+
+Issue.prototype.comment = function(opt_callback) {
+    var instance = this,
+        options = instance.options,
+        payload;
+
+    options.comment = logger.applyReplacements(options.comment);
+
+    payload = {
+        body: options.comment,
+        number: options.number,
+        repo: options.repo,
+        user: options.user
+    };
+
+    base.github.issues.createComment(payload, opt_callback);
+};
+
+Issue.prototype.editIssue_ = function(title, state, opt_callback) {
+    var instance = this,
+        options = instance.options,
+        payload;
+
+    payload = {
+        labels: options.label = options.label || [],
+        number: options.number,
+        repo: options.repo,
+        state: state,
+        title: title,
+        user: options.user
+    };
+
+    base.github.issues.edit(payload, opt_callback);
+};
+
+Issue.prototype.getIssue_ = function(opt_callback) {
+    var instance = this,
+        options = instance.options,
+        payload;
+
+    payload = {
+        number: options.number,
+        repo: options.repo,
+        user: options.user
+    };
+
+    base.github.issues.getRepoIssue(payload, opt_callback);
+};
+
+Issue.prototype.list = function(repo, opt_callback) {
+    var instance = this,
+        options = instance.options,
+        payload;
+
+    options.label = options.label || &#039;&#039;;
+
+    payload = {
+        labels: options.label,
+        repo: repo,
+        state: options.state,
+        user: options.user
+    };
+
+    base.github.issues.repoIssues(payload, function(err, issues) {
+        if (err &amp;&amp; !options.all) {
+            logger.error(logger.getErrorMessage(err));
+        }
+
+        if (issues &amp;&amp; issues.length &gt; 0) {
+            logger.logTemplateFile(&#039;is.handlebars&#039;, {
+                detailed: options.detailed,
+                issues: issues,
+                repo: repo,
+                user: options.user
+            });
+
+            opt_callback &amp;&amp; opt_callback(err);
+        }
+    });
+};
+
+Issue.prototype.listFromAllRepositories = function(opt_callback) {
+    var instance = this,
+        payload;
+
+    payload = {
+        type: &#039;all&#039;
+    };
+
+    base.github.repos.getAll(payload, function(err, repositories) {
+        repositories.forEach(function(repository) {
+            instance.list(repository.name, opt_callback);
+        });
+    });
+};
+
+Issue.prototype.new = function(opt_callback) {
+    var instance = this,
+        options = instance.options,
+        payload;
+
+    if (options.message) {
+        options.message = logger.applyReplacements(options.message);
+    }
+
+    if (options.label) {
+        options.label = options.label.split(&#039;,&#039;);
+    } else {
+        options.label = [];
+    }
+
+    payload = {
+        body: options.message,
+        repo: options.repo,
+        title: options.title,
+        user: options.user,
+        labels: options.label
+    };
+
+    base.github.issues.create(payload, opt_callback);
+};
+
+Issue.prototype.open = function(opt_callback) {
+    var instance = this;
+
+    instance.getIssue_(function(err, issue) {
+        instance.editIssue_(issue.title, Issue.STATE_OPEN, opt_callback);
+    });
+};
+
+exports.Impl = Issue;</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

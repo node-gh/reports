@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">68.04</p>
+      <p class="stat">68.22</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">448</p>
+      <p class="stat">424</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">41.17</p>
+      <p class="stat">39.91</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">3.64</p>
+      <p class="stat">3.41</p>
     </div>
   </div>
 </div>
@@ -144,8 +144,7 @@ Issue.DETAILS = {
         &#039;label&#039;: String,
         &#039;list&#039;: Boolean,
         &#039;message&#039;: String,
-        &#039;milestone&#039;: [Number, String],
-        &#039;no-milestone&#039;: Boolean,
+        &#039;milestone&#039;: Number,
         &#039;new&#039;: Boolean,
         &#039;number&#039;: [String, Array],
         &#039;open&#039;: Boolean,
@@ -222,7 +221,7 @@ Issue.prototype.run = function() {
                     return;
                 }
 
-                logger.logTemplate(&#039;{{issueLink}}&#039;, {
+                logger.compileTemplate(&#039;{{issueLink}}&#039;, {
                     options: options
                 });
 
@@ -243,7 +242,7 @@ Issue.prototype.run = function() {
                 return;
             }
 
-            logger.logTemplate(&#039;{{issueLink}}&#039;, {
+            logger.compileTemplate(&#039;{{issueLink}}&#039;, {
                 options: options
             });
         });
@@ -295,7 +294,7 @@ Issue.prototype.run = function() {
                     options.number = issue.number;
                 }
 
-                logger.logTemplate(&#039;{{issueLink}}&#039;, {
+                logger.compileTemplate(&#039;{{issueLink}}&#039;, {
                     options: options
                 });
 
@@ -317,7 +316,7 @@ Issue.prototype.run = function() {
                     return;
                 }
 
-                logger.logTemplate(&#039;{{issueLink}}&#039;, {
+                logger.compileTemplate(&#039;{{issueLink}}&#039;, {
                     options: options
                 });
 
@@ -329,10 +328,6 @@ Issue.prototype.run = function() {
 };
 
 Issue.prototype.browser = function(user, repo, number) {
-    if (!number) {
-        number = &#039;&#039;;
-    }
-
     openUrl(&#039;https://github.com/&#039; + user + &#039;/&#039; + repo + &#039;/issues/&#039; + number);
 };
 
@@ -376,8 +371,6 @@ Issue.prototype.editIssue_ = function(title, state, opt_callback) {
     payload = {
         labels: options.label,
         number: options.number,
-        assignee: options.assignee,
-        milestone: options.milestone,
         repo: options.repo,
         state: state,
         title: title,
@@ -404,56 +397,39 @@ Issue.prototype.getIssue_ = function(opt_callback) {
 Issue.prototype.list = function(user, repo, opt_callback) {
     var instance = this,
         options = instance.options,
-        operations = [],
+        operations,
         payload;
 
     options.label = options.label || &#039;&#039;;
+    options.milestone = options.milestone || &#039;none&#039;;
 
     payload = {
         labels: options.label,
+        milestone: options.milestone,
         repo: repo,
         state: options.state,
         user: user
     };
 
-    if (options[&#039;no-milestone&#039;]) {
-        payload.milestone = &#039;none&#039;;
-    } else if (options.milestone) {
-        payload.milestone = options.milestone;
-    }
-
-    if (options.milestone) {
-        operations.push(function(callback) {
-            base.github.issues.getAllMilestones({
-                repo: repo,
-                user: user
-            }, function(err, results) {
-                if (err) {
-                    logger.warn(err.message);
-                }
-
-                results.some(function (milestone) {
-                    if (options.milestone === milestone.title) {
-                        logger.debug(&#039;Milestone &#039; + milestone.title + &#039; number: &#039; + milestone.number);
-                        payload.milestone = milestone.number;
-                        return true;
-                    }
-                });
-
-                callback();
-            });
-        });
-    }
-
     if (options.assignee) {
         payload.assignee = options.assignee;
     }
 
-    operations.push(function(callback) {
-        base.github.issues.repoIssues(payload, callback);
-    });
+    operations = [
 
-    async.series(operations, function(err, results) {
+        function(callback) {
+            base.github.issues.repoIssues(payload, callback);
+        }
+    ];
+
+    if (options.milestone === &#039;none&#039;) {
+        operations.push(function(callback) {
+            payload.milestone = &#039;*&#039;;
+            base.github.issues.repoIssues(payload, callback);
+        });
+    }
+
+    async.parallel(operations, function(err, results) {
         if (err &amp;&amp; !options.all) {
             logger.error(logger.getErrorMessage(err));
         }

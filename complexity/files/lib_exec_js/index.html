@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">63.94</p>
+      <p class="stat">66.18</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">55</p>
+      <p class="stat">46</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">23.96</p>
+      <p class="stat">24.38</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.39</p>
+      <p class="stat">0.29</p>
     </div>
   </div>
 </div>
@@ -101,15 +101,10 @@
 
 &#039;use strict&#039;;
 
-var child_process = require(&#039;child_process&#039;),
-    logger = require(&#039;./logger&#039;);
+var child_process = require(&#039;child_process&#039;);
 
 exports.spawnSync = function(cmd, args, options) {
-    var exec;
-
-    logger.debug(&#039;spawnSync: &#039; + cmd + &#039; &#039; + args.join(&#039; &#039;));
-
-    exec = child_process.spawnSync(cmd, args, options);
+    var exec = child_process.spawnSync(cmd, args, options);
 
     return {
         stdout: exec.stdout.toString().trim(),
@@ -128,8 +123,6 @@ exports.spawnSyncStream = function(cmd, args, options) {
 
     options.stdio = [&#039;pipe&#039;, process.stdout, process.stderr];
 
-    logger.debug(&#039;spawnSyncStream: &#039; + cmd + &#039; &#039; + args.join(&#039; &#039;));
-
     proc = child_process.spawnSync(cmd, args, options);
 
     if (proc.status !== 0) {
@@ -147,8 +140,6 @@ exports.execSync = function(cmd, options) {
     if (!options) {
         options = {};
     }
-
-    logger.debug(&#039;execSync: &#039; + cmd);
 
     options.stdio = [&#039;pipe&#039;, process.stdout, process.stderr];
 

@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">69.87</p>
+      <p class="stat">69.92</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">893</p>
+      <p class="stat">860</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">58.57</p>
+      <p class="stat">57.70</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">7.92</p>
+      <p class="stat">7.60</p>
     </div>
   </div>
 </div>
@@ -159,7 +159,6 @@ PullRequest.DETAILS = {
         &#039;merge&#039;: Boolean,
         &#039;number&#039;: [String, Array],
         &#039;open&#039;: Boolean,
-        &#039;org&#039;: String,
         &#039;rebase&#039;: Boolean,
         &#039;remote&#039;: String,
         &#039;repo&#039;: String,
@@ -184,7 +183,6 @@ PullRequest.DETAILS = {
         &#039;m&#039;: [&#039;--me&#039;],
         &#039;n&#039;: [&#039;--number&#039;],
         &#039;o&#039;: [&#039;--open&#039;],
-        &#039;O&#039;: [&#039;--org&#039;],
         &#039;R&#039;: [&#039;--rebase&#039;],
         &#039;r&#039;: [&#039;--repo&#039;],
         &#039;S&#039;: [&#039;--state&#039;],
@@ -249,7 +247,7 @@ PullRequest.prototype.run = function() {
                     return;
                 }
 
-                logger.logTemplate(&#039;{{link}}&#039;, {
+                logger.compileTemplate(&#039;{{link}}&#039;, {
                     options: options
                 });
 
@@ -270,7 +268,7 @@ PullRequest.prototype.run = function() {
                 return;
             }
 
-            logger.logTemplate(&#039;{{link}}&#039;, {
+            logger.compileTemplate(&#039;{{link}}&#039;, {
                 options: options
             });
         });
@@ -335,7 +333,7 @@ PullRequest.prototype.run = function() {
                     options.forwardedPull = pull.number;
                 }
 
-                logger.logTemplate(&#039;{{forwardedLink}}&#039;, {
+                logger.compileTemplate(&#039;{{forwardedLink}}&#039;, {
                     options: options
                 });
 
@@ -350,7 +348,7 @@ PullRequest.prototype.run = function() {
 
         if (options.all) {
             logger.logTemplate(
-                &#039;Listing all {{options.state}} pull requests for {{#if options.org}}{{greenBright options.org}}{{else}}{{greenBright options.user}}{{/if}}&#039;, {
+                &#039;Listing all {{options.state}} pull requests for {{greenBright options.user}}&#039;, {
                     options: options
                 });
 
@@ -396,7 +394,7 @@ PullRequest.prototype.run = function() {
                     return;
                 }
 
-                logger.logTemplate(&#039;{{link}}&#039;, {
+                logger.compileTemplate(&#039;{{link}}&#039;, {
                     options: options
                 });
 
@@ -426,7 +424,7 @@ PullRequest.prototype.run = function() {
                     options.submittedPull = pull.number;
                 }
 
-                logger.logTemplate(&#039;{{submittedLink}}&#039;, {
+                logger.compileTemplate(&#039;{{submittedLink}}&#039;, {
                     options: options
                 });
 
@@ -794,45 +792,14 @@ PullRequest.prototype.list = function(user, repo, opt_callback) {
 PullRequest.prototype.listFromAllRepositories = function(opt_callback) {
     var instance = this,
         options = instance.options,
-        payload,
-        apiMethod;
+        payload;
 
     payload = {
         type: &#039;all&#039;,
         user: options.user
     };
 
-    if(options.org) {
-        apiMethod = &#039;getFromOrg&#039;;
-        payload.org = options.org;
-    } else {
-        apiMethod = &#039;getAll&#039;;
-    }
-
-    base.github.repos[apiMethod](payload, function(err, repositories) {
-        if (err) {
-            opt_callback &amp;&amp; opt_callback(err);
-        }
-        else {
-            repositories.forEach(function(repository) {
-                instance.list(repository.owner.login, repository.name, opt_callback);
-            });
-        }
-    });
-};
-
-PullRequest.prototype.listFromAllOrgRepositories = function(opt_callback) {
-    var instance = this,
-        options = instance.options,
-        payload;
-
-    payload = {
-        type: &#039;all&#039;,
-        user: options.user,
-        org: options.org
-    };
-
-    base.github.repos.getFromOrg(payload, function(err, repositories) {
+    base.github.repos.getAll(payload, function(err, repositories) {
         if (err) {
             opt_callback &amp;&amp; opt_callback(err);
         }
@@ -856,7 +823,7 @@ PullRequest.prototype.merge = function(opt_callback) {
             git.checkout(options.branch);
             git.merge(options.pullBranch, options.rebase, false);
             git.push(config.default_remote, options.branch);
-            git.deleteBranch(options.pullBranch);
+            git.deleteCurrent(options.pullBranch);
             callback();
         }
     ];
