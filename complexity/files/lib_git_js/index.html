@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">72.51</p>
+      <p class="stat">73.67</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">196</p>
+      <p class="stat">202</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">35.84</p>
+      <p class="stat">34.76</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">1.45</p>
+      <p class="stat">1.49</p>
     </div>
   </div>
 </div>
@@ -124,19 +124,25 @@ exports.clone = function(url, folder) {
     return exec.spawnSyncStream(git_command, args);
 };
 
-exports.merge = function(branch, rebase, abort) {
-    var type = rebase ? &#039;rebase&#039; : &#039;merge&#039;,
-        res;
+exports._merge = function(branch, type) {
+    var res;
 
     try {
         res = exec.spawnSyncStream(git_command, [type, branch]);
     } catch(err) {
-        if (!abort &amp;&amp; err.code &amp;&amp; err.code !== 0) {
+        if (err.code &amp;&amp; err.code !== 0) {
+            exec.spawnSyncStream(git_command, [type, &#039;--abort&#039;]);
             throw err;
         }
-
-        exec.spawnSyncStream(git_command, [type, &#039;--abort&#039;]);
     }
+};
+
+exports.merge = function(branch) {
+    return this._merge(branch, &#039;merge&#039;);
+};
+
+exports.rebase = function(branch) {
+    return this._merge(branch, &#039;rebase&#039;);
 };
 
 exports.push = function(remote, branch) {

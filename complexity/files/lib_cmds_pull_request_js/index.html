@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">69.87</p>
+      <p class="stat">70.64</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">893</p>
+      <p class="stat">933</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">58.57</p>
+      <p class="stat">58.91</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">7.92</p>
+      <p class="stat">8.33</p>
     </div>
   </div>
 </div>
@@ -221,12 +221,15 @@ PullRequest.prototype.issues = null;
 
 PullRequest.prototype.run = function() {
     var instance = this,
-        options = instance.options,
-        fetchType;
+        options = instance.options;
 
     options.number = options.number || instance.getPullRequestNumberFromBranch_();
     options.pullBranch = instance.getBranchNameFromPullNumber_(options.number);
     options.state = options.state || PullRequest.STATE_OPEN;
+
+    if (!options.pullBranch &amp;&amp; (options.close || options.fetch || options.merge)) {
+        console.error(&#039;You\&#039;ve invoked a method that requires an issue number.&#039;);
+    }
 
     if (options.browser) {
         instance.browser(options.user, options.repo, options.number);
@@ -237,81 +240,18 @@ PullRequest.prototype.run = function() {
     }
 
     if (options.close) {
-        hooks.invoke(&#039;pull-request.close&#039;, instance, function(afterHooksCallback) {
-            logger.logTemplate(
-                &#039;Closing pull request {{greenBright &quot;#&quot; options.number}}&#039;, {
-                    options: options
-                });
-
-            instance.close(function(err) {
-                if (err) {
-                    logger.warn(&#039;Can\&#039;t close pull request &#039; + options.number + &#039;.&#039;);
-                    return;
-                }
-
-                logger.logTemplate(&#039;{{link}}&#039;, {
-                    options: options
-                });
-
-                instance.setMergeCommentRequiredOptions_(afterHooksCallback);
-            });
-        });
+        instance._closeHandler();
     }
 
     if (options.comment) {
-        logger.logTemplate(
-            &#039;Adding comment on pull request {{greenBright &quot;#&quot; options.number}}&#039;, {
-                options: options
-            });
-
-        instance.issue.comment(function(err) {
-            if (err) {
-                logger.error(&#039;Can\&#039;t comment on pull request &#039; + options.number + &#039;.&#039;);
-                return;
-            }
-
-            logger.logTemplate(&#039;{{link}}&#039;, {
-                options: options
-            });
-        });
+        instance._commentHandler();
     }
 
     if (options.fetch) {
-        fetchType = PullRequest.FETCH_TYPE_CHECKOUT;
-
-        if (options.merge) {
-            fetchType = PullRequest.FETCH_TYPE_MERGE;
-        }
-        else if (options.rebase) {
-            fetchType = PullRequest.FETCH_TYPE_REBASE;
-        }
-
-        hooks.invoke(&#039;pull-request.fetch&#039;, instance, function(afterHooksCallback) {
-            logger.logTemplateFile(&#039;pr-fetch.handlebars&#039;, {
-                currentBranch: options.currentBranch,
-                options: options
-            });
-
-            instance.fetch(fetchType, function(err) {
-                if (err) {
-                    logger.error(&#039;Can\&#039;t fetch pull request &#039; + options.number + &#039;.&#039;);
-                    return;
-                }
-
-                afterHooksCallback();
-            });
-        });
+        instance._fetchHandler();
     }
     else if (options.merge || options.rebase) {
-        hooks.invoke(&#039;pull-request.merge&#039;, instance, function(afterHooksCallback) {
-            logger.logTemplateFile(&#039;pr-merge.handlebars&#039;, {
-                options: options
-            });
-
-            instance.merge(function() {
-                instance.setMergeCommentRequiredOptions_(afterHooksCallback);
-            });
-        });
+        instance._mergeHandler();
     }
 
     if (options.fwd === &#039;&#039;) {
@@ -319,90 +259,15 @@ PullRequest.prototype.run = function() {
     }
 
     if (options.fwd) {
-        hooks.invoke(&#039;pull-request.fwd&#039;, instance, function(afterHooksCallback) {
-            logger.logTemplate(
-                &#039;Forwarding pull request {{greenBright &quot;#&quot; options.number}} to {{{magentaBright &quot;@&quot; options.fwd}}}&#039;, {
-                    options: options
-                });
-
-            instance.forward(function(err, pull) {
-                if (err) {
-                    logger.error(&#039;Can\&#039;t forward pull request &#039; + options.number + &#039; to &#039; + options.fwd + &#039;.&#039;);
-                    return;
-                }
-
-                if (pull) {
-                    options.forwardedPull = pull.number;
-                }
-
-                logger.logTemplate(&#039;{{forwardedLink}}&#039;, {
-                    options: options
-                });
-
-                instance.setMergeCommentRequiredOptions_(afterHooksCallback);
-            });
-        });
+        this._fwdHandler();
     }
 
     if (options.list) {
-        options.sort = options.sort || PullRequest.SORT_CREATED;
-        options.direction = options.direction || PullRequest.DIRECTION_DESC;
-
-        if (options.all) {
-            logger.logTemplate(
-                &#039;Listing all {{options.state}} pull requests for {{#if options.org}}{{greenBright options.org}}{{else}}{{greenBright options.user}}{{/if}}&#039;, {
-                    options: options
-                });
-
-            instance.listFromAllRepositories(function(err) {
-                if (err) {
-                    logger.error(&#039;Can\&#039;t list all pull requests from repos.&#039;);
-                    return;
-                }
-            });
-        }
-        else {
-            if (options.me) {
-                logger.logTemplate(
-                    &#039;Listing {{options.state}} pull requests sent by {{greenBright options.loggedUser}} on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
-                        options: options
-                    });
-            }
-            else {
-                logger.logTemplate(
-                    &#039;Listing {{options.state}} pull requests on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
-                        options: options
-                    });
-            }
-            instance.list(options.user, options.repo, function(err) {
-                if (err) {
-                    logger.error(&#039;Can\&#039;t list pull requests.&#039;);
-                    return;
-                }
-            });
-        }
+        this._listHandler();
     }
 
     if (options.open) {
-        hooks.invoke(&#039;pull-request.open&#039;, instance, function(afterHooksCallback) {
-            logger.logTemplate(
-                &#039;Opening pull request {{greenBright &quot;#&quot; options.number}}&#039;, {
-                    options: options
-                });
-
-            instance.open(function(err) {
-                if (err) {
-                    logger.error(&#039;Can\&#039;t open pull request &#039; + options.number + &#039;.&#039;);
-                    return;
-                }
-
-                logger.logTemplate(&#039;{{link}}&#039;, {
-                    options: options
-                });
-
-                afterHooksCallback();
-            });
-        });
+        this._openHandler();
     }
 
     if (options.submit === &#039;&#039;) {
@@ -410,29 +275,7 @@ PullRequest.prototype.run = function() {
     }
 
     if (options.submit) {
-        hooks.invoke(&#039;pull-request.submit&#039;, instance, function(afterHooksCallback) {
-            logger.logTemplate(
-                &#039;Submitting pull request to {{{magentaBright &quot;@&quot; options.submit}}}&#039;, {
-                    options: options
-                });
-
-            instance.submit(options.submit, function(err, pull) {
-                if (err) {
-                    logger.error(&#039;Can\&#039;t submit pull request. &#039; + JSON.parse(err.message).errors[0].message);
-                    return;
-                }
-
-                if (pull) {
-                    options.submittedPull = pull.number;
-                }
-
-                logger.logTemplate(&#039;{{submittedLink}}&#039;, {
-                    options: options
-                });
-
-                instance.setMergeCommentRequiredOptions_(afterHooksCallback);
-            });
-        });
+        this._submitHandler();
     }
 };
 
@@ -573,16 +416,7 @@ PullRequest.prototype.fetch = function(opt_type, opt_callback) {
         repoUrl = pull.head.repo.ssh_url;
 
         git.fetch(repoUrl, headBranch, options.pullBranch);
-
-        if (opt_type === PullRequest.FETCH_TYPE_REBASE) {
-            git.merge(options.pullBranch, true, true);
-        }
-        else if (opt_type === PullRequest.FETCH_TYPE_MERGE) {
-            git.merge(options.pullBranch, false, true);
-        }
-        else if (opt_type === PullRequest.FETCH_TYPE_CHECKOUT) {
-            git.checkout(options.pullBranch);
-        }
+        git[opt_type](options.pullBranch);
 
         opt_callback(err, pull);
     });
@@ -847,23 +681,17 @@ PullRequest.prototype.listFromAllOrgRepositories = function(opt_callback) {
 PullRequest.prototype.merge = function(opt_callback) {
     var instance = this,
         options = instance.options,
-        operations,
-        pull;
+        method = &#039;merge&#039;;
 
-    operations = [
+    if (options.rebase) {
+        method = &#039;rebase&#039;;
+    }
 
-        function(callback) {
-            git.checkout(options.branch);
-            git.merge(options.pullBranch, options.rebase, false);
-            git.push(config.default_remote, options.branch);
-            git.deleteBranch(options.pullBranch);
-            callback();
-        }
-    ];
-
-    async.series(operations, function(err) {
-        opt_callback &amp;&amp; opt_callback(err, pull);
-    });
+    git.checkout(options.branch);
+    git[method](options.pullBranch);
+    git.push(config.default_remote, options.branch);
+    git.deleteBranch(options.pullBranch);
+    opt_callback &amp;&amp; opt_callback();
 };
 
 PullRequest.prototype.open = function(opt_callback) {
@@ -989,6 +817,218 @@ PullRequest.prototype.updatePullRequest_ = function(title, opt_body, state, opt_
     };
 
     base.github.pullRequests.update(payload, opt_callback);
+};
+
+PullRequest.prototype._fetchHandler = function() {
+    var instance = this,
+        options = this.options,
+        fetchType = PullRequest.FETCH_TYPE_CHECKOUT;
+
+    if (options.merge) {
+        fetchType = PullRequest.FETCH_TYPE_MERGE;
+    }
+    else if (options.rebase) {
+        fetchType = PullRequest.FETCH_TYPE_REBASE;
+    }
+
+    hooks.invoke(&#039;pull-request.fetch&#039;, instance, function(afterHooksCallback) {
+        logger.logTemplateFile(&#039;pr-fetch.handlebars&#039;, {
+            currentBranch: options.currentBranch,
+            options: options
+        });
+
+        instance.fetch(fetchType, function(err) {
+            if (err) {
+                logger.error(&#039;Can\&#039;t fetch pull request &#039; + options.number + &#039;.&#039;);
+                return;
+            }
+
+            afterHooksCallback();
+        });
+    });
+};
+
+PullRequest.prototype._mergeHandler = function() {
+    var instance = this,
+        options = this.options;
+
+    hooks.invoke(&#039;pull-request.merge&#039;, instance, function(afterHooksCallback) {
+        logger.logTemplateFile(&#039;pr-merge.handlebars&#039;, {
+            options: options
+        });
+
+        instance.merge();
+        instance.setMergeCommentRequiredOptions_(afterHooksCallback);
+    });
+};
+
+PullRequest.prototype._fwdHandler = function() {
+    var instance = this,
+        options = this.options;
+
+    hooks.invoke(&#039;pull-request.fwd&#039;, instance, function(afterHooksCallback) {
+        logger.logTemplate(
+            &#039;Forwarding pull request {{greenBright &quot;#&quot; options.number}} to {{{magentaBright &quot;@&quot; options.fwd}}}&#039;, {
+                options: options
+            });
+
+        instance.forward(function(err, pull) {
+            if (err) {
+                logger.error(&#039;Can\&#039;t forward pull request &#039; + options.number + &#039; to &#039; + options.fwd + &#039;.&#039;);
+                return;
+            }
+
+            if (pull) {
+                options.forwardedPull = pull.number;
+            }
+
+            logger.logTemplate(&#039;{{forwardedLink}}&#039;, {
+                options: options
+            });
+
+            instance.setMergeCommentRequiredOptions_(afterHooksCallback);
+        });
+    });
+};
+
+PullRequest.prototype._closeHandler = function() {
+    var instance = this,
+        options = this.options;
+
+    hooks.invoke(&#039;pull-request.close&#039;, instance, function(afterHooksCallback) {
+        logger.logTemplate(
+            &#039;Closing pull request {{greenBright &quot;#&quot; options.number}}&#039;, {
+                options: options
+            });
+
+        instance.close(function(err) {
+            if (err) {
+                logger.warn(&#039;Can\&#039;t close pull request &#039; + options.number + &#039;.&#039;);
+                return;
+            }
+
+            logger.logTemplate(&#039;{{link}}&#039;, {
+                options: options
+            });
+
+            instance.setMergeCommentRequiredOptions_(afterHooksCallback);
+        });
+    });
+};
+
+PullRequest.prototype._commentHandler = function() {
+    var options = this.options;
+
+    logger.logTemplate(&#039;Adding comment on pull request {{greenBright &quot;#&quot; options.number}}&#039;, {
+        options: options
+    });
+
+    this.issue.comment(function(err) {
+        if (err) {
+            logger.error(&#039;Can\&#039;t comment on pull request &#039; + options.number + &#039;.&#039;);
+            return;
+        }
+
+        logger.logTemplate(&#039;{{link}}&#039;, {
+            options: options
+        });
+    });
+};
+
+PullRequest.prototype._listHandler = function() {
+    var instance = this,
+        options = this.options;
+
+    options.sort = options.sort || PullRequest.SORT_CREATED;
+    options.direction = options.direction || PullRequest.DIRECTION_DESC;
+
+    if (options.all) {
+        logger.logTemplate(
+            &#039;Listing all {{options.state}} pull requests for {{#if options.org}}{{greenBright options.org}}{{else}}{{greenBright options.user}}{{/if}}&#039;, {
+                options: options
+            });
+
+        instance.listFromAllRepositories(function(err) {
+            if (err) {
+                logger.error(&#039;Can\&#039;t list all pull requests from repos.&#039;);
+                return;
+            }
+        });
+    }
+    else {
+        if (options.me) {
+            logger.logTemplate(
+                &#039;Listing {{options.state}} pull requests sent by {{greenBright options.loggedUser}} on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
+                    options: options
+                });
+        }
+        else {
+            logger.logTemplate(
+                &#039;Listing {{options.state}} pull requests on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
+                    options: options
+                });
+        }
+        instance.list(options.user, options.repo, function(err) {
+            if (err) {
+                logger.error(&#039;Can\&#039;t list pull requests.&#039;);
+                return;
+            }
+        });
+    }
+};
+
+PullRequest.prototype._openHandler = function() {
+    var instance = this,
+        options = this.options;
+
+    hooks.invoke(&#039;pull-request.open&#039;, instance, function(afterHooksCallback) {
+        logger.logTemplate(
+            &#039;Opening pull request {{greenBright &quot;#&quot; options.number}}&#039;, {
+                options: options
+            });
+
+        instance.open(function(err) {
+            if (err) {
+                logger.error(&#039;Can\&#039;t open pull request &#039; + options.number + &#039;.&#039;);
+                return;
+            }
+
+            logger.logTemplate(&#039;{{link}}&#039;, {
+                options: options
+            });
+
+            afterHooksCallback();
+        });
+    });
+};
+
+PullRequest.prototype._submitHandler = function() {
+    var instance = this,
+        options = this.options;
+
+    hooks.invoke(&#039;pull-request.submit&#039;, instance, function(afterHooksCallback) {
+        logger.logTemplate(
+            &#039;Submitting pull request to {{{magentaBright &quot;@&quot; options.submit}}}&#039;, {
+                options: options
+            });
+
+        instance.submit(options.submit, function(err, pull) {
+            if (err) {
+                logger.error(&#039;Can\&#039;t submit pull request. &#039; + JSON.parse(err.message).errors[0].message);
+                return;
+            }
+
+            if (pull) {
+                options.submittedPull = pull.number;
+            }
+
+            logger.logTemplate(&#039;{{submittedLink}}&#039;, {
+                options: options
+            });
+
+            instance.setMergeCommentRequiredOptions_(afterHooksCallback);
+        });
+    });
 };
 
 exports.Impl = PullRequest;</textarea>

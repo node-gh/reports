@@ -15,10 +15,10 @@
 <div class="header low">
     <h1>Code coverage report for <span class="entity">lib/git.js</span></h1>
     <h2>
-        Statements: <span class="metric">25.26% <small>(24 / 95)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">8.11% <small>(3 / 37)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">5.26% <small>(1 / 19)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">25.26% <small>(24 / 95)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">26.26% <small>(26 / 99)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">8.82% <small>(3 / 34)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">4.76% <small>(1 / 21)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">26.26% <small>(26 / 99)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">lib/</a> &#187; git.js</div>
@@ -230,7 +230,13 @@
 203
 204
 205
-206</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+206
+207
+208
+209
+210
+211
+212</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -268,16 +274,22 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
@@ -470,19 +482,25 @@ exports.clone = <span class="fstat-no" title="function not covered" >function(ur
 <span class="cstat-no" title="statement not covered" >    return exec.spawnSyncStream(git_command, args);</span>
 };
 &nbsp;
-exports.merge = <span class="fstat-no" title="function not covered" >function(branch, rebase, abort) {</span>
-<span class="cstat-no" title="statement not covered" >    var type = rebase ? 'rebase' : 'merge',</span>
-        res;
+exports._merge = <span class="fstat-no" title="function not covered" >function(branch, type) {</span>
+<span class="cstat-no" title="statement not covered" >    var res;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >        res = exec.spawnSyncStream(git_command, [type, branch]);</span>
     } catch(err) {
-<span class="cstat-no" title="statement not covered" >        if (!abort &amp;&amp; err.code &amp;&amp; err.code !== 0) {</span>
+<span class="cstat-no" title="statement not covered" >        if (err.code &amp;&amp; err.code !== 0) {</span>
+<span class="cstat-no" title="statement not covered" >            exec.spawnSyncStream(git_command, [type, '--abort']);</span>
 <span class="cstat-no" title="statement not covered" >            throw err;</span>
         }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        exec.spawnSyncStream(git_command, [type, '--abort']);</span>
     }
+};
+&nbsp;
+exports.merge = <span class="fstat-no" title="function not covered" >function(branch) {</span>
+<span class="cstat-no" title="statement not covered" >    return this._merge(branch, 'merge');</span>
+};
+&nbsp;
+exports.rebase = <span class="fstat-no" title="function not covered" >function(branch) {</span>
+<span class="cstat-no" title="statement not covered" >    return this._merge(branch, 'rebase');</span>
 };
 &nbsp;
 exports.push = <span class="fstat-no" title="function not covered" >function(remote, branch) {</span>
@@ -645,7 +663,7 @@ exports.parseRemoteUrl = function(url) {
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 02 2015 20:35:50 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Apr 03 2015 18:12:26 GMT+0000 (UTC)</div>
 </div>
 <script src="../prettify.js"></script>
 <script>
