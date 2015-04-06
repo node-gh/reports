@@ -15,10 +15,10 @@
 <div class="header low">
     <h1>Code coverage report for <span class="entity">lib/configs.js</span></h1>
     <h2>
-        Statements: <span class="metric">1.87% <small>(2 / 107)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">1.82% <small>(2 / 110)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Branches: <span class="metric">0% <small>(0 / 32)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">0% <small>(0 / 24)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">1.87% <small>(2 / 107)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">0% <small>(0 / 25)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">1.82% <small>(2 / 110)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">lib/</a> &#187; configs.js</div>
@@ -277,8 +277,7 @@
 250
 251
 252
-253
-254</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+253</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -405,17 +404,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -434,6 +427,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -657,18 +655,12 @@
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    delete config[key];</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    fs.writeFileSync(</span>
-        exports.getUserHomePath(),
-        JSON.stringify(config, null, 4)
-    );
+<span class="cstat-no" title="statement not covered" >    this.saveJsonConfig(exports.getUserHomePath(), config);</span>
 <span class="cstat-no" title="statement not covered" >    cache = {};</span>
 };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >exports.createGlobalConfig = <span class="fstat-no" title="function not covered" >function() {</span></span>
-<span class="cstat-no" title="statement not covered" >    fs.writeFileSync(</span>
-        exports.getUserHomePath(),
-        fs.readFileSync(exports.getGlobalConfigPath())
-    );
+<span class="cstat-no" title="statement not covered" >    this.saveJsonConfig(exports.getUserHomePath(), exports.getGlobalConfigPath());</span>
 <span class="cstat-no" title="statement not covered" >    cache = {};</span>
 };
 &nbsp;
@@ -687,11 +679,16 @@
 <span class="cstat-no" title="statement not covered" >        output = output[path[i]];</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    fs.writeFileSync(</span>
-        exports.getUserHomePath(),
-        JSON.stringify(config, null, 4)
-    );
+<span class="cstat-no" title="statement not covered" >    this.saveJsonConfig(exports.getUserHomePath(), config);</span>
 <span class="cstat-no" title="statement not covered" >    cache = {};</span>
+};
+&nbsp;
+<span class="cstat-no" title="statement not covered" >exports.saveJsonConfig = <span class="fstat-no" title="function not covered" >function(path, object) {</span></span>
+<span class="cstat-no" title="statement not covered" >    var options = {</span>
+        mode: Number.parseInt('0600', 8)
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    fs.writeFileSync(path, JSON.stringify(object, null, 4), options);</span>
 };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >exports.writeGlobalConfigCredentials = <span class="fstat-no" title="function not covered" >function(user, token) {</span></span>
@@ -789,7 +786,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Apr 03 2015 18:12:26 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 06 2015 22:10:22 GMT+0000 (UTC)</div>
 </div>
 <script src="../prettify.js"></script>
 <script>
