@@ -12,13 +12,13 @@
     </style>
 </head>
 <body>
-<div class="header low">
+<div class="header high">
     <h1>Code coverage report for <span class="entity">lib/cmds/version.js</span></h1>
     <h2>
-        Statements: <span class="metric">11.11% <small>(1 / 9)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(8 / 8)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Branches: <span class="metric">100% <small>(0 / 0)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">0% <small>(0 / 3)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">11.11% <small>(1 / 9)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(3 / 3)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(8 / 8)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/cmds/</a> &#187; version.js</div>
@@ -56,101 +56,74 @@
 29
 30
 31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+32</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
  * Copyright 2013-2015, All Rights Reserved.
  *
  * Code licensed under the BSD License:
  * https://github.com/node-gh/gh/blob/master/LICENSE.md
  *
- * @author Author &lt;email@email.com&gt;
+ * @author Henrique Vicente &lt;henriquevicente@gmail.com&gt;
  */
 &nbsp;
 'use strict';
 &nbsp;
-// -- Requires -------------------------------------------------------------------------------------
-&nbsp;
-<span class="cstat-no" title="statement not covered" >var base = require('../base'),</span>
+var base = require('../base'),
     logger = require('../logger');
 &nbsp;
-// -- Constructor ----------------------------------------------------------------------------------
-&nbsp;
-<span class="fstat-no" title="function not covered" >function Version(options) {</span>
-<span class="cstat-no" title="statement not covered" >    this.options = options;</span>
+function Version() {
 }
 &nbsp;
-// -- Constants ------------------------------------------------------------------------------------
-&nbsp;
-<span class="cstat-no" title="statement not covered" >Version.DETAILS = {</span>
+Version.DETAILS = {
     alias: 'v',
     description: 'Print gh version.'
 };
 &nbsp;
-// -- Commands -------------------------------------------------------------------------------------
-&nbsp;
-<span class="cstat-no" title="statement not covered" >Version.prototype.run = <span class="fstat-no" title="function not covered" >function() {</span></span>
-<span class="cstat-no" title="statement not covered" >    base.asyncReadPackages(this.printVersion);</span>
+Version.prototype.run = function() {
+    base.asyncReadPackages(this.printVersion);
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Version.prototype.printVersion = <span class="fstat-no" title="function not covered" >function(pkg) {</span></span>
-<span class="cstat-no" title="statement not covered" >    logger.log(pkg.name + ' ' + pkg.version);</span>
+Version.prototype.printVersion = function(pkg) {
+    logger.log(pkg.name + ' ' + pkg.version);
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >exports.Impl = Version;</span>
+exports.Impl = Version;
 &nbsp;</pre></td></tr>
 </table></pre>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 06 2015 22:10:22 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 06 2015 23:48:35 GMT+0000 (UTC)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>
