@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">76.16</p>
+      <p class="stat">75.69</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">210</p>
+      <p class="stat">184</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">27.74</p>
+      <p class="stat">28.87</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">1.99</p>
+      <p class="stat">1.73</p>
     </div>
   </div>
 </div>
@@ -102,12 +102,12 @@
 &#039;use strict&#039;;
 
 var logger = {},
-    clc = require(&#039;cli-color&#039;),
     fs = require(&#039;fs&#039;),
     handlebars = require(&#039;handlebars&#039;),
     moment = require(&#039;moment&#039;),
     path = require(&#039;path&#039;),
-    wrap = require(&#039;wordwrap&#039;).hard(0, 80);
+    wrap = require(&#039;wordwrap&#039;).hard(0, 80),
+    colors = require(&#039;colors/safe&#039;);
 
 function stripHandlebarsNewLine(str) {
     return str.replace(/[\s\t\r\n](\{\{[#\/])/g, &#039;$1&#039;);
@@ -277,37 +277,11 @@ logger.registerHelpers_ = function() {
 
         return text.join(&#039;\n&#039; + gutter);
     });
-
-    logger.registerStyles_();
-};
-
-logger.registerStyles_ = function() {
-    var styleList = [
-        &#039;black&#039;, &#039;blackBright&#039;,
-        &#039;red&#039;, &#039;redBright&#039;,
-        &#039;green&#039;, &#039;greenBright&#039;,
-        &#039;yellow&#039;, &#039;yellowBright&#039;,
-        &#039;blue&#039;, &#039;blueBright&#039;,
-        &#039;magenta&#039;, &#039;magentaBright&#039;,
-        &#039;cyan&#039;, &#039;cyanBright&#039;,
-        &#039;white&#039;, &#039;whiteBright&#039;,
-        &#039;italic&#039;, &#039;bold&#039;, &#039;underline&#039;, &#039;inverse&#039;, &#039;strike&#039;
-    ];
-
-    styleList.forEach(function(style) {
-        handlebars.registerHelper(style, function() {
-            var args = Array.prototype.slice.call(arguments);
-
-            args.pop();
-
-            return clc[style](args.join(&#039;&#039;));
-        });
-    });
 };
 
 logger.registerHelpers_();
 
-logger.clc = clc;
+logger.colors = colors;
 module.exports = logger;</textarea>
   </div>
 </div>

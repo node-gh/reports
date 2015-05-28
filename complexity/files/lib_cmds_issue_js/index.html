@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">68.04</p>
+      <p class="stat">68.48</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">448</p>
+      <p class="stat">445</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">41.17</p>
+      <p class="stat">43.19</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">3.64</p>
+      <p class="stat">4.29</p>
     </div>
   </div>
 </div>
@@ -211,50 +211,38 @@ Issue.prototype.run = function() {
         hooks.invoke(&#039;issue.close&#039;, instance, function(afterHooksCallback) {
             options.state = Issue.STATE_CLOSED;
 
-            logger.logTemplate(
-                &#039;Closing issue {{greenBright &quot;#&quot; options.number}} on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
-                    options: options
-                });
+            logger.log(&#039;Closing issue &#039; + logger.colors.green(&#039;#&#039; + options.number) +
+                &#039; on &#039; + logger.colors.green(options.user + &#039;/&#039; + options.repo));
 
-            instance.close(function(err) {
+            instance.close(function(err, issue) {
                 if (err) {
                     logger.error(&#039;Can\&#039;t close issue.&#039;);
                     return;
                 }
 
-                logger.logTemplate(&#039;{{issueLink}}&#039;, {
-                    options: options
-                });
-
+                logger.log(issue.html_url);
                 afterHooksCallback();
             });
         });
     }
 
     if (options.comment) {
-        logger.logTemplate(
-            &#039;Adding comment on issue {{greenBright &quot;#&quot; options.number}}&#039;, {
-                options: options
-            });
+        logger.log(&#039;Adding comment on issue &#039; + logger.colors.green(&#039;#&#039; + options.number));
 
-        instance.comment(function(err) {
+        instance.comment(function(err, issue) {
             if (err) {
                 logger.error(&#039;Can\&#039;t add comment.&#039;);
                 return;
             }
 
-            logger.logTemplate(&#039;{{issueLink}}&#039;, {
-                options: options
-            });
+            logger.log(issue.html_url);
         });
     }
 
     if (options.list) {
         if (options.all) {
-            logger.logTemplate(
-                &#039;Listing {{greenBright options.state}} issues for {{greenBright options.user}}&#039;, {
-                    options: options
-                });
+            logger.log(&#039;Listing &#039; + logger.colors.green(options.state) + &#039; issues for &#039; +
+                logger.colors.green(options.user));
 
             instance.listFromAllRepositories(function(err) {
                 if (err) {
@@ -264,10 +252,8 @@ Issue.prototype.run = function() {
             });
         }
         else {
-            logger.logTemplate(
-                &#039;Listing {{greenBright options.state}} issues on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
-                    options: options
-                });
+            logger.log(&#039;Listing &#039; + logger.colors.green(options.state) +
+                &#039; issues on &#039; + logger.colors.green(options.user + &#039;/&#039; + options.repo));
 
             instance.list(options.user, options.repo, function(err) {
                 if (err) {
@@ -280,10 +266,7 @@ Issue.prototype.run = function() {
 
     if (options.new) {
         hooks.invoke(&#039;issue.new&#039;, instance, function(afterHooksCallback) {
-            logger.logTemplate(
-                &#039;Creating a new issue on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
-                    options: options
-                });
+            logger.log(&#039;Creating a new issue on &#039; + logger.colors.green(options.user + &#039;/&#039; + options.repo));
 
             instance.new(function(err, issue) {
                 if (err) {
@@ -295,10 +278,7 @@ Issue.prototype.run = function() {
                     options.number = issue.number;
                 }
 
-                logger.logTemplate(&#039;{{issueLink}}&#039;, {
-                    options: options
-                });
-
+                logger.log(issue.html_url);
                 afterHooksCallback();
             });
         });
@@ -306,21 +286,16 @@ Issue.prototype.run = function() {
 
     if (options.open) {
         hooks.invoke(&#039;issue.open&#039;, instance, function(afterHooksCallback) {
-            logger.logTemplate(
-                &#039;Opening issue {{greenBright &quot;#&quot; options.number}} on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
-                    options: options
-                });
+            logger.log(&#039;Opening issue &#039; + logger.colors.green(&#039;#&#039; + options.number) +
+                &#039; on &#039; + logger.colors.green(options.user + &#039;/&#039; + options.repo));
 
-            instance.open(function(err) {
+            instance.open(function(err, issue) {
                 if (err) {
                     logger.error(&#039;Can\&#039;t open issue.&#039;);
                     return;
                 }
 
-                logger.logTemplate(&#039;{{issueLink}}&#039;, {
-                    options: options
-                });
-
+                logger.log(issue.html_url);
                 afterHooksCallback();
             });
         });
@@ -454,11 +429,12 @@ Issue.prototype.list = function(user, repo, opt_callback) {
     });
 
     async.series(operations, function(err, results) {
+        var issues = [];
+
         if (err &amp;&amp; !options.all) {
             logger.error(logger.getErrorMessage(err));
         }
 
-        var issues = [];
 
         results.forEach(function(result) {
             if (result) {
@@ -471,11 +447,32 @@ Issue.prototype.list = function(user, repo, opt_callback) {
         });
 
         if (issues &amp;&amp; issues.length &gt; 0) {
-            logger.logTemplateFile(&#039;issue.handlebars&#039;, {
-                detailed: options.detailed,
-                issues: issues,
-                repo: repo,
-                user: user
+            issues.forEach(function(issue) {
+                var labels = issue.label;
+
+                logger.log(logger.colors.green(&#039;#&#039; + issue.number) + &#039; &#039; + issue.title +
+                    logger.colors.magenta(&#039;@&#039; + user.login + &#039; (&#039; + logger.getDuration(issues.created_at) + &#039;)&#039;));
+
+                if (options.detailed) {
+                    if (issue.body) {
+                        logger.log(issue.body);
+                    }
+
+                    labels.forEach(function(label) {
+                        labels.push(label.name);
+                    });
+
+                    if (labels.length &gt; 0) {
+                        logger.log(logger.colors.green(&#039;label: &#039;) + labels.join(&#039;, &#039;));
+                    }
+
+                    if (issue.milestone) {
+                        logger.log(logger.colors.green(&#039;milestone: &#039;) +
+                            issue.milestone.title + &#039; - &#039; + issue.milestone.number);
+                    }
+
+                    logger.log(logger.colors.blue(issue.html_url));
+                }
             });
 
             opt_callback &amp;&amp; opt_callback(err);

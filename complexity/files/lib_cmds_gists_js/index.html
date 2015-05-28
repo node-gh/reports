@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">70.66</p>
+      <p class="stat">71.71</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">246</p>
+      <p class="stat">237</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">29.35</p>
+      <p class="stat">29.70</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">1.75</p>
+      <p class="stat">1.97</p>
     </div>
   </div>
 </div>
@@ -176,10 +176,7 @@ Gists.prototype.run = function() {
 
     if (options.delete) {
         hooks.invoke(&#039;gists.delete&#039;, instance, function(afterHooksCallback) {
-            logger.logTemplate(
-                &#039;Deleting gist {{greenBright options.loggedUser &quot;/&quot; options.delete}}&#039;, {
-                    options: options
-                });
+            logger.log(&#039;Deleting gist &#039; + logger.colors.green(options.loggedUser + &#039;/&#039; + options.delete));
 
             inquirer.prompt(
                 [
@@ -208,32 +205,22 @@ Gists.prototype.run = function() {
 
     if (options.fork) {
         hooks.invoke(&#039;gists.fork&#039;, instance, function(afterHooksCallback) {
-            logger.logTemplate(
-                &#039;Forking gist on {{greenBright options.loggedUser}}&#039;, {
-                    options: options
-                });
+            logger.log(&#039;Forking gist on &#039; + logger.colors.green(options.loggedUser));
 
-            instance.fork(options.fork, function(err) {
+            instance.fork(options.fork, function(err, gist) {
                 if (err) {
                     logger.error(JSON.parse(err.message).message);
                     return;
                 }
 
-                logger.logTemplate(
-                    &#039;https://gist.github.com/{{options.id}}&#039;, {
-                    options: options
-                });
-
+                logger.log(gist.html_url);
                 afterHooksCallback();
             });
         });
     }
 
     if (options.list) {
-        logger.logTemplate(
-            &#039;Listing gists for {{greenBright options.user}}&#039;, {
-                options: options
-            });
+        logger.log(&#039;Listing gists for &#039; + logger.colors.green(options.user));
 
         instance.list(options.user, function(err) {
             if (err) {
@@ -245,13 +232,13 @@ Gists.prototype.run = function() {
 
     if (options.new) {
         hooks.invoke(&#039;gists.new&#039;, instance, function(afterHooksCallback) {
+            var privacy = (options.private) ? &#039;private&#039; : &#039;public&#039;;
+
             operations = [];
             options.new = options.new;
 
-            logger.logTemplateFile(&#039;gi-new.handlebars&#039;, {
-                options: options,
-                privacy: options.private ? &#039;private&#039; : &#039;public&#039;
-            });
+            logger.log(&#039;Creating &#039; + logger.colors.magenta(privacy) + &#039; gist on &#039; +
+                logger.colors.green(options.loggedUser));
 
             instance.new(options.new, options.content, function(err, gist) {
                 if (gist) {
@@ -263,9 +250,7 @@ Gists.prototype.run = function() {
                     return;
                 }
 
-                logger.log(&#039;{{gistLink}}&#039;, {
-                    options: options
-                });
+                logger.log(gist.html_url);
 
                 afterHooksCallback();
             });
@@ -315,9 +300,15 @@ Gists.prototype.listCallback_ = function(err, gists, opt_callback) {
     }
 
     if (gists &amp;&amp; gists.length &gt; 0) {
-        logger.logTemplateFile(&#039;gi-list.handlebars&#039;, {
-            gists: gists,
-            user: options.user
+        gists.forEach(function(gist) {
+            logger.log(logger.colors.yellow(gist.owner.login + &#039;/&#039; + gist.id) +
+                &#039; &#039; + logger.getDuration(gist.updated_at));
+
+            if (gist.description) {
+                logger.log(gist.description);
+            }
+
+            logger.log(logger.colors.blue(gist.html_url) + &#039;\n&#039;);
         });
 
         opt_callback &amp;&amp; opt_callback(err);

@@ -242,14 +242,14 @@ exports.wrapCommand_ = function(cmd, context, when) {
             return;
         }
 
-        logger.log(logger.clc.cyanBright(&#039;[hook]&#039;), truncate(raw.trim(), 120));
+        logger.log(logger.colors.cyan(&#039;[hook]&#039;), truncate(raw.trim(), 120));
 
         try {
-            exec.execSync(raw, {cwd: process.cwd()});
+            exec.execSyncInteractiveStream(raw, {cwd: process.cwd()});
         } catch(e) {
             logger.debug(&#039;[&#039; + when + &#039; hook failure]&#039;);
         } finally {
-            logger.debug(logger.clc.cyanBright(&#039;[end of &#039; + when + &#039; hook]&#039;));
+            logger.debug(logger.colors.cyan(&#039;[end of &#039; + when + &#039; hook]&#039;));
         }
 
         callback &amp;&amp; callback();

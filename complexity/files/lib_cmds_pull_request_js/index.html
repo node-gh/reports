@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">70.64</p>
+      <p class="stat">70.58</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">933</p>
+      <p class="stat">942</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">58.91</p>
+      <p class="stat">63.35</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">8.33</p>
+      <p class="stat">9.25</p>
     </div>
   </div>
 </div>
@@ -228,7 +228,7 @@ PullRequest.prototype.run = function() {
     options.state = options.state || PullRequest.STATE_OPEN;
 
     if (!options.pullBranch &amp;&amp; (options.close || options.fetch || options.merge)) {
-        console.error(&#039;You\&#039;ve invoked a method that requires an issue number.&#039;);
+        logger.error(&#039;You\&#039;ve invoked a method that requires an issue number.&#039;);
     }
 
     if (options.browser) {
@@ -416,7 +416,10 @@ PullRequest.prototype.fetch = function(opt_type, opt_callback) {
         repoUrl = pull.head.repo.ssh_url;
 
         git.fetch(repoUrl, headBranch, options.pullBranch);
-        git[opt_type](options.pullBranch);
+
+        if (opt_type !== PullRequest.FETCH_TYPE_SILENT) {
+            git[opt_type](options.pullBranch);
+        }
 
         opt_callback(err, pull);
     });
@@ -615,10 +618,25 @@ PullRequest.prototype.list = function(user, repo, opt_callback) {
 
     async.series(operations, function(err) {
         if (!err &amp;&amp; pulls.length) {
-            json.repo = repo;
-            json.user = user;
-            json.detailed = options.detailed;
-            logger.logTemplateFile(&#039;pr.handlebars&#039;, json);
+            logger.log(logger.colors.yellow(user + &#039;/&#039; + repo));
+
+            json.branches.forEach(function(branch) {
+                logger.log(branch.name + &#039; (&#039; + branch.total + &#039;)&#039;);
+
+                branch.pulls.forEach(function(pull) {
+                    logger.log(logger.colors.green(&#039;#&#039; + pull.number) + &#039; &#039; +
+                        pull.title + &#039; &#039; + logger.colors.magenta(&#039;@&#039; + pull.user.login) +
+                        &#039; (&#039; + logger.getDuration(pull.created_at) + &#039;)&#039;);
+
+                    if (options.detailed) {
+                        logger.log(logger.colors.blue(pull.html_url) + &#039;\n&#039;);
+                    }
+
+                    if (pull.body) {
+                        logger.log(pull.body + &#039;\n&#039;);
+                    }
+                });
+            });
         }
 
         opt_callback &amp;&amp; opt_callback(err);
@@ -832,10 +850,22 @@ PullRequest.prototype._fetchHandler = function() {
     }
 
     hooks.invoke(&#039;pull-request.fetch&#039;, instance, function(afterHooksCallback) {
-        logger.logTemplateFile(&#039;pr-fetch.handlebars&#039;, {
-            currentBranch: options.currentBranch,
-            options: options
-        });
+        var operation = &#039;&#039;,
+            branch = options.pullBranch;
+
+        if (options.merge) {
+            operation = &#039; and merging&#039;;
+            branch = options.currentBranch;
+        }
+
+        if (options.rebase) {
+            operation = &#039; and rebasing&#039;;
+            branch = options.currentBranch;
+        }
+
+        logger.log(&#039;Fetching pull request &#039; +
+            logger.colors.green(&#039;#&#039; + options.number) + operation +
+            &#039; into branch &#039; + logger.colors.green(branch));
 
         instance.fetch(fetchType, function(err) {
             if (err) {
@@ -850,12 +880,16 @@ PullRequest.prototype._fetchHandler = function() {
 
 PullRequest.prototype._mergeHandler = function() {
     var instance = this,
-        options = this.options;
+        options = this.options,
+        operation = &#039;Merging&#039;;
 
     hooks.invoke(&#039;pull-request.merge&#039;, instance, function(afterHooksCallback) {
-        logger.logTemplateFile(&#039;pr-merge.handlebars&#039;, {
-            options: options
-        });
+        if (options.rebase) {
+            operation = &#039;Rebasing&#039;;
+        }
+
+        logger.log(operation + &#039; pull request &#039; + logger.colors.green(&#039;#&#039; + options.number) +
+            &#039; into branch &#039; + logger.colors.green(options.branch));
 
         instance.merge();
         instance.setMergeCommentRequiredOptions_(afterHooksCallback);
@@ -867,10 +901,8 @@ PullRequest.prototype._fwdHandler = function() {
         options = this.options;
 
     hooks.invoke(&#039;pull-request.fwd&#039;, instance, function(afterHooksCallback) {
-        logger.logTemplate(
-            &#039;Forwarding pull request {{greenBright &quot;#&quot; options.number}} to {{{magentaBright &quot;@&quot; options.fwd}}}&#039;, {
-                options: options
-            });
+        logger.log(&#039;Forwarding pull request &#039; +
+            logger.colors.green(&#039;#&#039; + options.number) + &#039; to &#039; + logger.colors.magenta(&#039;@&#039; + options.fwd));
 
         instance.forward(function(err, pull) {
             if (err) {
@@ -882,10 +914,7 @@ PullRequest.prototype._fwdHandler = function() {
                 options.forwardedPull = pull.number;
             }
 
-            logger.logTemplate(&#039;{{forwardedLink}}&#039;, {
-                options: options
-            });
-
+            logger.log(pull.html_url);
             instance.setMergeCommentRequiredOptions_(afterHooksCallback);
         });
     });
@@ -896,20 +925,15 @@ PullRequest.prototype._closeHandler = function() {
         options = this.options;
 
     hooks.invoke(&#039;pull-request.close&#039;, instance, function(afterHooksCallback) {
-        logger.logTemplate(
-            &#039;Closing pull request {{greenBright &quot;#&quot; options.number}}&#039;, {
-                options: options
-            });
+        logger.log(&#039;Closing pull request &#039; + logger.colors.green(&#039;#&#039; + options.number));
 
-        instance.close(function(err) {
+        instance.close(function(err, pull) {
             if (err) {
                 logger.warn(&#039;Can\&#039;t close pull request &#039; + options.number + &#039;.&#039;);
                 return;
             }
 
-            logger.logTemplate(&#039;{{link}}&#039;, {
-                options: options
-            });
+            logger.log(pull.html_url);
 
             instance.setMergeCommentRequiredOptions_(afterHooksCallback);
         });
@@ -919,34 +943,34 @@ PullRequest.prototype._closeHandler = function() {
 PullRequest.prototype._commentHandler = function() {
     var options = this.options;
 
-    logger.logTemplate(&#039;Adding comment on pull request {{greenBright &quot;#&quot; options.number}}&#039;, {
-        options: options
-    });
+    logger.log(&#039;Adding comment on pull request &#039; + logger.colors.green(&#039;#&#039; + options.number));
 
-    this.issue.comment(function(err) {
+    this.issue.comment(function(err, pull) {
         if (err) {
             logger.error(&#039;Can\&#039;t comment on pull request &#039; + options.number + &#039;.&#039;);
             return;
         }
 
-        logger.logTemplate(&#039;{{link}}&#039;, {
-            options: options
-        });
+        logger.log(pull.html_url);
     });
 };
 
 PullRequest.prototype._listHandler = function() {
     var instance = this,
-        options = this.options;
+        options = this.options,
+        who;
 
     options.sort = options.sort || PullRequest.SORT_CREATED;
     options.direction = options.direction || PullRequest.DIRECTION_DESC;
 
     if (options.all) {
-        logger.logTemplate(
-            &#039;Listing all {{options.state}} pull requests for {{#if options.org}}{{greenBright options.org}}{{else}}{{greenBright options.user}}{{/if}}&#039;, {
-                options: options
-            });
+        who = options.user;
+
+        if (options.org) {
+            who = options.org;
+        }
+
+        logger.log(&#039;Listing all &#039; + options.state + &#039; pull requests for &#039; + logger.colors.green(who));
 
         instance.listFromAllRepositories(function(err) {
             if (err) {
@@ -957,16 +981,13 @@ PullRequest.prototype._listHandler = function() {
     }
     else {
         if (options.me) {
-            logger.logTemplate(
-                &#039;Listing {{options.state}} pull requests sent by {{greenBright options.loggedUser}} on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
-                    options: options
-                });
+            logger.log(&#039;Listing &#039; + options.state + &#039; pull requests sent by &#039; +
+                logger.colors.green(options.loggedUser) + &#039; on &#039; +
+                logger.colors.green(options.user + &#039;/&#039; + options.repo));
         }
         else {
-            logger.logTemplate(
-                &#039;Listing {{options.state}} pull requests on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
-                    options: options
-                });
+            logger.log(&#039;Listing &#039; + options.state + &#039; pull requests on &#039; +
+                logger.colors.green(options.user + &#039;/&#039; + options.repo));
         }
         instance.list(options.user, options.repo, function(err) {
             if (err) {
@@ -982,21 +1003,15 @@ PullRequest.prototype._openHandler = function() {
         options = this.options;
 
     hooks.invoke(&#039;pull-request.open&#039;, instance, function(afterHooksCallback) {
-        logger.logTemplate(
-            &#039;Opening pull request {{greenBright &quot;#&quot; options.number}}&#039;, {
-                options: options
-            });
+        logger.log(&#039;Opening pull request &#039; + logger.colors.green(&#039;#&#039; + options.number));
 
-        instance.open(function(err) {
+        instance.open(function(err, pull) {
             if (err) {
                 logger.error(&#039;Can\&#039;t open pull request &#039; + options.number + &#039;.&#039;);
                 return;
             }
 
-            logger.logTemplate(&#039;{{link}}&#039;, {
-                options: options
-            });
-
+            logger.log(pull.html_url);
             afterHooksCallback();
         });
     });
@@ -1007,10 +1022,7 @@ PullRequest.prototype._submitHandler = function() {
         options = this.options;
 
     hooks.invoke(&#039;pull-request.submit&#039;, instance, function(afterHooksCallback) {
-        logger.logTemplate(
-            &#039;Submitting pull request to {{{magentaBright &quot;@&quot; options.submit}}}&#039;, {
-                options: options
-            });
+        logger.log(&#039;Submitting pull request to &#039; + logger.colors.magenta(&#039;@&#039; + options.submit));
 
         instance.submit(options.submit, function(err, pull) {
             if (err) {
@@ -1022,10 +1034,7 @@ PullRequest.prototype._submitHandler = function() {
                 options.submittedPull = pull.number;
             }
 
-            logger.logTemplate(&#039;{{submittedLink}}&#039;, {
-                options: options
-            });
-
+            logger.log(pull.html_url);
             instance.setMergeCommentRequiredOptions_(afterHooksCallback);
         });
     });

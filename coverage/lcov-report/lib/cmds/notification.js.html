@@ -15,10 +15,10 @@
 <div class="header low">
     <h1>Code coverage report for <span class="entity">lib/cmds/notification.js</span></h1>
     <h2>
-        Statements: <span class="metric">1.23% <small>(1 / 81)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">0% <small>(0 / 33)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">0% <small>(0 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">1.23% <small>(1 / 81)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">1.19% <small>(1 / 84)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 35)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">0% <small>(0 / 13)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">1.19% <small>(1 / 84)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/cmds/</a> &#187; notification.js</div>
@@ -234,14 +234,7 @@
 207
 208
 209
-210
-211
-212
-213
-214
-215
-216
-217</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+210</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -256,7 +249,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -306,19 +298,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -373,9 +357,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -473,7 +459,6 @@
 &nbsp;
 <span class="cstat-no" title="statement not covered" >var async = require('async'),</span>
     base = require('../base'),
-    clc = require('cli-color'),
     logger = require('../logger'),
     printed = {};
 &nbsp;
@@ -521,20 +506,12 @@
         options = instance.options;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.latest) {</span>
-<span class="cstat-no" title="statement not covered" >        logger.logTemplate(</span>
-            'Listing activities on {{greenBright options.user "/" options.repo}}', {
-                options: options
-            });
-&nbsp;
+<span class="cstat-no" title="statement not covered" >        logger.log('Listing activities on ' + logger.colors.green(options.user + '/' + options.repo));</span>
 <span class="cstat-no" title="statement not covered" >        instance.latest();</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.watch) {</span>
-<span class="cstat-no" title="statement not covered" >        logger.logTemplate(</span>
-            'Watching any activity on {{greenBright options.user "/" options.repo}}', {
-                options: options
-            });
-&nbsp;
+<span class="cstat-no" title="statement not covered" >        logger.log('Watching any activity on ' + logger.colors.green(options.user + '/' + options.repo));</span>
 <span class="cstat-no" title="statement not covered" >        instance.watch();</span>
     }
 };
@@ -566,7 +543,7 @@
 <span class="cstat-no" title="statement not covered" >            listEvents.forEach(<span class="fstat-no" title="function not covered" >function(event) {</span></span>
 <span class="cstat-no" title="statement not covered" >                event.txt = instance.getMessage_(event);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                if (options.watch) {</span>
+<span class="cstat-no" title="statement not covered" >                if (opt_watch) {</span>
 <span class="cstat-no" title="statement not covered" >                    if (!printed[event.created_at]) {</span>
 <span class="cstat-no" title="statement not covered" >                        filteredListEvents.push(event);</span>
                     }
@@ -588,12 +565,14 @@
         }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (filteredListEvents.length) {</span>
-<span class="cstat-no" title="statement not covered" >            logger.logTemplateFile('notification.handlebars', {</span>
-                events: filteredListEvents,
-                latest: options.latest,
-                repo: options.repo,
-                user: options.user,
-                watch: opt_watch
+<span class="cstat-no" title="statement not covered" >            if (!options.watch) {</span>
+<span class="cstat-no" title="statement not covered" >                logger.log(logger.colors.yellow(options.user + '/' + options.repo));</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            filteredListEvents.forEach(<span class="fstat-no" title="function not covered" >function(event) {</span></span>
+<span class="cstat-no" title="statement not covered" >                logger.log(logger.colors.magenta('@' + event.actor.login) + ' ' +</span>
+                    event.txt + ' ' + logger.colors.cyan(options.repo) + ' ' +
+                    logger.getDuration(event.created_at));
             });
         }
     });
@@ -620,25 +599,25 @@
 <span class="cstat-no" title="statement not covered" >            txt = 'commented on a commit at';</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
         case 'CreateEvent':
-<span class="cstat-no" title="statement not covered" >            txt = 'created ' + payload.ref_type + ' ' + clc.greenBright(payload.ref) + ' at';</span>
+<span class="cstat-no" title="statement not covered" >            txt = 'created ' + payload.ref_type + ' ' + logger.colors.green(payload.ref) + ' at';</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
         case 'DeleteEvent':
-<span class="cstat-no" title="statement not covered" >            txt = 'removed ' + payload.ref_type + ' ' + clc.greenBright(payload.ref) + ' at';</span>
+<span class="cstat-no" title="statement not covered" >            txt = 'removed ' + payload.ref_type + ' ' + logger.colors.green(payload.ref) + ' at';</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
         case 'ForkEvent':
 <span class="cstat-no" title="statement not covered" >            txt = 'forked';</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
         case 'GollumEvent':
-<span class="cstat-no" title="statement not covered" >            txt = payload.pages[0].action + ' the ' + clc.greenBright(payload.pages[0].page_name) + ' wiki page at';</span>
+<span class="cstat-no" title="statement not covered" >            txt = payload.pages[0].action + ' the ' + logger.colors.green(payload.pages[0].page_name) + ' wiki page at';</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
         case 'IssueCommentEvent':
-<span class="cstat-no" title="statement not covered" >            txt = 'commented on issue ' + clc.greenBright('#' + payload.issue.number) + ' at';</span>
+<span class="cstat-no" title="statement not covered" >            txt = 'commented on issue ' + logger.colors.green('#' + payload.issue.number) + ' at';</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
         case 'IssuesEvent':
-<span class="cstat-no" title="statement not covered" >            txt = payload.action + ' issue ' + clc.greenBright('#' + payload.issue.number) + ' at';</span>
+<span class="cstat-no" title="statement not covered" >            txt = payload.action + ' issue ' + logger.colors.green('#' + payload.issue.number) + ' at';</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
         case 'MemberEvent':
-<span class="cstat-no" title="statement not covered" >            txt = 'added ' + clc.greenBright('@' + payload.member.login) + ' as a collaborator to';</span>
+<span class="cstat-no" title="statement not covered" >            txt = 'added ' + logger.colors.green('@' + payload.member.login) + ' as a collaborator to';</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
         case 'PageBuildEvent':
 <span class="cstat-no" title="statement not covered" >            txt = 'builded a GitHub Page at';</span>
@@ -647,16 +626,16 @@
 <span class="cstat-no" title="statement not covered" >            txt = 'open sourced';</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
         case 'PullRequestEvent':
-<span class="cstat-no" title="statement not covered" >            txt = payload.action + ' pull request ' + clc.greenBright('#' + payload.number) + ' at';</span>
+<span class="cstat-no" title="statement not covered" >            txt = payload.action + ' pull request ' + logger.colors.green('#' + payload.number) + ' at';</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
         case 'PullRequestReviewCommentEvent':
-<span class="cstat-no" title="statement not covered" >            txt = 'commented on pull request ' + clc.greenBright('#' + payload.pull_request.number) + ' at';</span>
+<span class="cstat-no" title="statement not covered" >            txt = 'commented on pull request ' + logger.colors.green('#' + payload.pull_request.number) + ' at';</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
         case 'PushEvent':
-<span class="cstat-no" title="statement not covered" >            txt = 'pushed ' + clc.greenBright(payload.size) + ' commit(s) to';</span>
+<span class="cstat-no" title="statement not covered" >            txt = 'pushed ' + logger.colors.green(payload.size) + ' commit(s) to';</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
         case 'ReleaseEvent':
-<span class="cstat-no" title="statement not covered" >            txt = 'released ' + clc.greenBright(payload.release.tag_name) + ' at';</span>
+<span class="cstat-no" title="statement not covered" >            txt = 'released ' + logger.colors.green(payload.release.tag_name) + ' at';</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
         case 'StatusEvent':
 <span class="cstat-no" title="statement not covered" >            txt = 'changed the status of a commit at';</span>
@@ -665,7 +644,7 @@
 <span class="cstat-no" title="statement not covered" >            txt = 'starred';</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
         default:
-<span class="cstat-no" title="statement not covered" >            logger.error('event type not found: ' + clc.red(type));</span>
+<span class="cstat-no" title="statement not covered" >            logger.error('event type not found: ' + logger.colors.red(type));</span>
 <span class="cstat-no" title="statement not covered" >            break;</span>
     }
 &nbsp;
@@ -678,7 +657,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed May 20 2015 21:52:55 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 28 2015 05:07:48 GMT+0000 (UTC)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>

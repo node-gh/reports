@@ -15,10 +15,10 @@
 <div class="header low">
     <h1>Code coverage report for <span class="entity">lib/logger.js</span></h1>
     <h2>
-        Statements: <span class="metric">42.55% <small>(40 / 94)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">40.7% <small>(35 / 86)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Branches: <span class="metric">6.9% <small>(2 / 29)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">28% <small>(7 / 25)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">42.55% <small>(40 / 94)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">22.73% <small>(5 / 22)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">40.7% <small>(35 / 86)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">lib/</a> &#187; logger.js</div>
@@ -219,33 +219,7 @@
 192
 193
 194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+195</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -434,32 +408,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-yes">42</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -478,12 +426,12 @@
 'use strict';
 &nbsp;
 var logger = {},
-    clc = require('cli-color'),
     fs = require('fs'),
     handlebars = require('handlebars'),
     moment = require('moment'),
     path = require('path'),
-    wrap = require('wordwrap').hard(0, 80);
+    wrap = require('wordwrap').hard(0, 80),
+    colors = require('colors/safe');
 &nbsp;
 <span class="fstat-no" title="function not covered" >function stripHandlebarsNewLine(str) {</span>
 <span class="cstat-no" title="statement not covered" >    return str.replace(/[\s\t\r\n](\{\{[#\/])/g, '$1');</span>
@@ -653,44 +601,18 @@ logger.registerHelpers_ = function() {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        return text.join('\n' + gutter);</span>
     });
-&nbsp;
-    logger.registerStyles_();
-};
-&nbsp;
-logger.registerStyles_ = function() {
-    var styleList = [
-        'black', 'blackBright',
-        'red', 'redBright',
-        'green', 'greenBright',
-        'yellow', 'yellowBright',
-        'blue', 'blueBright',
-        'magenta', 'magentaBright',
-        'cyan', 'cyanBright',
-        'white', 'whiteBright',
-        'italic', 'bold', 'underline', 'inverse', 'strike'
-    ];
-&nbsp;
-    styleList.forEach(function(style) {
-        handlebars.registerHelper(style, <span class="fstat-no" title="function not covered" >function() {</span>
-<span class="cstat-no" title="statement not covered" >            var args = Array.prototype.slice.call(arguments);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >            args.pop();</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >            return clc[style](args.join(''));</span>
-        });
-    });
 };
 &nbsp;
 logger.registerHelpers_();
 &nbsp;
-logger.clc = clc;
+logger.colors = colors;
 module.exports = logger;
 &nbsp;</pre></td></tr>
 </table></pre>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed May 20 2015 21:52:55 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 28 2015 05:07:48 GMT+0000 (UTC)</div>
 </div>
 <script src="../prettify.js"></script>
 <script>

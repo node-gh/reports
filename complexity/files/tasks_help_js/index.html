@@ -91,7 +91,7 @@
   <div class="row">
     <textarea id="file-source" class="col-md-12">&#039;use strict&#039;;
 
-var clc = require(&#039;cli-color&#039;),
+var colors = require(&#039;colors&#039;),
     header,
     content;
 
@@ -124,7 +124,7 @@ function help() {
     });
 
     methods.forEach(function(item) {
-        output += &#039;  &#039; + clc.cyan(item) +
+        output += &#039;  &#039; + colors.cyan(item) +
             new Array(spacing - item.length + 2).join(&#039; &#039;) +
             content[item] + &#039;\n&#039;;
     });

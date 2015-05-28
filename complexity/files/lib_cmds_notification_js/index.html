@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">63.73</p>
+      <p class="stat">64.68</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">206</p>
+      <p class="stat">199</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">22.48</p>
+      <p class="stat">24.39</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">1.59</p>
+      <p class="stat">1.80</p>
     </div>
   </div>
 </div>
@@ -105,7 +105,6 @@
 
 var async = require(&#039;async&#039;),
     base = require(&#039;../base&#039;),
-    clc = require(&#039;cli-color&#039;),
     logger = require(&#039;../logger&#039;),
     printed = {};
 
@@ -153,20 +152,12 @@ Notifications.prototype.run = function() {
         options = instance.options;
 
     if (options.latest) {
-        logger.logTemplate(
-            &#039;Listing activities on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
-                options: options
-            });
-
+        logger.log(&#039;Listing activities on &#039; + logger.colors.green(options.user + &#039;/&#039; + options.repo));
         instance.latest();
     }
 
     if (options.watch) {
-        logger.logTemplate(
-            &#039;Watching any activity on {{greenBright options.user &quot;/&quot; options.repo}}&#039;, {
-                options: options
-            });
-
+        logger.log(&#039;Watching any activity on &#039; + logger.colors.green(options.user + &#039;/&#039; + options.repo));
         instance.watch();
     }
 };
@@ -198,7 +189,7 @@ Notifications.prototype.latest = function(opt_watch) {
             listEvents.forEach(function(event) {
                 event.txt = instance.getMessage_(event);
 
-                if (options.watch) {
+                if (opt_watch) {
                     if (!printed[event.created_at]) {
                         filteredListEvents.push(event);
                     }
@@ -220,12 +211,14 @@ Notifications.prototype.latest = function(opt_watch) {
         }
 
         if (filteredListEvents.length) {
-            logger.logTemplateFile(&#039;notification.handlebars&#039;, {
-                events: filteredListEvents,
-                latest: options.latest,
-                repo: options.repo,
-                user: options.user,
-                watch: opt_watch
+            if (!options.watch) {
+                logger.log(logger.colors.yellow(options.user + &#039;/&#039; + options.repo));
+            }
+
+            filteredListEvents.forEach(function(event) {
+                logger.log(logger.colors.magenta(&#039;@&#039; + event.actor.login) + &#039; &#039; +
+                    event.txt + &#039; &#039; + logger.colors.cyan(options.repo) + &#039; &#039; +
+                    logger.getDuration(event.created_at));
             });
         }
     });
@@ -252,25 +245,25 @@ Notifications.prototype.getMessage_ = function(event) {
             txt = &#039;commented on a commit at&#039;;
             break;
         case &#039;CreateEvent&#039;:
-            txt = &#039;created &#039; + payload.ref_type + &#039; &#039; + clc.greenBright(payload.ref) + &#039; at&#039;;
+            txt = &#039;created &#039; + payload.ref_type + &#039; &#039; + logger.colors.green(payload.ref) + &#039; at&#039;;
             break;
         case &#039;DeleteEvent&#039;:
-            txt = &#039;removed &#039; + payload.ref_type + &#039; &#039; + clc.greenBright(payload.ref) + &#039; at&#039;;
+            txt = &#039;removed &#039; + payload.ref_type + &#039; &#039; + logger.colors.green(payload.ref) + &#039; at&#039;;
             break;
         case &#039;ForkEvent&#039;:
             txt = &#039;forked&#039;;
             break;
         case &#039;GollumEvent&#039;:
-            txt = payload.pages[0].action + &#039; the &#039; + clc.greenBright(payload.pages[0].page_name) + &#039; wiki page at&#039;;
+            txt = payload.pages[0].action + &#039; the &#039; + logger.colors.green(payload.pages[0].page_name) + &#039; wiki page at&#039;;
             break;
         case &#039;IssueCommentEvent&#039;:
-            txt = &#039;commented on issue &#039; + clc.greenBright(&#039;#&#039; + payload.issue.number) + &#039; at&#039;;
+            txt = &#039;commented on issue &#039; + logger.colors.green(&#039;#&#039; + payload.issue.number) + &#039; at&#039;;
             break;
         case &#039;IssuesEvent&#039;:
-            txt = payload.action + &#039; issue &#039; + clc.greenBright(&#039;#&#039; + payload.issue.number) + &#039; at&#039;;
+            txt = payload.action + &#039; issue &#039; + logger.colors.green(&#039;#&#039; + payload.issue.number) + &#039; at&#039;;
             break;
         case &#039;MemberEvent&#039;:
-            txt = &#039;added &#039; + clc.greenBright(&#039;@&#039; + payload.member.login) + &#039; as a collaborator to&#039;;
+            txt = &#039;added &#039; + logger.colors.green(&#039;@&#039; + payload.member.login) + &#039; as a collaborator to&#039;;
             break;
         case &#039;PageBuildEvent&#039;:
             txt = &#039;builded a GitHub Page at&#039;;
@@ -279,16 +272,16 @@ Notifications.prototype.getMessage_ = function(event) {
             txt = &#039;open sourced&#039;;
             break;
         case &#039;PullRequestEvent&#039;:
-            txt = payload.action + &#039; pull request &#039; + clc.greenBright(&#039;#&#039; + payload.number) + &#039; at&#039;;
+            txt = payload.action + &#039; pull request &#039; + logger.colors.green(&#039;#&#039; + payload.number) + &#039; at&#039;;
             break;
         case &#039;PullRequestReviewCommentEvent&#039;:
-            txt = &#039;commented on pull request &#039; + clc.greenBright(&#039;#&#039; + payload.pull_request.number) + &#039; at&#039;;
+            txt = &#039;commented on pull request &#039; + logger.colors.green(&#039;#&#039; + payload.pull_request.number) + &#039; at&#039;;
             break;
         case &#039;PushEvent&#039;:
-            txt = &#039;pushed &#039; + clc.greenBright(payload.size) + &#039; commit(s) to&#039;;
+            txt = &#039;pushed &#039; + logger.colors.green(payload.size) + &#039; commit(s) to&#039;;
             break;
         case &#039;ReleaseEvent&#039;:
-            txt = &#039;released &#039; + clc.greenBright(payload.release.tag_name) + &#039; at&#039;;
+            txt = &#039;released &#039; + logger.colors.green(payload.release.tag_name) + &#039; at&#039;;
             break;
         case &#039;StatusEvent&#039;:
             txt = &#039;changed the status of a commit at&#039;;
@@ -297,7 +290,7 @@ Notifications.prototype.getMessage_ = function(event) {
             txt = &#039;starred&#039;;
             break;
         default:
-            logger.error(&#039;event type not found: &#039; + clc.red(type));
+            logger.error(&#039;event type not found: &#039; + logger.colors.red(type));
             break;
     }
 

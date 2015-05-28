@@ -15,10 +15,10 @@
 <div class="header low">
     <h1>Code coverage report for <span class="entity">lib/cmds/alias.js</span></h1>
     <h2>
-        Statements: <span class="metric">3.23% <small>(1 / 31)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">0% <small>(0 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">2.94% <small>(1 / 34)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Functions: <span class="metric">0% <small>(0 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">3.23% <small>(1 / 31)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">2.94% <small>(1 / 34)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/cmds/</a> &#187; alias.js</div>
@@ -137,10 +137,7 @@
 110
 111
 112
-113
-114
-115
-116</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+113</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -210,10 +207,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -221,15 +214,16 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -324,27 +318,24 @@
 <span class="cstat-no" title="statement not covered" >            logger.error('You must specify an user, try --user username.');</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        logger.logTemplate(</span>
-            'Creating alias {{greenBright options.add}} for user {{greenBright options.user}}', {
-                options: options
-            });
-&nbsp;
+<span class="cstat-no" title="statement not covered" >        logger.debug('Creating alias ' + options.add);</span>
 <span class="cstat-no" title="statement not covered" >        instance.add();</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.list) {</span>
 <span class="cstat-no" title="statement not covered" >        instance.list(<span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
-<span class="cstat-no" title="statement not covered" >            logger.logTemplateFile('alias.handlebars', {</span>
-                alias: data
-            });
+<span class="cstat-no" title="statement not covered" >            var item;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            for (item in data) {</span>
+<span class="cstat-no" title="statement not covered" >                if (data.hasOwnProperty(item)) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.log(logger.colors.cyan(item) + ': ' + logger.colors.magenta(data[item]));</span>
+                }
+            }
         });
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.remove) {</span>
-<span class="cstat-no" title="statement not covered" >        logger.logTemplate('Removing alias {{greenBright options.remove}}', {</span>
-            options: options
-        });
-&nbsp;
+<span class="cstat-no" title="statement not covered" >        logger.debug('Removing alias ' + options.remove);</span>
 <span class="cstat-no" title="statement not covered" >        instance.remove();</span>
     }
 };
@@ -375,7 +366,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed May 20 2015 21:52:55 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 28 2015 05:07:48 GMT+0000 (UTC)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>
