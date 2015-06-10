@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">70.58</p>
+      <p class="stat">70.48</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">942</p>
+      <p class="stat">993</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">63.35</p>
+      <p class="stat">63.97</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">9.25</p>
+      <p class="stat">9.79</p>
     </div>
   </div>
 </div>
@@ -136,6 +136,7 @@ PullRequest.DETAILS = {
         &#039;comment&#039;,
         &#039;fetch&#039;,
         &#039;fwd&#039;,
+        &#039;info&#039;,
         &#039;list&#039;,
         &#039;merge&#039;,
         &#039;open&#039;,
@@ -154,6 +155,7 @@ PullRequest.DETAILS = {
         &#039;fetch&#039;: Boolean,
         &#039;fwd&#039;: String,
         &#039;issue&#039;: Number,
+        &#039;info&#039;: Boolean,
         &#039;list&#039;: Boolean,
         &#039;me&#039;: Boolean,
         &#039;merge&#039;: Boolean,
@@ -179,6 +181,7 @@ PullRequest.DETAILS = {
         &#039;d&#039;: [&#039;--detailed&#039;],
         &#039;f&#039;: [&#039;--fetch&#039;],
         &#039;i&#039;: [&#039;--issue&#039;],
+        &#039;I&#039;: [&#039;--info&#039;],
         &#039;l&#039;: [&#039;--list&#039;],
         &#039;M&#039;: [&#039;--merge&#039;],
         &#039;m&#039;: [&#039;--me&#039;],
@@ -260,6 +263,10 @@ PullRequest.prototype.run = function() {
 
     if (options.fwd) {
         this._fwdHandler();
+    }
+
+    if (options.info) {
+        this._infoHandler();
     }
 
     if (options.list) {
@@ -541,6 +548,50 @@ PullRequest.prototype.getPullsTemplateJson_ = function(pulls, opt_callback) {
     opt_callback &amp;&amp; opt_callback(null, json);
 };
 
+PullRequest.prototype.printPullInfo_ = function(pull) {
+    var options = this.options;
+
+    logger.log(logger.colors.green(&#039;#&#039; + pull.number) + &#039; &#039; +
+        pull.title + &#039; &#039; + logger.colors.magenta(&#039;@&#039; + pull.user.login) +
+        &#039; (&#039; + logger.getDuration(pull.created_at) + &#039;)&#039;);
+
+    if (options.detailed) {
+        logger.log(logger.colors.blue(pull.html_url));
+    }
+
+    if (pull.mergeable) {
+        logger.log(&#039;Mergeable (&#039; + pull.mergeable_state + &#039;)&#039;);
+    }
+
+    if (pull.mergeable === false) {
+        logger.warn(&#039;Not mergeable (&#039; + pull.mergeable_state + &#039;)&#039;);
+    }
+
+    if (pull.body) {
+        logger.log(pull.body + &#039;\n&#039;);
+    }
+};
+
+PullRequest.prototype.get = function(user, repo, number) {
+    var pr = this,
+        payload;
+
+    payload = {
+        repo: repo,
+        user: user,
+        number: number
+    };
+
+    base.github.pullRequests.get(payload, function(err, pull) {
+        if (err) {
+            logger.warn(&#039;Can\&#039;t get pull request &#039; + user + &#039;/&#039; + repo + &#039;/&#039; + number);
+            return;
+        }
+
+        pr.printPullInfo_(pull);
+    });
+};
+
 PullRequest.prototype.list = function(user, repo, opt_callback) {
     var instance = this,
         options = instance.options,
@@ -623,19 +674,7 @@ PullRequest.prototype.list = function(user, repo, opt_callback) {
             json.branches.forEach(function(branch) {
                 logger.log(branch.name + &#039; (&#039; + branch.total + &#039;)&#039;);
 
-                branch.pulls.forEach(function(pull) {
-                    logger.log(logger.colors.green(&#039;#&#039; + pull.number) + &#039; &#039; +
-                        pull.title + &#039; &#039; + logger.colors.magenta(&#039;@&#039; + pull.user.login) +
-                        &#039; (&#039; + logger.getDuration(pull.created_at) + &#039;)&#039;);
-
-                    if (options.detailed) {
-                        logger.log(logger.colors.blue(pull.html_url) + &#039;\n&#039;);
-                    }
-
-                    if (pull.body) {
-                        logger.log(pull.body + &#039;\n&#039;);
-                    }
-                });
+                branch.pulls.forEach(instance.printPullInfo_, instance);
             });
         }
 
@@ -952,6 +991,18 @@ PullRequest.prototype._commentHandler = function() {
         }
 
         logger.log(pull.html_url);
+    });
+};
+
+PullRequest.prototype._infoHandler = function() {
+    var instance = this,
+        options = this.options;
+
+    instance.get(options.user, options.repo, options.number, function(err) {
+        if (err) {
+            logger.error(&#039;Can\&#039;t get pull requests.&#039;);
+            return;
+        }
     });
 };
 
