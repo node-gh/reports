@@ -1,15 +1,15 @@
-Source code report for node-gh/gh@9ae78d3e7f5b34bab3f751b04928c74d6f907188
-Revision: 9ae78d3e7f5b34bab3f751b04928c74d6f907188 (master)
-Date: Mon Jun 22 13:27:19 UTC 2015
-https://travis-ci.org/node-gh/gh/jobs/67838262
+Source code report for node-gh/gh@f257495e7a158aaa84c52508487029d5dde57f45
+Revision: f257495e7a158aaa84c52508487029d5dde57f45 (master)
+Date: Mon Jun 22 13:34:08 UTC 2015
+https://travis-ci.org/node-gh/gh/jobs/67838969
 
-Travis Build ID: 67838261
-Travis Build number: 646
-Travis Job ID: 67838262
-Travis Job Number: 646.1
+Travis Build ID: 67838968
+Travis Build number: 647
+Travis Job ID: 67838969
+Travis Job Number: 647.1
 Travis repo slug: node-gh/gh
 
-Linux testing-worker-linux-f25aadab-1-20030-linux-1-67838262 2.6.32-042stab094.7 #1 SMP Wed Oct 22 12:43:21 MSK 2014 x86_64 x86_64 x86_64 GNU/Linux
+Linux testing-worker-linux-da6418d7-2-6069-linux-4-67838969 2.6.32-042stab108.3 #1 SMP Thu Jun 11 21:06:20 MSK 2015 x86_64 x86_64 x86_64 GNU/Linux
 
 node v0.12.4
 npm 2.10.1

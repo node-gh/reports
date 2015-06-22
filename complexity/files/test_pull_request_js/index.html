@@ -44,11 +44,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">79.21</p>
+      <p class="stat">77.97</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">92</p>
+      <p class="stat">99</p>
     </div>
   </div>
   <div class="row historical">
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">14.81</p>
+      <p class="stat">16.30</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.54</p>
+      <p class="stat">0.58</p>
     </div>
   </div>
 </div>
@@ -133,9 +133,10 @@ describe(&#039;Pull Requests Module Tests&#039;, function() {
     });
 
     it(&#039;should get pull request with mergeable state clean&#039;, function() {
-        var pr = new pullRequest.Impl({
-            repo: &#039;senna.js&#039;
-        });
+        var cleanLogFound = false,
+            pr = new pullRequest.Impl({
+                repo: &#039;senna.js&#039;
+            });
 
         pr.options.info = true;
 
@@ -143,6 +144,8 @@ describe(&#039;Pull Requests Module Tests&#039;, function() {
             &#039;logger.log&#039;: function() {
                 // only evaluate that the clean has a green log message
                 if (arguments[0].indexOf(&quot;clean&quot;) &gt; 1) {
+                    cleanLogFound = true;
+
                     assert.strictEqual(arguments[0], &quot;\u001B[32mMergeable (clean)\u001b[39m&quot;);
                 }
             },
@@ -161,6 +164,10 @@ describe(&#039;Pull Requests Module Tests&#039;, function() {
         })(function() {
             pr.get(&#039;liferay&#039;, &#039;senna.js&#039;, &#039;36&#039;);
         });
+
+        if (cleanLogFound === false) {
+            assert.fail(&#039;Clean log was not found.&#039;);
+        }
     });
 
     it(&#039;should get pull request with mergeable state unstable&#039;, function() {
