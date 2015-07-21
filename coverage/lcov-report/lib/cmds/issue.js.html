@@ -480,7 +480,9 @@
 453
 454
 455
-456</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+456
+457
+458</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -720,30 +722,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -760,6 +742,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -895,6 +898,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1173,12 +1177,13 @@ Issue.prototype.close = <span class="fstat-no" title="function not covered" >fun
 Issue.prototype.comment = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
+        body,
         payload;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    options.comment = logger.applyReplacements(options.comment, config.replace) + config.signature;</span>
+<span class="cstat-no" title="statement not covered" >    body = logger.applyReplacements(options.comment, config.replace) + config.signature;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    payload = {</span>
-        body: options.comment,
+        body: body,
         number: options.number,
         repo: options.repo,
         user: options.user
@@ -1351,10 +1356,11 @@ Issue.prototype.listFromAllRepositories = <span class="fstat-no" title="function
 Issue.prototype.new = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
+        body,
         payload;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.message) {</span>
-<span class="cstat-no" title="statement not covered" >        options.message = logger.applyReplacements(options.message, config.replace);</span>
+<span class="cstat-no" title="statement not covered" >        body = logger.applyReplacements(options.message, config.replace);</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.label) {</span>
@@ -1366,7 +1372,7 @@ Issue.prototype.new = <span class="fstat-no" title="function not covered" >funct
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    payload = {</span>
         assignee: options.assignee,
-        body: options.message,
+        body: body,
         repo: options.repo,
         title: options.title,
         user: options.user,
@@ -1395,7 +1401,7 @@ exports.Impl = Issue;
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jun 22 2015 23:48:54 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jul 21 2015 22:52:29 GMT+0000 (UTC)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>
