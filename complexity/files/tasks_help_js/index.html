@@ -117,13 +117,13 @@ function help() {
 
     methods = Object.keys(content);
 
-    methods.forEach(function(item) {
+    methods.forEach(function (item) {
         if (spacing &lt; item.length) {
             spacing = item.length + 1;
         }
     });
 
-    methods.forEach(function(item) {
+    methods.forEach(function (item) {
         output += &#039;  &#039; + colors.cyan(item) +
             new Array(spacing - item.length + 2).join(&#039; &#039;) +
             content[item] + &#039;\n&#039;;

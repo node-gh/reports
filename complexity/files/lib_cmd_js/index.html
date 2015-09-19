@@ -118,7 +118,7 @@ var async = require(&#039;async&#039;),
 
 function hasCommandInOptions(commands, options) {
     if (commands) {
-        return commands.some(function(c) {
+        return commands.some(function (c) {
             return options[c] !== undefined;
         });
     }
@@ -151,7 +151,7 @@ function findCommand(name) {
     }
     else {
         commandFiles = base.find(commandDir, /\.js$/i);
-        commandFiles.every(function(file) {
+        commandFiles.every(function (file) {
             commandPath = path.join(commandDir, file);
             Command = require(commandPath).Impl;
 
@@ -199,7 +199,7 @@ exports.setUp = function () {
         remain = parsed.argv.remain,
         cooked = parsed.argv.cooked;
 
-    operations.push(function(callback) {
+    operations.push(function (callback) {
         base.checkVersion();
 
         if (tracker.optOut !== undefined) {
@@ -207,12 +207,12 @@ exports.setUp = function () {
             return;
         }
 
-        tracker.askPermission(null, function() {
+        tracker.askPermission(null, function () {
             callback();
         });
     });
 
-    operations.push(function(callback) {
+    operations.push(function (callback) {
         var module = remain[0];
 
         if (cooked[0] === &#039;--version&#039; || cooked[0] === &#039;-v&#039;) {
@@ -252,7 +252,7 @@ exports.setUp = function () {
         }
     });
 
-    async.series(operations, function() {
+    async.series(operations, function () {
         var iterativeValues,
             remoteUrl = git.getRemoteUrl(options.remote);
 
@@ -281,7 +281,7 @@ exports.setUp = function () {
         // present, assume [undefined] in order to initialize the loop.
         iterativeValues = options[iterative] || [undefined];
 
-        iterativeValues.forEach(function(value) {
+        iterativeValues.forEach(function (value) {
             options = base.clone(options);
 
             // Value can be undefined when the command doesn&#039;t have a iterative
@@ -297,7 +297,7 @@ exports.setUp = function () {
     });
 };
 
-exports.run = function() {
+exports.run = function () {
     if (!fs.existsSync(configs.getUserHomePath())) {
         configs.createGlobalConfig();
     }

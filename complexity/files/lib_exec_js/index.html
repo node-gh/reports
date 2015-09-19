@@ -104,7 +104,7 @@
 var child_process = require(&#039;child_process&#039;),
     logger = require(&#039;./logger&#039;);
 
-exports.spawnSync = function(cmd, args, options) {
+exports.spawnSync = function (cmd, args, options) {
     var exec;
 
     logger.debug(&#039;spawnSync: &#039; + cmd + &#039; &#039; + args.join(&#039; &#039;));
@@ -118,7 +118,7 @@ exports.spawnSync = function(cmd, args, options) {
     };
 };
 
-exports.spawnSyncStream = function(cmd, args, options) {
+exports.spawnSyncStream = function (cmd, args, options) {
     var proc,
         err;
 
@@ -143,7 +143,7 @@ exports.spawnSyncStream = function(cmd, args, options) {
     return proc;
 };
 
-exports.execSync = function(cmd, options) {
+exports.execSync = function (cmd, options) {
     if (!options) {
         options = {};
     }
@@ -155,7 +155,7 @@ exports.execSync = function(cmd, options) {
     return child_process.execSync(cmd, options);
 };
 
-exports.execSyncInteractiveStream = function(cmd, options) {
+exports.execSyncInteractiveStream = function (cmd, options) {
     if (!options) {
         options = {};
     }

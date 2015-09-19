@@ -111,7 +111,7 @@ tracker = new Insight({
     pkg: pkg
 });
 
-tracker.resolveCommand = function(cmd, commandDetails) {
+tracker.resolveCommand = function (cmd, commandDetails) {
     var cmdAnonymizer;
 
     if (!commandDetails) {
@@ -123,7 +123,7 @@ tracker.resolveCommand = function(cmd, commandDetails) {
     return cmdAnonymizer.resolveToString(cmd);
 };
 
-tracker.trackCommand = function(cmd, commandDetails) {
+tracker.trackCommand = function (cmd, commandDetails) {
     var tracking = pkg.name + &#039; &#039; + this.resolveCommand(cmd, commandDetails);
 
     this.track(tracking.replace(/ /g, &#039;%20&#039;));

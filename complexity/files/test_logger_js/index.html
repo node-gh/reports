@@ -104,16 +104,16 @@ var rewire = require(&#039;rewire&#039;),
     assert = require(&#039;assert&#039;),
     logger = rewire(&#039;../lib/logger&#039;);
 
-describe(&#039;Logger Module Tests&#039;, function() {
-    it(&#039;should log debug&#039;, function() {
+describe(&#039;Logger Module Tests&#039;, function () {
+    it(&#039;should log debug&#039;, function () {
         logger.debug(&#039;message ignored&#039;);
         logger.__with__({
             console: {
-                log: function() {
+                log: function () {
                     assert.fail(arguments);
                 }
             }
-        })(function() {
+        })(function () {
             logger.debug(&#039;messages&#039;);
         });
 
@@ -124,57 +124,57 @@ describe(&#039;Logger Module Tests&#039;, function() {
                 }
             },
             console: {
-                log: function() {
+                log: function () {
                     assert.strictEqual(arguments.length, 1);
                     assert.strictEqual(arguments[0], &#039;DEBUG: help&#039;);
                 }
             }
-        })(function() {
+        })(function () {
             logger.debug(&#039;help&#039;);
         });
     });
 
-    it(&#039;should log errors&#039;, function() {
+    it(&#039;should log errors&#039;, function () {
         logger.__with__({
             process: {
-                exit: function() {
+                exit: function () {
                     assert.strictEqual(arguments.length, 1);
                     assert.strictEqual(arguments[0], 1);
                 }
             },
             console: {
-                error: function() {
+                error: function () {
                     assert.strictEqual(arguments.length, 1);
                     assert.strictEqual(arguments[0], &#039;fatal: help&#039;);
                 }
             }
-        })(function() {
+        })(function () {
             logger.error(&#039;help&#039;);
         });
     });
 
-    it(&#039;should log warnings&#039;, function() {
+    it(&#039;should log warnings&#039;, function () {
         logger.__with__({
             console: {
-                error: function() {
+                error: function () {
                     assert.strictEqual(arguments.length, 1);
                     assert.strictEqual(arguments[0], &#039;warning: help&#039;);
                 }
             }
-        })(function() {
+        })(function () {
             logger.warn(&#039;help&#039;);
         });
     });
 
-    it(&#039;should log&#039;, function() {
+    it(&#039;should log&#039;, function () {
         logger.__with__({
             console: {
-                log: function() {
+                log: function () {
                     assert.strictEqual(arguments.length, 1);
                     assert.strictEqual(arguments[0], &#039;help&#039;);
                 }
             }
-        })(function() {
+        })(function () {
             logger.log(&#039;help&#039;);
         });
     });

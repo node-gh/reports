@@ -462,7 +462,7 @@ var logger = require('./logger'),
     exec = require('./exec'),
     git_command = process.env.GH_GIT_COMMAND || 'git';
 &nbsp;
-exports.checkout = <span class="fstat-no" title="function not covered" >function(branch, newBranch) {</span>
+exports.checkout = <span class="fstat-no" title="function not covered" >function (branch, newBranch) {</span>
 <span class="cstat-no" title="statement not covered" >    var args = ['checkout', branch];</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (newBranch) {</span>
@@ -472,7 +472,7 @@ exports.checkout = <span class="fstat-no" title="function not covered" >function
 <span class="cstat-no" title="statement not covered" >    return exec.spawnSyncStream(git_command, args);</span>
 };
 &nbsp;
-exports.clone = <span class="fstat-no" title="function not covered" >function(url, folder) {</span>
+exports.clone = <span class="fstat-no" title="function not covered" >function (url, folder) {</span>
 <span class="cstat-no" title="statement not covered" >    var args = ['clone', url];</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (folder) {</span>
@@ -482,7 +482,7 @@ exports.clone = <span class="fstat-no" title="function not covered" >function(ur
 <span class="cstat-no" title="statement not covered" >    return exec.spawnSyncStream(git_command, args);</span>
 };
 &nbsp;
-exports._merge = <span class="fstat-no" title="function not covered" >function(branch, type) {</span>
+exports._merge = <span class="fstat-no" title="function not covered" >function (branch, type) {</span>
 <span class="cstat-no" title="statement not covered" >    var res;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    try {</span>
@@ -495,15 +495,15 @@ exports._merge = <span class="fstat-no" title="function not covered" >function(b
     }
 };
 &nbsp;
-exports.merge = <span class="fstat-no" title="function not covered" >function(branch) {</span>
+exports.merge = <span class="fstat-no" title="function not covered" >function (branch) {</span>
 <span class="cstat-no" title="statement not covered" >    return this._merge(branch, 'merge');</span>
 };
 &nbsp;
-exports.rebase = <span class="fstat-no" title="function not covered" >function(branch) {</span>
+exports.rebase = <span class="fstat-no" title="function not covered" >function (branch) {</span>
 <span class="cstat-no" title="statement not covered" >    return this._merge(branch, 'rebase');</span>
 };
 &nbsp;
-exports.push = <span class="fstat-no" title="function not covered" >function(remote, branch) {</span>
+exports.push = <span class="fstat-no" title="function not covered" >function (remote, branch) {</span>
 <span class="cstat-no" title="statement not covered" >    var args = ['push', remote];</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (branch) {</span>
@@ -513,13 +513,13 @@ exports.push = <span class="fstat-no" title="function not covered" >function(rem
 <span class="cstat-no" title="statement not covered" >    return exec.spawnSyncStream(git_command, args);</span>
 };
 &nbsp;
-exports.fetch = <span class="fstat-no" title="function not covered" >function(repoUrl, headBranch, pullBranch) {</span>
+exports.fetch = <span class="fstat-no" title="function not covered" >function (repoUrl, headBranch, pullBranch) {</span>
 <span class="cstat-no" title="statement not covered" >    var args = ['fetch', repoUrl, headBranch + ':' + pullBranch];</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return exec.spawnSyncStream(git_command, args);</span>
 };
 &nbsp;
-exports.countUserAdjacentCommits = <span class="fstat-no" title="function not covered" >function() {</span>
+exports.countUserAdjacentCommits = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var git,</span>
         params,
         commits = 0,
@@ -544,7 +544,7 @@ exports.countUserAdjacentCommits = <span class="fstat-no" title="function not co
 <span class="cstat-no" title="statement not covered" >    return commits;</span>
 };
 &nbsp;
-exports.deleteBranch = <span class="fstat-no" title="function not covered" >function(branch) {</span>
+exports.deleteBranch = <span class="fstat-no" title="function not covered" >function (branch) {</span>
 <span class="cstat-no" title="statement not covered" >    var git = exec.spawnSync(git_command, ['branch', '-d', branch]);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (git.status !== 0) {</span>
@@ -554,11 +554,11 @@ exports.deleteBranch = <span class="fstat-no" title="function not covered" >func
 <span class="cstat-no" title="statement not covered" >    return git.stdout;</span>
 };
 &nbsp;
-exports.findRoot = <span class="fstat-no" title="function not covered" >function() {</span>
+exports.findRoot = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    return exec.spawnSync(git_command, ['rev-parse', '--show-toplevel']).stdout;</span>
 };
 &nbsp;
-exports.getCommitMessage = <span class="fstat-no" title="function not covered" >function(branch, number) {</span>
+exports.getCommitMessage = <span class="fstat-no" title="function not covered" >function (branch, number) {</span>
 <span class="cstat-no" title="statement not covered" >    var git,</span>
         params = ['log'];
 &nbsp;
@@ -584,7 +584,7 @@ exports.getCommitMessage = <span class="fstat-no" title="function not covered" >
 <span class="cstat-no" title="statement not covered" >    return git.stdout;</span>
 };
 &nbsp;
-exports.getConfig = <span class="fstat-no" title="function not covered" >function(key) {</span>
+exports.getConfig = <span class="fstat-no" title="function not covered" >function (key) {</span>
 <span class="cstat-no" title="statement not covered" >    var git = exec.spawnSync(git_command, ['config', '--get', key]);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (git.status !== 0) {</span>
@@ -594,7 +594,7 @@ exports.getConfig = <span class="fstat-no" title="function not covered" >functio
 <span class="cstat-no" title="statement not covered" >    return git.stdout;</span>
 };
 &nbsp;
-exports.getCurrentBranch = <span class="fstat-no" title="function not covered" >function() {</span>
+exports.getCurrentBranch = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var git = exec.spawnSync(git_command, ['symbolic-ref', '--short', 'HEAD']);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (git.status !== 0) {</span>
@@ -605,11 +605,11 @@ exports.getCurrentBranch = <span class="fstat-no" title="function not covered" >
 <span class="cstat-no" title="statement not covered" >    return git.stdout;</span>
 };
 &nbsp;
-exports.getLastCommitMessage = <span class="fstat-no" title="function not covered" >function(branch) {</span>
+exports.getLastCommitMessage = <span class="fstat-no" title="function not covered" >function (branch) {</span>
 <span class="cstat-no" title="statement not covered" >    return exports.getCommitMessage(branch, 1);</span>
 };
 &nbsp;
-exports.getLastCommitSHA = <span class="fstat-no" title="function not covered" >function() {</span>
+exports.getLastCommitSHA = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var git = exec.spawnSync(git_command, ['rev-parse', '--short', 'HEAD']);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (git.status !== 0) {</span>
@@ -619,7 +619,7 @@ exports.getLastCommitSHA = <span class="fstat-no" title="function not covered" >
 <span class="cstat-no" title="statement not covered" >    return git.stdout;</span>
 };
 &nbsp;
-exports.getRemoteUrl = <span class="fstat-no" title="function not covered" >function(remote) {</span>
+exports.getRemoteUrl = <span class="fstat-no" title="function not covered" >function (remote) {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >        return exports.getConfig('remote.' + remote + '.url');</span>
     }
@@ -629,27 +629,27 @@ exports.getRemoteUrl = <span class="fstat-no" title="function not covered" >func
     }
 };
 &nbsp;
-exports.getRepoFromRemoteURL = <span class="fstat-no" title="function not covered" >function(url) {</span>
+exports.getRepoFromRemoteURL = <span class="fstat-no" title="function not covered" >function (url) {</span>
 <span class="cstat-no" title="statement not covered" >    var parsed = exports.parseRemoteUrl(url);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return parsed &amp;&amp; parsed[1];</span>
 };
 &nbsp;
-exports.getUserFromRemoteUrl = <span class="fstat-no" title="function not covered" >function(url) {</span>
+exports.getUserFromRemoteUrl = <span class="fstat-no" title="function not covered" >function (url) {</span>
 <span class="cstat-no" title="statement not covered" >    var parsed = exports.parseRemoteUrl(url);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return parsed &amp;&amp; parsed[0];</span>
 };
 &nbsp;
-exports.getRepo = <span class="fstat-no" title="function not covered" >function(remote) {</span>
+exports.getRepo = <span class="fstat-no" title="function not covered" >function (remote) {</span>
 <span class="cstat-no" title="statement not covered" >    return exports.getRepoFromRemoteURL(exports.getRemoteUrl(remote));</span>
 };
 &nbsp;
-exports.getUser = <span class="fstat-no" title="function not covered" >function(remote) {</span>
+exports.getUser = <span class="fstat-no" title="function not covered" >function (remote) {</span>
 <span class="cstat-no" title="statement not covered" >    return exports.getUserFromRemoteUrl(exports.getRemoteUrl(remote));</span>
 };
 &nbsp;
-exports.parseRemoteUrl = function(url) {
+exports.parseRemoteUrl = function (url) {
     var parsed = /[\/:]([\w-]+)\/(.*?)(?:\.git)?$/.exec(url);
 &nbsp;
     <span class="missing-if-branch" title="else path not taken" >E</span>if (parsed) {
@@ -663,7 +663,7 @@ exports.parseRemoteUrl = function(url) {
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 19:29:54 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 21:33:04 GMT+0000 (UTC)</div>
 </div>
 <script src="../prettify.js"></script>
 <script>

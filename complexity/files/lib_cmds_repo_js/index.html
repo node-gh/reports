@@ -163,7 +163,7 @@ Repo.DETAILS = {
         &#039;t&#039;: [&#039;--type&#039;],
         &#039;u&#039;: [&#039;--user&#039;]
     },
-    payload: function(payload, options) {
+    payload: function (payload, options) {
         options.browser = true;
     }
 };
@@ -178,7 +178,7 @@ Repo.TYPE_SOURCES = &#039;sources&#039;;
 
 // -- Commands -------------------------------------------------------------------------------------
 
-Repo.prototype.run = function() {
+Repo.prototype.run = function () {
     var instance = this,
         options = instance.options,
         user = options.loggedUser;
@@ -188,7 +188,7 @@ Repo.prototype.run = function() {
     }
 
     if (options.delete) {
-        hooks.invoke(&#039;repo.delete&#039;, instance, function(afterHooksCallback) {
+        hooks.invoke(&#039;repo.delete&#039;, instance, function (afterHooksCallback) {
             logger.log(&#039;Deleting repo &#039; + logger.colors.green(options.user + &#039;/&#039; + options.delete));
 
             inquirer.prompt(
@@ -198,9 +198,9 @@ Repo.prototype.run = function() {
                         message: &#039;Are you sure? This action CANNOT be undone. [y/N]&#039;,
                         name: &#039;confirmation&#039;
                     }
-                ], function(answers) {
+                ], function (answers) {
                     if (answers.confirmation.toLowerCase() === &#039;y&#039;) {
-                        instance.delete(options.user, options.delete, function(err) {
+                        instance.delete(options.user, options.delete, function (err) {
                             if (err) {
                                 logger.error(&#039;Can\&#039;t delete repo.&#039;);
                                 return;
@@ -217,7 +217,7 @@ Repo.prototype.run = function() {
     }
 
     if (options.fork) {
-        hooks.invoke(&#039;repo.fork&#039;, instance, function(afterHooksCallback) {
+        hooks.invoke(&#039;repo.fork&#039;, instance, function (afterHooksCallback) {
             if (options.organization) {
                 user = options.organization;
             }
@@ -227,7 +227,7 @@ Repo.prototype.run = function() {
             logger.log(&#039;Forking repo &#039; + logger.colors.green(options.user + &#039;/&#039; + options.repo) +
                 &#039; on &#039; + logger.colors.green(user + &#039;/&#039; + options.repo));
 
-            instance.fork(function(err1, repo) {
+            instance.fork(function (err1, repo) {
                 if (err1) {
                     logger.error(&#039;Can\&#039;t fork. &#039; + JSON.parse(err1).message);
                     return;
@@ -259,7 +259,7 @@ Repo.prototype.run = function() {
         }
 
 
-        instance.list(user, function(err) {
+        instance.list(user, function (err) {
             if (err) {
                 logger.error(&#039;Can\&#039;t list repos.&#039;);
             }
@@ -267,7 +267,7 @@ Repo.prototype.run = function() {
     }
 
     if (options.new) {
-        hooks.invoke(&#039;repo.new&#039;, instance, function(afterHooksCallback) {
+        hooks.invoke(&#039;repo.new&#039;, instance, function (afterHooksCallback) {
             options.repo = options.new;
 
             if (options.organization) {
@@ -276,7 +276,7 @@ Repo.prototype.run = function() {
 
             logger.log(&#039;Creating a new repo on &#039; + logger.colors.green(options.user + &#039;/&#039; + options.new));
 
-            instance.new(function(err1, repo) {
+            instance.new(function (err1, repo) {
                 if (err1) {
                     logger.error(&#039;Can\&#039;t create new repo. &#039; + JSON.parse(err1.message).message);
                     return;
@@ -294,16 +294,16 @@ Repo.prototype.run = function() {
     }
 };
 
-Repo.prototype.browser = function(user, repo) {
+Repo.prototype.browser = function (user, repo) {
     openUrl(&#039;https://github.com/&#039; + user + &#039;/&#039; + repo);
 };
 
-Repo.prototype.clone_ = function(user, repo, repo_url) {
+Repo.prototype.clone_ = function (user, repo, repo_url) {
     logger.log(&#039;Cloning &#039; + logger.colors.green(user + &#039;/&#039; + repo));
     git.clone(url.parse(repo_url).href, repo);
 };
 
-Repo.prototype.delete = function(user, repo, opt_callback) {
+Repo.prototype.delete = function (user, repo, opt_callback) {
     var payload;
 
     payload = {
@@ -314,7 +314,7 @@ Repo.prototype.delete = function(user, repo, opt_callback) {
     base.github.repos.delete(payload, opt_callback);
 };
 
-Repo.prototype.list = function(user, opt_callback) {
+Repo.prototype.list = function (user, opt_callback) {
     var instance = this,
         method = &#039;getFromUser&#039;,
         options = instance.options,
@@ -340,12 +340,12 @@ Repo.prototype.list = function(user, opt_callback) {
         }
     }
 
-    base.github.repos[method](payload, function(err, repos) {
+    base.github.repos[method](payload, function (err, repos) {
         instance.listCallback_(err, repos, opt_callback);
     });
 };
 
-Repo.prototype.listCallback_ = function(err, repos, opt_callback) {
+Repo.prototype.listCallback_ = function (err, repos, opt_callback) {
     var instance = this,
         options = instance.options,
         pos,
@@ -386,7 +386,7 @@ Repo.prototype.listCallback_ = function(err, repos, opt_callback) {
     }
 };
 
-Repo.prototype.fork = function(opt_callback) {
+Repo.prototype.fork = function (opt_callback) {
     var instance = this,
         options = instance.options,
         payload;
@@ -403,7 +403,7 @@ Repo.prototype.fork = function(opt_callback) {
     base.github.repos.fork(payload, opt_callback);
 };
 
-Repo.prototype.new = function(opt_callback) {
+Repo.prototype.new = function (opt_callback) {
     var instance = this,
         options = instance.options,
         payload,

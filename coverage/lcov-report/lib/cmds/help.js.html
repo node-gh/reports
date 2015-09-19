@@ -619,7 +619,7 @@
 &nbsp;
 // -- Commands -------------------------------------------------------------------------------------
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Help.prototype.run = <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >Help.prototype.run = <span class="fstat-no" title="function not covered" >function () {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         commands = [],
         cmdDir = path.join(__dirname, '../cmds/'),
@@ -635,7 +635,7 @@
     // Get external plugins
 <span class="cstat-no" title="statement not covered" >    plugins = configs.getPlugins();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    plugins.forEach(<span class="fstat-no" title="function not covered" >function(plugin) {</span></span>
+<span class="cstat-no" title="statement not covered" >    plugins.forEach(<span class="fstat-no" title="function not covered" >function (plugin) {</span></span>
 <span class="cstat-no" title="statement not covered" >        try {</span>
 <span class="cstat-no" title="statement not covered" >            files.push(configs.getPluginPath(plugin));</span>
         }
@@ -650,7 +650,7 @@
 <span class="cstat-no" title="statement not covered" >        filter = options.argv.remain[1];</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    files.forEach(<span class="fstat-no" title="function not covered" >function(dir) {</span></span>
+<span class="cstat-no" title="statement not covered" >    files.forEach(<span class="fstat-no" title="function not covered" >function (dir) {</span></span>
 <span class="cstat-no" title="statement not covered" >        var cmd = require(path.resolve(cmdDir, dir)),</span>
             alias = cmd.Impl.DETAILS.alias || '',
             flags = [],
@@ -691,11 +691,11 @@
 <span class="cstat-no" title="statement not covered" >    logger.log(this.listCommands_(commands));</span>
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Help.prototype.listFlags_ = <span class="fstat-no" title="function not covered" >function(command) {</span></span>
+<span class="cstat-no" title="statement not covered" >Help.prototype.listFlags_ = <span class="fstat-no" title="function not covered" >function (command) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var flags = command.flags,</span>
         content = '';
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    flags.forEach(<span class="fstat-no" title="function not covered" >function(flag) {</span></span>
+<span class="cstat-no" title="statement not covered" >    flags.forEach(<span class="fstat-no" title="function not covered" >function (flag) {</span></span>
 <span class="cstat-no" title="statement not covered" >        content += '    ';</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (flag.shorthand) {</span>
@@ -722,7 +722,7 @@
 <span class="cstat-no" title="statement not covered" >    return content;</span>
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Help.prototype.listCommands_ = <span class="fstat-no" title="function not covered" >function(commands) {</span></span>
+<span class="cstat-no" title="statement not covered" >Help.prototype.listCommands_ = <span class="fstat-no" title="function not covered" >function (commands) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var content = 'usage: gh &lt;command&gt; [payload] [--flags] [--verbose] [--no-hooks]\n\n',</span>
         pos,
         command;
@@ -751,7 +751,7 @@
 <span class="cstat-no" title="statement not covered" >    return content;</span>
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Help.prototype.groupOptions_ = <span class="fstat-no" title="function not covered" >function(details) {</span></span>
+<span class="cstat-no" title="statement not covered" >Help.prototype.groupOptions_ = <span class="fstat-no" title="function not covered" >function (details) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         cmd,
         options,
@@ -761,11 +761,11 @@
 <span class="cstat-no" title="statement not covered" >    options = Object.keys(details.options);</span>
 <span class="cstat-no" title="statement not covered" >    shorthands = Object.keys(details.shorthands);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    options.forEach(<span class="fstat-no" title="function not covered" >function(option) {</span></span>
+<span class="cstat-no" title="statement not covered" >    options.forEach(<span class="fstat-no" title="function not covered" >function (option) {</span></span>
 <span class="cstat-no" title="statement not covered" >        var foundShorthand,</span>
             type;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        shorthands.forEach(<span class="fstat-no" title="function not covered" >function(shorthand) {</span></span>
+<span class="cstat-no" title="statement not covered" >        shorthands.forEach(<span class="fstat-no" title="function not covered" >function (shorthand) {</span></span>
 <span class="cstat-no" title="statement not covered" >            var shorthandValue = details.shorthands[shorthand][0];</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            if (shorthandValue === '--' + option) {</span>
@@ -787,7 +787,7 @@
 <span class="cstat-no" title="statement not covered" >    return grouped;</span>
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Help.prototype.getType_ = <span class="fstat-no" title="function not covered" >function(type) {</span></span>
+<span class="cstat-no" title="statement not covered" >Help.prototype.getType_ = <span class="fstat-no" title="function not covered" >function (type) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var types,</span>
         separator = ', ';
 &nbsp;
@@ -838,7 +838,7 @@
 <span class="cstat-no" title="statement not covered" >    return type;</span>
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Help.prototype.isCommand_ = <span class="fstat-no" title="function not covered" >function(details, option) {</span></span>
+<span class="cstat-no" title="statement not covered" >Help.prototype.isCommand_ = <span class="fstat-no" title="function not covered" >function (details, option) {</span></span>
 <span class="cstat-no" title="statement not covered" >    if (details.commands &amp;&amp; (details.commands.indexOf(option) &gt; -1)) {</span>
 <span class="cstat-no" title="statement not covered" >        return true;</span>
     }
@@ -852,7 +852,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 19:29:54 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 21:33:04 GMT+0000 (UTC)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>

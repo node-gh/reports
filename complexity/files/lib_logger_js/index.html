@@ -113,29 +113,29 @@ function stripHandlebarsNewLine(str) {
     return str.replace(/[\s\t\r\n](\{\{[#\/])/g, &#039;$1&#039;);
 }
 
-logger.debug = function() {
+logger.debug = function () {
     if (process.env.GH_VERBOSE) {
         arguments[0] = &#039;DEBUG: &#039; + arguments[0];
         console.log.apply(this, arguments);
     }
 };
 
-logger.error = function() {
+logger.error = function () {
     arguments[0] = &#039;fatal: &#039; + arguments[0];
     console.error.apply(this, arguments);
     process.exit(1);
 };
 
-logger.warn = function() {
+logger.warn = function () {
     arguments[0] = &#039;warning: &#039; + arguments[0];
     console.error.apply(this, arguments);
 };
 
-logger.log = function() {
+logger.log = function () {
     console.log.apply(this, arguments);
 };
 
-logger.getDuration = function(start, opt_end) {
+logger.getDuration = function (start, opt_end) {
     if (opt_end === undefined) {
         opt_end = Date.now();
     }
@@ -143,7 +143,7 @@ logger.getDuration = function(start, opt_end) {
     return moment.duration(moment(start).diff(opt_end)).humanize(true);
 };
 
-logger.applyReplacements = function(output, replaceMap) {
+logger.applyReplacements = function (output, replaceMap) {
     var regexPattern;
 
     for (regexPattern in replaceMap) {
@@ -156,7 +156,7 @@ logger.applyReplacements = function(output, replaceMap) {
     return output;
 };
 
-logger.getErrorMessage = function(err) {
+logger.getErrorMessage = function (err) {
     var msg;
 
     // General normalizer
@@ -195,17 +195,17 @@ logger.getErrorMessage = function(err) {
     return err.message.replace(&#039;Command failed: fatal: &#039;, &#039;&#039;).trim();
 };
 
-logger.compileTemplate = function(source, map) {
+logger.compileTemplate = function (source, map) {
     var template = handlebars.compile(source);
 
     return logger.applyReplacements(template(map));
 };
 
-logger.logTemplate = function(source, map) {
+logger.logTemplate = function (source, map) {
     console.log(logger.compileTemplate(source, map || {}));
 };
 
-logger.logTemplateFile = function(file, map) {
+logger.logTemplateFile = function (file, map) {
     var templatePath,
         source;
 
@@ -220,49 +220,49 @@ logger.logTemplateFile = function(file, map) {
     logger.logTemplate(stripHandlebarsNewLine(source), map);
 };
 
-logger.registerHelper = function(name, callback) {
+logger.registerHelper = function (name, callback) {
     handlebars.registerHelper(name, callback);
 };
 
-logger.registerHelpers_ = function() {
-    handlebars.registerHelper(&#039;date&#039;, function(date) {
+logger.registerHelpers_ = function () {
+    handlebars.registerHelper(&#039;date&#039;, function (date) {
         return logger.getDuration(date);
     });
 
-    handlebars.registerHelper(&#039;compareLink&#039;, function() {
+    handlebars.registerHelper(&#039;compareLink&#039;, function () {
         return &#039;https://github.com/&#039; + this.options.user + &#039;/&#039; + this.options.repo +
             &#039;/compare/&#039; + this.options.pullHeadSHA + &#039;...&#039; + this.options.currentSHA;
     });
 
-    handlebars.registerHelper(&#039;forwardedLink&#039;, function() {
+    handlebars.registerHelper(&#039;forwardedLink&#039;, function () {
         return &#039;https://github.com/&#039; + this.options.fwd + &#039;/&#039; + this.options.repo + &#039;/pull/&#039; +
             this.options.forwardedPull;
     });
 
-    handlebars.registerHelper(&#039;link&#039;, function() {
+    handlebars.registerHelper(&#039;link&#039;, function () {
         return &#039;https://github.com/&#039; + this.options.user + &#039;/&#039; + this.options.repo + &#039;/pull/&#039; +
             this.options.number;
     });
 
-    handlebars.registerHelper(&#039;submittedLink&#039;, function() {
+    handlebars.registerHelper(&#039;submittedLink&#039;, function () {
         return &#039;https://github.com/&#039; + this.options.submit + &#039;/&#039; + this.options.repo + &#039;/pull/&#039; +
             this.options.submittedPull;
     });
 
-    handlebars.registerHelper(&#039;issueLink&#039;, function() {
+    handlebars.registerHelper(&#039;issueLink&#039;, function () {
         return &#039;https://github.com/&#039; + this.options.user + &#039;/&#039; + this.options.repo + &#039;/issues/&#039; +
             this.options.number;
     });
 
-    handlebars.registerHelper(&#039;gistLink&#039;, function() {
+    handlebars.registerHelper(&#039;gistLink&#039;, function () {
         return &#039;https://gist.github.com/&#039; + this.options.loggedUser + &#039;/&#039; + this.options.id;
     });
 
-    handlebars.registerHelper(&#039;repoLink&#039;, function() {
+    handlebars.registerHelper(&#039;repoLink&#039;, function () {
         return &#039;https://github.com/&#039; + this.options.user + &#039;/&#039; + this.options.repo;
     });
 
-    handlebars.registerHelper(&#039;wordwrap&#039;, function(text, padding, stripNewLines) {
+    handlebars.registerHelper(&#039;wordwrap&#039;, function (text, padding, stripNewLines) {
         var gutter = &#039;&#039;;
 
         if (stripNewLines !== false) {

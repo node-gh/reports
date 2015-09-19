@@ -44,7 +44,7 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">68.33</p>
+      <p class="stat">68.31</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
@@ -62,11 +62,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">43.14</p>
+      <p class="stat">43.24</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">4.29</p>
+      <p class="stat">4.30</p>
     </div>
   </div>
 </div>
@@ -174,7 +174,7 @@ Issue.DETAILS = {
         &#039;t&#039;: [&#039;--title&#039;],
         &#039;u&#039;: [&#039;--user&#039;]
     },
-    payload: function(payload, options) {
+    payload: function (payload, options) {
         if (payload[0]) {
             if (/^\d+$/.test(payload[0])) {
                 options.browser = true;
@@ -197,7 +197,7 @@ Issue.STATE_OPEN = &#039;open&#039;;
 
 // -- Commands -------------------------------------------------------------------------------------
 
-Issue.prototype.run = function() {
+Issue.prototype.run = function () {
     var instance = this,
         options = instance.options;
 
@@ -208,13 +208,13 @@ Issue.prototype.run = function() {
     }
 
     if (options.close) {
-        hooks.invoke(&#039;issue.close&#039;, instance, function(afterHooksCallback) {
+        hooks.invoke(&#039;issue.close&#039;, instance, function (afterHooksCallback) {
             options.state = Issue.STATE_CLOSED;
 
             logger.log(&#039;Closing issue &#039; + logger.colors.green(&#039;#&#039; + options.number) +
                 &#039; on &#039; + logger.colors.green(options.user + &#039;/&#039; + options.repo));
 
-            instance.close(function(err, issue) {
+            instance.close(function (err, issue) {
                 if (err) {
                     logger.error(&#039;Can\&#039;t close issue.&#039;);
                     return;
@@ -229,7 +229,7 @@ Issue.prototype.run = function() {
     if (options.comment) {
         logger.log(&#039;Adding comment on issue &#039; + logger.colors.green(&#039;#&#039; + options.number));
 
-        instance.comment(function(err, issue) {
+        instance.comment(function (err, issue) {
             if (err) {
                 logger.error(&#039;Can\&#039;t add comment.&#039;);
                 return;
@@ -244,7 +244,7 @@ Issue.prototype.run = function() {
             logger.log(&#039;Listing &#039; + logger.colors.green(options.state) + &#039; issues for &#039; +
                 logger.colors.green(options.user));
 
-            instance.listFromAllRepositories(function(err) {
+            instance.listFromAllRepositories(function (err) {
                 if (err) {
                     logger.error(&#039;Can\&#039;t list issues for &#039; + options.user + &#039;.&#039;);
                     return;
@@ -255,7 +255,7 @@ Issue.prototype.run = function() {
             logger.log(&#039;Listing &#039; + logger.colors.green(options.state) +
                 &#039; issues on &#039; + logger.colors.green(options.user + &#039;/&#039; + options.repo));
 
-            instance.list(options.user, options.repo, function(err) {
+            instance.list(options.user, options.repo, function (err) {
                 if (err) {
                     logger.error(&#039;Can\&#039;t list issues on &#039; + options.user + &#039;/&#039; + options.repo);
                     return;
@@ -265,10 +265,10 @@ Issue.prototype.run = function() {
     }
 
     if (options.new) {
-        hooks.invoke(&#039;issue.new&#039;, instance, function(afterHooksCallback) {
+        hooks.invoke(&#039;issue.new&#039;, instance, function (afterHooksCallback) {
             logger.log(&#039;Creating a new issue on &#039; + logger.colors.green(options.user + &#039;/&#039; + options.repo));
 
-            instance.new(function(err, issue) {
+            instance.new(function (err, issue) {
                 if (err) {
                     logger.error(&#039;Can\&#039;t create new issue.&#039;);
                     return;
@@ -285,11 +285,11 @@ Issue.prototype.run = function() {
     }
 
     if (options.open) {
-        hooks.invoke(&#039;issue.open&#039;, instance, function(afterHooksCallback) {
+        hooks.invoke(&#039;issue.open&#039;, instance, function (afterHooksCallback) {
             logger.log(&#039;Opening issue &#039; + logger.colors.green(&#039;#&#039; + options.number) +
                 &#039; on &#039; + logger.colors.green(options.user + &#039;/&#039; + options.repo));
 
-            instance.open(function(err, issue) {
+            instance.open(function (err, issue) {
                 if (err) {
                     logger.error(&#039;Can\&#039;t open issue.&#039;);
                     return;
@@ -303,7 +303,7 @@ Issue.prototype.run = function() {
 
 };
 
-Issue.prototype.browser = function(user, repo, number) {
+Issue.prototype.browser = function (user, repo, number) {
     if (!number) {
         number = &#039;&#039;;
     }
@@ -311,10 +311,10 @@ Issue.prototype.browser = function(user, repo, number) {
     openUrl(&#039;https://github.com/&#039; + user + &#039;/&#039; + repo + &#039;/issues/&#039; + number);
 };
 
-Issue.prototype.close = function(opt_callback) {
+Issue.prototype.close = function (opt_callback) {
     var instance = this;
 
-    instance.getIssue_(function(err, issue) {
+    instance.getIssue_(function (err, issue) {
         if (err) {
             opt_callback &amp;&amp; opt_callback(err);
         }
@@ -324,7 +324,7 @@ Issue.prototype.close = function(opt_callback) {
     });
 };
 
-Issue.prototype.comment = function(opt_callback) {
+Issue.prototype.comment = function (opt_callback) {
     var instance = this,
         options = instance.options,
         body,
@@ -342,7 +342,7 @@ Issue.prototype.comment = function(opt_callback) {
     base.github.issues.createComment(payload, opt_callback);
 };
 
-Issue.prototype.editIssue_ = function(title, state, opt_callback) {
+Issue.prototype.editIssue_ = function (title, state, opt_callback) {
     var instance = this,
         options = instance.options,
         payload;
@@ -363,7 +363,7 @@ Issue.prototype.editIssue_ = function(title, state, opt_callback) {
     base.github.issues.edit(payload, opt_callback);
 };
 
-Issue.prototype.getIssue_ = function(opt_callback) {
+Issue.prototype.getIssue_ = function (opt_callback) {
     var instance = this,
         options = instance.options,
         payload;
@@ -377,7 +377,7 @@ Issue.prototype.getIssue_ = function(opt_callback) {
     base.github.issues.getRepoIssue(payload, opt_callback);
 };
 
-Issue.prototype.list = function(user, repo, opt_callback) {
+Issue.prototype.list = function (user, repo, opt_callback) {
     var instance = this,
         options = instance.options,
         operations = [],
@@ -399,11 +399,11 @@ Issue.prototype.list = function(user, repo, opt_callback) {
     }
 
     if (options.milestone) {
-        operations.push(function(callback) {
+        operations.push(function (callback) {
             base.github.issues.getAllMilestones({
                 repo: repo,
                 user: user
-            }, function(err, results) {
+            }, function (err, results) {
                 if (err) {
                     logger.warn(err.message);
                 }
@@ -425,11 +425,11 @@ Issue.prototype.list = function(user, repo, opt_callback) {
         payload.assignee = options.assignee;
     }
 
-    operations.push(function(callback) {
+    operations.push(function (callback) {
         base.github.issues.repoIssues(payload, callback);
     });
 
-    async.series(operations, function(err, results) {
+    async.series(operations, function (err, results) {
         var issues = [];
 
         if (err &amp;&amp; !options.all) {
@@ -437,29 +437,29 @@ Issue.prototype.list = function(user, repo, opt_callback) {
         }
 
 
-        results.forEach(function(result) {
+        results.forEach(function (result) {
             if (result) {
                 issues = issues.concat(result);
             }
         });
 
-        issues.sort(function(a, b) {
+        issues.sort(function (a, b) {
             return a.number &gt; b.number ? -1 : 1;
         });
 
         if (issues &amp;&amp; issues.length &gt; 0) {
-            issues.forEach(function(issue) {
+            issues.forEach(function (issue) {
                 var labels = issue.label || [];
 
-                logger.log(logger.colors.green(&#039;#&#039; + issue.number) + &#039; &#039; + issue.title +
-                    logger.colors.magenta(&#039;@&#039; + user.login + &#039; (&#039; + logger.getDuration(issues.created_at) + &#039;)&#039;));
+                logger.log(logger.colors.green(&#039;#&#039; + issue.number) + &#039; &#039; + issue.title + &#039; &#039; +
+                    logger.colors.magenta(&#039;@&#039; + issue.user.login + &#039; (&#039; + logger.getDuration(issues.created_at) + &#039;)&#039;));
 
                 if (options.detailed) {
                     if (issue.body) {
                         logger.log(issue.body);
                     }
 
-                    labels.forEach(function(label) {
+                    labels.forEach(function (label) {
                         labels.push(label.name);
                     });
 
@@ -481,7 +481,7 @@ Issue.prototype.list = function(user, repo, opt_callback) {
     });
 };
 
-Issue.prototype.listFromAllRepositories = function(opt_callback) {
+Issue.prototype.listFromAllRepositories = function (opt_callback) {
     var instance = this,
         options = instance.options,
         payload;
@@ -491,19 +491,19 @@ Issue.prototype.listFromAllRepositories = function(opt_callback) {
         user: options.user
     };
 
-    base.github.repos.getAll(payload, function(err, repositories) {
+    base.github.repos.getAll(payload, function (err, repositories) {
         if (err) {
             opt_callback &amp;&amp; opt_callback(err);
         }
         else {
-            repositories.forEach(function(repository) {
+            repositories.forEach(function (repository) {
                 instance.list(repository.owner.login, repository.name, opt_callback);
             });
         }
     });
 };
 
-Issue.prototype.new = function(opt_callback) {
+Issue.prototype.new = function (opt_callback) {
     var instance = this,
         options = instance.options,
         body,
@@ -532,10 +532,10 @@ Issue.prototype.new = function(opt_callback) {
     base.github.issues.create(payload, opt_callback);
 };
 
-Issue.prototype.open = function(opt_callback) {
+Issue.prototype.open = function (opt_callback) {
     var instance = this;
 
-    instance.getIssue_(function(err, issue) {
+    instance.getIssue_(function (err, issue) {
         if (err) {
             opt_callback &amp;&amp; opt_callback(err);
         }

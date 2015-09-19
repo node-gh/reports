@@ -585,14 +585,14 @@
         'p': ['--private'],
         'u': ['--user']
     },
-    payload: <span class="fstat-no" title="function not covered" >function(payload, options) {</span>
+    payload: <span class="fstat-no" title="function not covered" >function (payload, options) {</span>
 <span class="cstat-no" title="statement not covered" >        options.list = true;</span>
     }
 };
 &nbsp;
 // -- Commands -------------------------------------------------------------------------------------
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Gists.prototype.run = <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >Gists.prototype.run = <span class="fstat-no" title="function not covered" >function () {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         operations,
         options = instance.options;
@@ -607,7 +607,7 @@
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.delete) {</span>
-<span class="cstat-no" title="statement not covered" >        hooks.invoke('gists.delete', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('gists.delete', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >            logger.log('Deleting gist ' + logger.colors.green(options.loggedUser + '/' + options.delete));</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            inquirer.prompt(</span>
@@ -617,9 +617,9 @@
                         message: 'Are you sure? This action CANNOT be undone. [y/N]',
                         name: 'confirmation'
                     }
-                ], <span class="fstat-no" title="function not covered" >function(answers) {</span>
+                ], <span class="fstat-no" title="function not covered" >function (answers) {</span>
 <span class="cstat-no" title="statement not covered" >                    if (answers.confirmation.toLowerCase() === 'y') {</span>
-<span class="cstat-no" title="statement not covered" >                        instance.delete(options.delete, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >                        instance.delete(options.delete, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >                            if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                                logger.error('Can\'t delete gist.');</span>
 <span class="cstat-no" title="statement not covered" >                                return;</span>
@@ -636,10 +636,10 @@
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.fork) {</span>
-<span class="cstat-no" title="statement not covered" >        hooks.invoke('gists.fork', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('gists.fork', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >            logger.log('Forking gist on ' + logger.colors.green(options.loggedUser));</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            instance.fork(options.fork, <span class="fstat-no" title="function not covered" >function(err, gist) {</span></span>
+<span class="cstat-no" title="statement not covered" >            instance.fork(options.fork, <span class="fstat-no" title="function not covered" >function (err, gist) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                    logger.error(JSON.parse(err.message).message);</span>
 <span class="cstat-no" title="statement not covered" >                    return;</span>
@@ -654,7 +654,7 @@
 <span class="cstat-no" title="statement not covered" >    if (options.list) {</span>
 <span class="cstat-no" title="statement not covered" >        logger.log('Listing gists for ' + logger.colors.green(options.user));</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        instance.list(options.user, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >        instance.list(options.user, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >            if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                logger.error('Can\'t list gists for ' + options.user + '.');</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
@@ -663,7 +663,7 @@
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.new) {</span>
-<span class="cstat-no" title="statement not covered" >        hooks.invoke('gists.new', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('gists.new', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >            var privacy = (options.private) ? 'private' : 'public';</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            operations = [];</span>
@@ -672,7 +672,7 @@
 <span class="cstat-no" title="statement not covered" >            logger.log('Creating ' + logger.colors.magenta(privacy) + ' gist on ' +</span>
                 logger.colors.green(options.loggedUser));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            instance.new(options.new, options.content, <span class="fstat-no" title="function not covered" >function(err, gist) {</span></span>
+<span class="cstat-no" title="statement not covered" >            instance.new(options.new, options.content, <span class="fstat-no" title="function not covered" >function (err, gist) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if (gist) {</span>
 <span class="cstat-no" title="statement not covered" >                    options.id = gist.id;</span>
                 }
@@ -690,11 +690,11 @@
     }
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Gists.prototype.browser = <span class="fstat-no" title="function not covered" >function(gist) {</span></span>
+<span class="cstat-no" title="statement not covered" >Gists.prototype.browser = <span class="fstat-no" title="function not covered" >function (gist) {</span></span>
 <span class="cstat-no" title="statement not covered" >    openUrl('https://gist.github.com/' + gist);</span>
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Gists.prototype.delete = <span class="fstat-no" title="function not covered" >function(id, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >Gists.prototype.delete = <span class="fstat-no" title="function not covered" >function (id, opt_callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var payload = {</span>
         id: id
     };
@@ -702,7 +702,7 @@
 <span class="cstat-no" title="statement not covered" >    base.github.gists.delete(payload, opt_callback);</span>
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Gists.prototype.fork = <span class="fstat-no" title="function not covered" >function(id, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >Gists.prototype.fork = <span class="fstat-no" title="function not covered" >function (id, opt_callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var payload = {</span>
         id: id
     };
@@ -710,7 +710,7 @@
 <span class="cstat-no" title="statement not covered" >    base.github.gists.fork(payload, opt_callback);</span>
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Gists.prototype.list = <span class="fstat-no" title="function not covered" >function(user, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >Gists.prototype.list = <span class="fstat-no" title="function not covered" >function (user, opt_callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         payload;
 &nbsp;
@@ -718,12 +718,12 @@
         user: user
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    base.github.gists.getFromUser(payload, <span class="fstat-no" title="function not covered" >function(err, gists) {</span></span>
+<span class="cstat-no" title="statement not covered" >    base.github.gists.getFromUser(payload, <span class="fstat-no" title="function not covered" >function (err, gists) {</span></span>
 <span class="cstat-no" title="statement not covered" >        instance.listCallback_(err, gists, opt_callback);</span>
     });
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Gists.prototype.listCallback_ = <span class="fstat-no" title="function not covered" >function(err, gists, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >Gists.prototype.listCallback_ = <span class="fstat-no" title="function not covered" >function (err, gists, opt_callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options;
 &nbsp;
@@ -732,7 +732,7 @@
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (gists &amp;&amp; gists.length &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >        gists.forEach(<span class="fstat-no" title="function not covered" >function(gist) {</span></span>
+<span class="cstat-no" title="statement not covered" >        gists.forEach(<span class="fstat-no" title="function not covered" >function (gist) {</span></span>
 <span class="cstat-no" title="statement not covered" >            logger.log(logger.colors.yellow(gist.owner.login + '/' + gist.id) +</span>
                 ' ' + logger.getDuration(gist.updated_at));
 &nbsp;
@@ -747,7 +747,7 @@
     }
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Gists.prototype.new = <span class="fstat-no" title="function not covered" >function(name, content, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >Gists.prototype.new = <span class="fstat-no" title="function not covered" >function (name, content, opt_callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         file = {},
         options = instance.options,
@@ -774,7 +774,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 19:29:54 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 21:33:04 GMT+0000 (UTC)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>

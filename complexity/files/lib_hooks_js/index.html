@@ -107,14 +107,14 @@ var async = require(&#039;async&#039;),
     logger = require(&#039;./logger&#039;),
     config = configs.getConfig(true);
 
-exports.createContext = function(scope) {
+exports.createContext = function (scope) {
     return {
         options: scope.options,
         signature: config.signature
     };
 };
 
-exports.getHooksArrayFromPath_ = function(path, opt_config) {
+exports.getHooksArrayFromPath_ = function (path, opt_config) {
     var keys = path.split(&#039;.&#039;),
         key = keys.shift(),
         hooks;
@@ -131,7 +131,7 @@ exports.getHooksArrayFromPath_ = function(path, opt_config) {
     return Array.isArray(hooks) ? hooks : [];
 };
 
-exports.getHooksFromPath = function(path) {
+exports.getHooksFromPath = function (path) {
     var hooks,
         plugins = configs.getPlugins(),
         pluginHooks = [];
@@ -141,7 +141,7 @@ exports.getHooksFromPath = function(path) {
 
     // Second, search all installed plugins and load the hooks for each into
     // core hooks array.
-    plugins.forEach(function(plugin) {
+    plugins.forEach(function (plugin) {
         var pluginConfig;
 
         plugin = configs.getPluginBasename(plugin);
@@ -159,7 +159,7 @@ exports.getHooksFromPath = function(path) {
     return hooks.concat(pluginHooks);
 };
 
-exports.invoke = function(path, scope, opt_callback) {
+exports.invoke = function (path, scope, opt_callback) {
     var after = exports.getHooksFromPath(path + &#039;.after&#039;),
         before = exports.getHooksFromPath(path + &#039;.before&#039;),
         beforeOperations,
@@ -176,45 +176,45 @@ exports.invoke = function(path, scope, opt_callback) {
 
     beforeOperations = [
 
-        function(callback) {
+        function (callback) {
             exports.setupPlugins_(context, &#039;setupBeforeHooks&#039;, callback);
         }
     ];
 
-    before.forEach(function(cmd) {
+    before.forEach(function (cmd) {
         beforeOperations.push(exports.wrapCommand_(cmd, context, &#039;before&#039;));
     });
 
     afterOperations = [
 
-        function(callback) {
+        function (callback) {
             exports.setupPlugins_(context, &#039;setupAfterHooks&#039;, callback);
         }
     ];
 
-    after.forEach(function(cmd) {
+    after.forEach(function (cmd) {
         afterOperations.push(exports.wrapCommand_(cmd, context, &#039;after&#039;));
     });
 
-    afterOperations.push(function(callback) {
+    afterOperations.push(function (callback) {
         process.env.NODEGH_HOOK_IS_LOCKED = false;
         callback();
     });
 
     process.env.NODEGH_HOOK_IS_LOCKED = true;
 
-    async.series(beforeOperations, function() {
-        opt_callback &amp;&amp; opt_callback(function() {
+    async.series(beforeOperations, function () {
+        opt_callback &amp;&amp; opt_callback(function () {
             async.series(afterOperations);
         });
     });
 };
 
-exports.setupPlugins_ = function(context, setupFn, opt_callback) {
+exports.setupPlugins_ = function (context, setupFn, opt_callback) {
     var plugins = configs.getPlugins(),
         operations = [];
 
-    plugins.forEach(function(plugin) {
+    plugins.forEach(function (plugin) {
         try {
             plugin = configs.getPlugin(plugin);
         }
@@ -223,19 +223,19 @@ exports.setupPlugins_ = function(context, setupFn, opt_callback) {
         }
 
         if (plugin &amp;&amp; plugin[setupFn]) {
-            operations.push(function(callback) {
+            operations.push(function (callback) {
                 plugin[setupFn](context, callback);
             });
         }
     });
 
-    async.series(operations, function() {
+    async.series(operations, function () {
         opt_callback &amp;&amp; opt_callback();
     });
 };
 
-exports.wrapCommand_ = function(cmd, context, when) {
-    return function(callback) {
+exports.wrapCommand_ = function (cmd, context, when) {
+    return function (callback) {
         var raw = logger.compileTemplate(cmd, context);
 
         if (!raw) {

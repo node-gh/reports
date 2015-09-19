@@ -137,14 +137,14 @@ User.DETAILS = {
         &#039;L&#039;: [&#039;--logout&#039;],
         &#039;w&#039;: [&#039;--whoami&#039;]
     },
-    payload: function(payload, options) {
+    payload: function (payload, options) {
         options.login = true;
     }
 };
 
 // -- Commands -------------------------------------------------------------------------------------
 
-User.prototype.run = function() {
+User.prototype.run = function () {
     var instance = this,
         options = instance.options;
 
@@ -169,7 +169,7 @@ User.prototype.run = function() {
 
 // -- Static ---------------------------------------------------------------------------------------
 
-User.authorize = function() {
+User.authorize = function () {
     config = configs.getConfig();
 
     base.github.authenticate({
@@ -178,7 +178,7 @@ User.authorize = function() {
     });
 };
 
-User.authorizationCallback_ = function(user, err, res) {
+User.authorizationCallback_ = function (user, err, res) {
     if (err) {
         logger.error(err);
         return;
@@ -193,7 +193,7 @@ User.authorizationCallback_ = function(user, err, res) {
     logger.log(&#039;Authentication succeed.&#039;);
 };
 
-User.createAuthorization = function(opt_callback) {
+User.createAuthorization = function (opt_callback) {
     logger.log(&#039;First we need authorization to use GitHub\&#039;s API. Login with your GitHub account.&#039;);
 
     inquirer.prompt(
@@ -208,7 +208,7 @@ User.createAuthorization = function(opt_callback) {
                 message: &#039;Enter your GitHub password&#039;,
                 name: &#039;password&#039;
             }
-        ], function(answers) {
+        ], function (answers) {
             var payload = {
                 note: &#039;Node GH (&#039; + moment().format(&#039;MMMM Do YYYY, h:mm:ss a&#039;) + &#039;)&#039;,
                 note_url: &#039;https://github.com/eduardolundgren/node-gh&#039;,
@@ -221,7 +221,7 @@ User.createAuthorization = function(opt_callback) {
                 password: answers.password
             });
 
-            base.github.authorization.create(payload, function(err, res) {
+            base.github.authorization.create(payload, function (err, res) {
                 var isTwoFactorAuthentication = err &amp;&amp; err.message &amp;&amp; err.message.indexOf(&#039;OTP&#039;) &gt; 0;
 
                 if (isTwoFactorAuthentication) {
@@ -235,7 +235,7 @@ User.createAuthorization = function(opt_callback) {
         });
 };
 
-User.hasCredentials = function() {
+User.hasCredentials = function () {
     if (config.github_token &amp;&amp; config.github_user) {
         return true;
     }
@@ -243,7 +243,7 @@ User.hasCredentials = function() {
     return false;
 };
 
-User.login = function(opt_callback) {
+User.login = function (opt_callback) {
     if (User.hasCredentials()) {
         User.authorize();
         opt_callback &amp;&amp; opt_callback();
@@ -253,12 +253,12 @@ User.login = function(opt_callback) {
     }
 };
 
-User.logout = function() {
+User.logout = function () {
     configs.removeGlobalConfig(&#039;github_user&#039;);
     configs.removeGlobalConfig(&#039;github_token&#039;);
 };
 
-User.twoFactorAuthenticator_ = function(payload, user, opt_callback) {
+User.twoFactorAuthenticator_ = function (payload, user, opt_callback) {
     inquirer.prompt(
         [
             {
@@ -266,14 +266,14 @@ User.twoFactorAuthenticator_ = function(payload, user, opt_callback) {
                 message: &#039;Enter your two-factor code&#039;,
                 name: &#039;otp&#039;
             }
-        ], function(factor) {
+        ], function (factor) {
             if (!payload.headers) {
                 payload.headers = [];
             }
 
             payload.headers[&#039;X-GitHub-OTP&#039;] = factor.otp;
 
-            base.github.authorization.create(payload, function(err, res) {
+            base.github.authorization.create(payload, function (err, res) {
                 User.authorizationCallback_(user, err, res);
                 opt_callback &amp;&amp; opt_callback(err);
             });

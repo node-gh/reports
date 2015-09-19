@@ -1024,7 +1024,7 @@ Issue.DETAILS = {
         't': ['--title'],
         'u': ['--user']
     },
-    payload: <span class="fstat-no" title="function not covered" >function(payload, options) {</span>
+    payload: <span class="fstat-no" title="function not covered" >function (payload, options) {</span>
 <span class="cstat-no" title="statement not covered" >        if (payload[0]) {</span>
 <span class="cstat-no" title="statement not covered" >            if (/^\d+$/.test(payload[0])) {</span>
 <span class="cstat-no" title="statement not covered" >                options.browser = true;</span>
@@ -1047,7 +1047,7 @@ Issue.STATE_OPEN = 'open';
 &nbsp;
 // -- Commands -------------------------------------------------------------------------------------
 &nbsp;
-Issue.prototype.run = <span class="fstat-no" title="function not covered" >function() {</span>
+Issue.prototype.run = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options;
 &nbsp;
@@ -1058,13 +1058,13 @@ Issue.prototype.run = <span class="fstat-no" title="function not covered" >funct
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.close) {</span>
-<span class="cstat-no" title="statement not covered" >        hooks.invoke('issue.close', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('issue.close', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >            options.state = Issue.STATE_CLOSED;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            logger.log('Closing issue ' + logger.colors.green('#' + options.number) +</span>
                 ' on ' + logger.colors.green(options.user + '/' + options.repo));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            instance.close(<span class="fstat-no" title="function not covered" >function(err, issue) {</span></span>
+<span class="cstat-no" title="statement not covered" >            instance.close(<span class="fstat-no" title="function not covered" >function (err, issue) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t close issue.');</span>
 <span class="cstat-no" title="statement not covered" >                    return;</span>
@@ -1079,7 +1079,7 @@ Issue.prototype.run = <span class="fstat-no" title="function not covered" >funct
 <span class="cstat-no" title="statement not covered" >    if (options.comment) {</span>
 <span class="cstat-no" title="statement not covered" >        logger.log('Adding comment on issue ' + logger.colors.green('#' + options.number));</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        instance.comment(<span class="fstat-no" title="function not covered" >function(err, issue) {</span></span>
+<span class="cstat-no" title="statement not covered" >        instance.comment(<span class="fstat-no" title="function not covered" >function (err, issue) {</span></span>
 <span class="cstat-no" title="statement not covered" >            if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                logger.error('Can\'t add comment.');</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
@@ -1094,7 +1094,7 @@ Issue.prototype.run = <span class="fstat-no" title="function not covered" >funct
 <span class="cstat-no" title="statement not covered" >            logger.log('Listing ' + logger.colors.green(options.state) + ' issues for ' +</span>
                 logger.colors.green(options.user));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            instance.listFromAllRepositories(<span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >            instance.listFromAllRepositories(<span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t list issues for ' + options.user + '.');</span>
 <span class="cstat-no" title="statement not covered" >                    return;</span>
@@ -1105,7 +1105,7 @@ Issue.prototype.run = <span class="fstat-no" title="function not covered" >funct
 <span class="cstat-no" title="statement not covered" >            logger.log('Listing ' + logger.colors.green(options.state) +</span>
                 ' issues on ' + logger.colors.green(options.user + '/' + options.repo));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            instance.list(options.user, options.repo, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >            instance.list(options.user, options.repo, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t list issues on ' + options.user + '/' + options.repo);</span>
 <span class="cstat-no" title="statement not covered" >                    return;</span>
@@ -1115,10 +1115,10 @@ Issue.prototype.run = <span class="fstat-no" title="function not covered" >funct
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.new) {</span>
-<span class="cstat-no" title="statement not covered" >        hooks.invoke('issue.new', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('issue.new', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >            logger.log('Creating a new issue on ' + logger.colors.green(options.user + '/' + options.repo));</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            instance.new(<span class="fstat-no" title="function not covered" >function(err, issue) {</span></span>
+<span class="cstat-no" title="statement not covered" >            instance.new(<span class="fstat-no" title="function not covered" >function (err, issue) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t create new issue.');</span>
 <span class="cstat-no" title="statement not covered" >                    return;</span>
@@ -1135,11 +1135,11 @@ Issue.prototype.run = <span class="fstat-no" title="function not covered" >funct
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.open) {</span>
-<span class="cstat-no" title="statement not covered" >        hooks.invoke('issue.open', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('issue.open', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >            logger.log('Opening issue ' + logger.colors.green('#' + options.number) +</span>
                 ' on ' + logger.colors.green(options.user + '/' + options.repo));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            instance.open(<span class="fstat-no" title="function not covered" >function(err, issue) {</span></span>
+<span class="cstat-no" title="statement not covered" >            instance.open(<span class="fstat-no" title="function not covered" >function (err, issue) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t open issue.');</span>
 <span class="cstat-no" title="statement not covered" >                    return;</span>
@@ -1153,7 +1153,7 @@ Issue.prototype.run = <span class="fstat-no" title="function not covered" >funct
 &nbsp;
 };
 &nbsp;
-Issue.prototype.browser = <span class="fstat-no" title="function not covered" >function(user, repo, number) {</span>
+Issue.prototype.browser = <span class="fstat-no" title="function not covered" >function (user, repo, number) {</span>
 <span class="cstat-no" title="statement not covered" >    if (!number) {</span>
 <span class="cstat-no" title="statement not covered" >        number = '';</span>
     }
@@ -1161,10 +1161,10 @@ Issue.prototype.browser = <span class="fstat-no" title="function not covered" >f
 <span class="cstat-no" title="statement not covered" >    openUrl('https://github.com/' + user + '/' + repo + '/issues/' + number);</span>
 };
 &nbsp;
-Issue.prototype.close = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
+Issue.prototype.close = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    instance.getIssue_(<span class="fstat-no" title="function not covered" >function(err, issue) {</span></span>
+<span class="cstat-no" title="statement not covered" >    instance.getIssue_(<span class="fstat-no" title="function not covered" >function (err, issue) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (err) {</span>
 <span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
         }
@@ -1174,7 +1174,7 @@ Issue.prototype.close = <span class="fstat-no" title="function not covered" >fun
     });
 };
 &nbsp;
-Issue.prototype.comment = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
+Issue.prototype.comment = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         body,
@@ -1192,7 +1192,7 @@ Issue.prototype.comment = <span class="fstat-no" title="function not covered" >f
 <span class="cstat-no" title="statement not covered" >    base.github.issues.createComment(payload, opt_callback);</span>
 };
 &nbsp;
-Issue.prototype.editIssue_ = <span class="fstat-no" title="function not covered" >function(title, state, opt_callback) {</span>
+Issue.prototype.editIssue_ = <span class="fstat-no" title="function not covered" >function (title, state, opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         payload;
@@ -1213,7 +1213,7 @@ Issue.prototype.editIssue_ = <span class="fstat-no" title="function not covered"
 <span class="cstat-no" title="statement not covered" >    base.github.issues.edit(payload, opt_callback);</span>
 };
 &nbsp;
-Issue.prototype.getIssue_ = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
+Issue.prototype.getIssue_ = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         payload;
@@ -1227,7 +1227,7 @@ Issue.prototype.getIssue_ = <span class="fstat-no" title="function not covered" 
 <span class="cstat-no" title="statement not covered" >    base.github.issues.getRepoIssue(payload, opt_callback);</span>
 };
 &nbsp;
-Issue.prototype.list = <span class="fstat-no" title="function not covered" >function(user, repo, opt_callback) {</span>
+Issue.prototype.list = <span class="fstat-no" title="function not covered" >function (user, repo, opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         operations = [],
@@ -1249,11 +1249,11 @@ Issue.prototype.list = <span class="fstat-no" title="function not covered" >func
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.milestone) {</span>
-<span class="cstat-no" title="statement not covered" >        operations.push(<span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        operations.push(<span class="fstat-no" title="function not covered" >function (callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >            base.github.issues.getAllMilestones({</span>
                 repo: repo,
                 user: user
-            }, <span class="fstat-no" title="function not covered" >function(err, results) {</span>
+            }, <span class="fstat-no" title="function not covered" >function (err, results) {</span>
 <span class="cstat-no" title="statement not covered" >                if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                    logger.warn(err.message);</span>
                 }
@@ -1275,11 +1275,11 @@ Issue.prototype.list = <span class="fstat-no" title="function not covered" >func
 <span class="cstat-no" title="statement not covered" >        payload.assignee = options.assignee;</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    operations.push(<span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    operations.push(<span class="fstat-no" title="function not covered" >function (callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >        base.github.issues.repoIssues(payload, callback);</span>
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function(err, results) {</span></span>
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function (err, results) {</span></span>
 <span class="cstat-no" title="statement not covered" >        var issues = [];</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (err &amp;&amp; !options.all) {</span>
@@ -1287,29 +1287,29 @@ Issue.prototype.list = <span class="fstat-no" title="function not covered" >func
         }
 &nbsp;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        results.forEach(<span class="fstat-no" title="function not covered" >function(result) {</span></span>
+<span class="cstat-no" title="statement not covered" >        results.forEach(<span class="fstat-no" title="function not covered" >function (result) {</span></span>
 <span class="cstat-no" title="statement not covered" >            if (result) {</span>
 <span class="cstat-no" title="statement not covered" >                issues = issues.concat(result);</span>
             }
         });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        issues.sort(<span class="fstat-no" title="function not covered" >function(a, b) {</span></span>
+<span class="cstat-no" title="statement not covered" >        issues.sort(<span class="fstat-no" title="function not covered" >function (a, b) {</span></span>
 <span class="cstat-no" title="statement not covered" >            return a.number &gt; b.number ? -1 : 1;</span>
         });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (issues &amp;&amp; issues.length &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >            issues.forEach(<span class="fstat-no" title="function not covered" >function(issue) {</span></span>
+<span class="cstat-no" title="statement not covered" >            issues.forEach(<span class="fstat-no" title="function not covered" >function (issue) {</span></span>
 <span class="cstat-no" title="statement not covered" >                var labels = issue.label || [];</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                logger.log(logger.colors.green('#' + issue.number) + ' ' + issue.title +</span>
-                    logger.colors.magenta('@' + user.login + ' (' + logger.getDuration(issues.created_at) + ')'));
+<span class="cstat-no" title="statement not covered" >                logger.log(logger.colors.green('#' + issue.number) + ' ' + issue.title + ' ' +</span>
+                    logger.colors.magenta('@' + issue.user.login + ' (' + logger.getDuration(issues.created_at) + ')'));
 &nbsp;
 <span class="cstat-no" title="statement not covered" >                if (options.detailed) {</span>
 <span class="cstat-no" title="statement not covered" >                    if (issue.body) {</span>
 <span class="cstat-no" title="statement not covered" >                        logger.log(issue.body);</span>
                     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                    labels.forEach(<span class="fstat-no" title="function not covered" >function(label) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    labels.forEach(<span class="fstat-no" title="function not covered" >function (label) {</span></span>
 <span class="cstat-no" title="statement not covered" >                        labels.push(label.name);</span>
                     });
 &nbsp;
@@ -1331,7 +1331,7 @@ Issue.prototype.list = <span class="fstat-no" title="function not covered" >func
     });
 };
 &nbsp;
-Issue.prototype.listFromAllRepositories = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
+Issue.prototype.listFromAllRepositories = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         payload;
@@ -1341,19 +1341,19 @@ Issue.prototype.listFromAllRepositories = <span class="fstat-no" title="function
         user: options.user
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    base.github.repos.getAll(payload, <span class="fstat-no" title="function not covered" >function(err, repositories) {</span></span>
+<span class="cstat-no" title="statement not covered" >    base.github.repos.getAll(payload, <span class="fstat-no" title="function not covered" >function (err, repositories) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (err) {</span>
 <span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
         }
         else {
-<span class="cstat-no" title="statement not covered" >            repositories.forEach(<span class="fstat-no" title="function not covered" >function(repository) {</span></span>
+<span class="cstat-no" title="statement not covered" >            repositories.forEach(<span class="fstat-no" title="function not covered" >function (repository) {</span></span>
 <span class="cstat-no" title="statement not covered" >                instance.list(repository.owner.login, repository.name, opt_callback);</span>
             });
         }
     });
 };
 &nbsp;
-Issue.prototype.new = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
+Issue.prototype.new = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         body,
@@ -1382,10 +1382,10 @@ Issue.prototype.new = <span class="fstat-no" title="function not covered" >funct
 <span class="cstat-no" title="statement not covered" >    base.github.issues.create(payload, opt_callback);</span>
 };
 &nbsp;
-Issue.prototype.open = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
+Issue.prototype.open = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    instance.getIssue_(<span class="fstat-no" title="function not covered" >function(err, issue) {</span></span>
+<span class="cstat-no" title="statement not covered" >    instance.getIssue_(<span class="fstat-no" title="function not covered" >function (err, issue) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (err) {</span>
 <span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
         }
@@ -1401,7 +1401,7 @@ exports.Impl = Issue;
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 19:29:54 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 21:33:04 GMT+0000 (UTC)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>

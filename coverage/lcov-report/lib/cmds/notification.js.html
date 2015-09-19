@@ -494,14 +494,14 @@
         'u': ['--user'],
         'w': ['--watch']
     },
-    payload: <span class="fstat-no" title="function not covered" >function(payload, options) {</span>
+    payload: <span class="fstat-no" title="function not covered" >function (payload, options) {</span>
 <span class="cstat-no" title="statement not covered" >        options.latest = true;</span>
     }
 };
 &nbsp;
 // -- Commands -------------------------------------------------------------------------------------
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Notifications.prototype.run = <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >Notifications.prototype.run = <span class="fstat-no" title="function not covered" >function () {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options;
 &nbsp;
@@ -516,7 +516,7 @@
     }
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Notifications.prototype.latest = <span class="fstat-no" title="function not covered" >function(opt_watch) {</span></span>
+<span class="cstat-no" title="statement not covered" >Notifications.prototype.latest = <span class="fstat-no" title="function not covered" >function (opt_watch) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         operations,
@@ -526,21 +526,21 @@
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    operations = [</span>
 &nbsp;
-<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="fstat-no" title="function not covered" >        function (callback) {</span>
 <span class="cstat-no" title="statement not covered" >            payload = {</span>
                 user: options.user,
                 repo: options.repo
             };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            base.github.events.getFromRepo(payload, <span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
+<span class="cstat-no" title="statement not covered" >            base.github.events.getFromRepo(payload, <span class="fstat-no" title="function not covered" >function (err, data) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if (!err) {</span>
 <span class="cstat-no" title="statement not covered" >                    listEvents = data;</span>
                 }
 <span class="cstat-no" title="statement not covered" >                callback(err);</span>
             });
         },
-<span class="fstat-no" title="function not covered" >        function(callback) {</span>
-<span class="cstat-no" title="statement not covered" >            listEvents.forEach(<span class="fstat-no" title="function not covered" >function(event) {</span></span>
+<span class="fstat-no" title="function not covered" >        function (callback) {</span>
+<span class="cstat-no" title="statement not covered" >            listEvents.forEach(<span class="fstat-no" title="function not covered" >function (event) {</span></span>
 <span class="cstat-no" title="statement not covered" >                event.txt = instance.getMessage_(event);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >                if (opt_watch) {</span>
@@ -558,7 +558,7 @@
         }
     ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (err) {</span>
 <span class="cstat-no" title="statement not covered" >            logger.error('Can\'t get latest notifications.');</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
@@ -569,7 +569,7 @@
 <span class="cstat-no" title="statement not covered" >                logger.log(logger.colors.yellow(options.user + '/' + options.repo));</span>
             }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            filteredListEvents.forEach(<span class="fstat-no" title="function not covered" >function(event) {</span></span>
+<span class="cstat-no" title="statement not covered" >            filteredListEvents.forEach(<span class="fstat-no" title="function not covered" >function (event) {</span></span>
 <span class="cstat-no" title="statement not covered" >                logger.log(logger.colors.magenta('@' + event.actor.login) + ' ' +</span>
                     event.txt + ' ' + logger.colors.cyan(options.repo) + ' ' +
                     logger.getDuration(event.created_at));
@@ -578,18 +578,18 @@
     });
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Notifications.prototype.watch = <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >Notifications.prototype.watch = <span class="fstat-no" title="function not covered" >function () {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         intervalTime = 3000;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    instance.latest();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    setInterval(<span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >    setInterval(<span class="fstat-no" title="function not covered" >function () {</span></span>
 <span class="cstat-no" title="statement not covered" >        instance.latest(true);</span>
     }, intervalTime);
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Notifications.prototype.getMessage_ = <span class="fstat-no" title="function not covered" >function(event) {</span></span>
+<span class="cstat-no" title="statement not covered" >Notifications.prototype.getMessage_ = <span class="fstat-no" title="function not covered" >function (event) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var txt = '',</span>
         type = event.type,
         payload = event.payload;
@@ -657,7 +657,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 19:29:54 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 21:33:04 GMT+0000 (UTC)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>

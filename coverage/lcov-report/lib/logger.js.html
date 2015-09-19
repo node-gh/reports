@@ -437,29 +437,29 @@ var logger = {},
 <span class="cstat-no" title="statement not covered" >    return str.replace(/[\s\t\r\n](\{\{[#\/])/g, '$1');</span>
 }
 &nbsp;
-logger.debug = function() {
+logger.debug = function () {
     if (process.env.GH_VERBOSE) {
         arguments[0] = 'DEBUG: ' + arguments[0];
         console.log.apply(this, arguments);
     }
 };
 &nbsp;
-logger.error = function() {
+logger.error = function () {
     arguments[0] = 'fatal: ' + arguments[0];
     console.error.apply(this, arguments);
     process.exit(1);
 };
 &nbsp;
-logger.warn = function() {
+logger.warn = function () {
     arguments[0] = 'warning: ' + arguments[0];
     console.error.apply(this, arguments);
 };
 &nbsp;
-logger.log = function() {
+logger.log = function () {
     console.log.apply(this, arguments);
 };
 &nbsp;
-logger.getDuration = function(start, opt_end) {
+logger.getDuration = function (start, opt_end) {
     <span class="missing-if-branch" title="else path not taken" >E</span>if (opt_end === undefined) {
         opt_end = Date.now();
     }
@@ -467,7 +467,7 @@ logger.getDuration = function(start, opt_end) {
     return moment.duration(moment(start).diff(opt_end)).humanize(true);
 };
 &nbsp;
-logger.applyReplacements = <span class="fstat-no" title="function not covered" >function(output, replaceMap) {</span>
+logger.applyReplacements = <span class="fstat-no" title="function not covered" >function (output, replaceMap) {</span>
 <span class="cstat-no" title="statement not covered" >    var regexPattern;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    for (regexPattern in replaceMap) {</span>
@@ -480,7 +480,7 @@ logger.applyReplacements = <span class="fstat-no" title="function not covered" >
 <span class="cstat-no" title="statement not covered" >    return output;</span>
 };
 &nbsp;
-logger.getErrorMessage = <span class="fstat-no" title="function not covered" >function(err) {</span>
+logger.getErrorMessage = <span class="fstat-no" title="function not covered" >function (err) {</span>
 <span class="cstat-no" title="statement not covered" >    var msg;</span>
 &nbsp;
     // General normalizer
@@ -519,17 +519,17 @@ logger.getErrorMessage = <span class="fstat-no" title="function not covered" >fu
 <span class="cstat-no" title="statement not covered" >    return err.message.replace('Command failed: fatal: ', '').trim();</span>
 };
 &nbsp;
-logger.compileTemplate = <span class="fstat-no" title="function not covered" >function(source, map) {</span>
+logger.compileTemplate = <span class="fstat-no" title="function not covered" >function (source, map) {</span>
 <span class="cstat-no" title="statement not covered" >    var template = handlebars.compile(source);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return logger.applyReplacements(template(map));</span>
 };
 &nbsp;
-logger.logTemplate = <span class="fstat-no" title="function not covered" >function(source, map) {</span>
+logger.logTemplate = <span class="fstat-no" title="function not covered" >function (source, map) {</span>
 <span class="cstat-no" title="statement not covered" >    console.log(logger.compileTemplate(source, map || {}));</span>
 };
 &nbsp;
-logger.logTemplateFile = <span class="fstat-no" title="function not covered" >function(file, map) {</span>
+logger.logTemplateFile = <span class="fstat-no" title="function not covered" >function (file, map) {</span>
 <span class="cstat-no" title="statement not covered" >    var templatePath,</span>
         source;
 &nbsp;
@@ -544,49 +544,49 @@ logger.logTemplateFile = <span class="fstat-no" title="function not covered" >fu
 <span class="cstat-no" title="statement not covered" >    logger.logTemplate(stripHandlebarsNewLine(source), map);</span>
 };
 &nbsp;
-logger.registerHelper = <span class="fstat-no" title="function not covered" >function(name, callback) {</span>
+logger.registerHelper = <span class="fstat-no" title="function not covered" >function (name, callback) {</span>
 <span class="cstat-no" title="statement not covered" >    handlebars.registerHelper(name, callback);</span>
 };
 &nbsp;
-logger.registerHelpers_ = function() {
-    handlebars.registerHelper('date', <span class="fstat-no" title="function not covered" >function(date) {</span>
+logger.registerHelpers_ = function () {
+    handlebars.registerHelper('date', <span class="fstat-no" title="function not covered" >function (date) {</span>
 <span class="cstat-no" title="statement not covered" >        return logger.getDuration(date);</span>
     });
 &nbsp;
-    handlebars.registerHelper('compareLink', <span class="fstat-no" title="function not covered" >function() {</span>
+    handlebars.registerHelper('compareLink', <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >        return 'https://github.com/' + this.options.user + '/' + this.options.repo +</span>
             '/compare/' + this.options.pullHeadSHA + '...' + this.options.currentSHA;
     });
 &nbsp;
-    handlebars.registerHelper('forwardedLink', <span class="fstat-no" title="function not covered" >function() {</span>
+    handlebars.registerHelper('forwardedLink', <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >        return 'https://github.com/' + this.options.fwd + '/' + this.options.repo + '/pull/' +</span>
             this.options.forwardedPull;
     });
 &nbsp;
-    handlebars.registerHelper('link', <span class="fstat-no" title="function not covered" >function() {</span>
+    handlebars.registerHelper('link', <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >        return 'https://github.com/' + this.options.user + '/' + this.options.repo + '/pull/' +</span>
             this.options.number;
     });
 &nbsp;
-    handlebars.registerHelper('submittedLink', <span class="fstat-no" title="function not covered" >function() {</span>
+    handlebars.registerHelper('submittedLink', <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >        return 'https://github.com/' + this.options.submit + '/' + this.options.repo + '/pull/' +</span>
             this.options.submittedPull;
     });
 &nbsp;
-    handlebars.registerHelper('issueLink', <span class="fstat-no" title="function not covered" >function() {</span>
+    handlebars.registerHelper('issueLink', <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >        return 'https://github.com/' + this.options.user + '/' + this.options.repo + '/issues/' +</span>
             this.options.number;
     });
 &nbsp;
-    handlebars.registerHelper('gistLink', <span class="fstat-no" title="function not covered" >function() {</span>
+    handlebars.registerHelper('gistLink', <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >        return 'https://gist.github.com/' + this.options.loggedUser + '/' + this.options.id;</span>
     });
 &nbsp;
-    handlebars.registerHelper('repoLink', <span class="fstat-no" title="function not covered" >function() {</span>
+    handlebars.registerHelper('repoLink', <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >        return 'https://github.com/' + this.options.user + '/' + this.options.repo;</span>
     });
 &nbsp;
-    handlebars.registerHelper('wordwrap', <span class="fstat-no" title="function not covered" >function(text, padding, stripNewLines) {</span>
+    handlebars.registerHelper('wordwrap', <span class="fstat-no" title="function not covered" >function (text, padding, stripNewLines) {</span>
 <span class="cstat-no" title="statement not covered" >        var gutter = '';</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (stripNewLines !== false) {</span>
@@ -612,7 +612,7 @@ module.exports = logger;
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 19:29:54 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 21:33:04 GMT+0000 (UTC)</div>
 </div>
 <script src="../prettify.js"></script>
 <script>

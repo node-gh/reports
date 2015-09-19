@@ -153,14 +153,14 @@ Gists.DETAILS = {
         &#039;p&#039;: [&#039;--private&#039;],
         &#039;u&#039;: [&#039;--user&#039;]
     },
-    payload: function(payload, options) {
+    payload: function (payload, options) {
         options.list = true;
     }
 };
 
 // -- Commands -------------------------------------------------------------------------------------
 
-Gists.prototype.run = function() {
+Gists.prototype.run = function () {
     var instance = this,
         operations,
         options = instance.options;
@@ -175,7 +175,7 @@ Gists.prototype.run = function() {
     }
 
     if (options.delete) {
-        hooks.invoke(&#039;gists.delete&#039;, instance, function(afterHooksCallback) {
+        hooks.invoke(&#039;gists.delete&#039;, instance, function (afterHooksCallback) {
             logger.log(&#039;Deleting gist &#039; + logger.colors.green(options.loggedUser + &#039;/&#039; + options.delete));
 
             inquirer.prompt(
@@ -185,9 +185,9 @@ Gists.prototype.run = function() {
                         message: &#039;Are you sure? This action CANNOT be undone. [y/N]&#039;,
                         name: &#039;confirmation&#039;
                     }
-                ], function(answers) {
+                ], function (answers) {
                     if (answers.confirmation.toLowerCase() === &#039;y&#039;) {
-                        instance.delete(options.delete, function(err) {
+                        instance.delete(options.delete, function (err) {
                             if (err) {
                                 logger.error(&#039;Can\&#039;t delete gist.&#039;);
                                 return;
@@ -204,10 +204,10 @@ Gists.prototype.run = function() {
     }
 
     if (options.fork) {
-        hooks.invoke(&#039;gists.fork&#039;, instance, function(afterHooksCallback) {
+        hooks.invoke(&#039;gists.fork&#039;, instance, function (afterHooksCallback) {
             logger.log(&#039;Forking gist on &#039; + logger.colors.green(options.loggedUser));
 
-            instance.fork(options.fork, function(err, gist) {
+            instance.fork(options.fork, function (err, gist) {
                 if (err) {
                     logger.error(JSON.parse(err.message).message);
                     return;
@@ -222,7 +222,7 @@ Gists.prototype.run = function() {
     if (options.list) {
         logger.log(&#039;Listing gists for &#039; + logger.colors.green(options.user));
 
-        instance.list(options.user, function(err) {
+        instance.list(options.user, function (err) {
             if (err) {
                 logger.error(&#039;Can\&#039;t list gists for &#039; + options.user + &#039;.&#039;);
                 return;
@@ -231,7 +231,7 @@ Gists.prototype.run = function() {
     }
 
     if (options.new) {
-        hooks.invoke(&#039;gists.new&#039;, instance, function(afterHooksCallback) {
+        hooks.invoke(&#039;gists.new&#039;, instance, function (afterHooksCallback) {
             var privacy = (options.private) ? &#039;private&#039; : &#039;public&#039;;
 
             operations = [];
@@ -240,7 +240,7 @@ Gists.prototype.run = function() {
             logger.log(&#039;Creating &#039; + logger.colors.magenta(privacy) + &#039; gist on &#039; +
                 logger.colors.green(options.loggedUser));
 
-            instance.new(options.new, options.content, function(err, gist) {
+            instance.new(options.new, options.content, function (err, gist) {
                 if (gist) {
                     options.id = gist.id;
                 }
@@ -258,11 +258,11 @@ Gists.prototype.run = function() {
     }
 };
 
-Gists.prototype.browser = function(gist) {
+Gists.prototype.browser = function (gist) {
     openUrl(&#039;https://gist.github.com/&#039; + gist);
 };
 
-Gists.prototype.delete = function(id, opt_callback) {
+Gists.prototype.delete = function (id, opt_callback) {
     var payload = {
         id: id
     };
@@ -270,7 +270,7 @@ Gists.prototype.delete = function(id, opt_callback) {
     base.github.gists.delete(payload, opt_callback);
 };
 
-Gists.prototype.fork = function(id, opt_callback) {
+Gists.prototype.fork = function (id, opt_callback) {
     var payload = {
         id: id
     };
@@ -278,7 +278,7 @@ Gists.prototype.fork = function(id, opt_callback) {
     base.github.gists.fork(payload, opt_callback);
 };
 
-Gists.prototype.list = function(user, opt_callback) {
+Gists.prototype.list = function (user, opt_callback) {
     var instance = this,
         payload;
 
@@ -286,12 +286,12 @@ Gists.prototype.list = function(user, opt_callback) {
         user: user
     };
 
-    base.github.gists.getFromUser(payload, function(err, gists) {
+    base.github.gists.getFromUser(payload, function (err, gists) {
         instance.listCallback_(err, gists, opt_callback);
     });
 };
 
-Gists.prototype.listCallback_ = function(err, gists, opt_callback) {
+Gists.prototype.listCallback_ = function (err, gists, opt_callback) {
     var instance = this,
         options = instance.options;
 
@@ -300,7 +300,7 @@ Gists.prototype.listCallback_ = function(err, gists, opt_callback) {
     }
 
     if (gists &amp;&amp; gists.length &gt; 0) {
-        gists.forEach(function(gist) {
+        gists.forEach(function (gist) {
             logger.log(logger.colors.yellow(gist.owner.login + &#039;/&#039; + gist.id) +
                 &#039; &#039; + logger.getDuration(gist.updated_at));
 
@@ -315,7 +315,7 @@ Gists.prototype.listCallback_ = function(err, gists, opt_callback) {
     }
 };
 
-Gists.prototype.new = function(name, content, opt_callback) {
+Gists.prototype.new = function (name, content, opt_callback) {
     var instance = this,
         file = {},
         options = instance.options,

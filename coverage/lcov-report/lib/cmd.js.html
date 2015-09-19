@@ -516,7 +516,7 @@
 &nbsp;
 <span class="fstat-no" title="function not covered" >function hasCommandInOptions(commands, options) {</span>
 <span class="cstat-no" title="statement not covered" >    if (commands) {</span>
-<span class="cstat-no" title="statement not covered" >        return commands.some(<span class="fstat-no" title="function not covered" >function(c) {</span></span>
+<span class="cstat-no" title="statement not covered" >        return commands.some(<span class="fstat-no" title="function not covered" >function (c) {</span></span>
 <span class="cstat-no" title="statement not covered" >            return options[c] !== undefined;</span>
         });
     }
@@ -549,7 +549,7 @@
     }
     else {
 <span class="cstat-no" title="statement not covered" >        commandFiles = base.find(commandDir, /\.js$/i);</span>
-<span class="cstat-no" title="statement not covered" >        commandFiles.every(<span class="fstat-no" title="function not covered" >function(file) {</span></span>
+<span class="cstat-no" title="statement not covered" >        commandFiles.every(<span class="fstat-no" title="function not covered" >function (file) {</span></span>
 <span class="cstat-no" title="statement not covered" >            commandPath = path.join(commandDir, file);</span>
 <span class="cstat-no" title="statement not covered" >            Command = require(commandPath).Impl;</span>
 &nbsp;
@@ -597,7 +597,7 @@
         remain = parsed.argv.remain,
         cooked = parsed.argv.cooked;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    operations.push(<span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    operations.push(<span class="fstat-no" title="function not covered" >function (callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >        base.checkVersion();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (tracker.optOut !== undefined) {</span>
@@ -605,12 +605,12 @@
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        tracker.askPermission(null, <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >        tracker.askPermission(null, <span class="fstat-no" title="function not covered" >function () {</span></span>
 <span class="cstat-no" title="statement not covered" >            callback();</span>
         });
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    operations.push(<span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    operations.push(<span class="fstat-no" title="function not covered" >function (callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >        var module = remain[0];</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (cooked[0] === '--version' || cooked[0] === '-v') {</span>
@@ -650,7 +650,7 @@
         }
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function () {</span></span>
 <span class="cstat-no" title="statement not covered" >        var iterativeValues,</span>
             remoteUrl = git.getRemoteUrl(options.remote);
 &nbsp;
@@ -679,7 +679,7 @@
         // present, assume [undefined] in order to initialize the loop.
 <span class="cstat-no" title="statement not covered" >        iterativeValues = options[iterative] || [undefined];</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        iterativeValues.forEach(<span class="fstat-no" title="function not covered" >function(value) {</span></span>
+<span class="cstat-no" title="statement not covered" >        iterativeValues.forEach(<span class="fstat-no" title="function not covered" >function (value) {</span></span>
 <span class="cstat-no" title="statement not covered" >            options = base.clone(options);</span>
 &nbsp;
             // Value can be undefined when the command doesn't have a iterative
@@ -695,7 +695,7 @@
     });
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >exports.run = <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >exports.run = <span class="fstat-no" title="function not covered" >function () {</span></span>
 <span class="cstat-no" title="statement not covered" >    if (!fs.existsSync(configs.getUserHomePath())) {</span>
 <span class="cstat-no" title="statement not covered" >        configs.createGlobalConfig();</span>
     }
@@ -723,7 +723,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 19:29:54 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 21:33:04 GMT+0000 (UTC)</div>
 </div>
 <script src="../prettify.js"></script>
 <script>

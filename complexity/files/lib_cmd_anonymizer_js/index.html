@@ -108,11 +108,11 @@ function CmdAnonymizer(commandDetails, redaction) {
     this.shorthands = commandDetails.shorthands;
 }
 
-CmdAnonymizer.prototype.extractArgument = function(word) {
+CmdAnonymizer.prototype.extractArgument = function (word) {
     return word.replace(/-{0,2}/, &#039;&#039;);
 };
 
-CmdAnonymizer.prototype.isOptionValue = function(option, value) {
+CmdAnonymizer.prototype.isOptionValue = function (option, value) {
     var choice = this.options[option],
         booleans = [&#039;true&#039;, &#039;false&#039;];
 
@@ -121,17 +121,17 @@ CmdAnonymizer.prototype.isOptionValue = function(option, value) {
         (typeof choice === &#039;string&#039; &amp;&amp; choice === value));
 };
 
-CmdAnonymizer.prototype.isValueInOptions = function(options, value) {
+CmdAnonymizer.prototype.isValueInOptions = function (options, value) {
     if (!(options instanceof Array)) {
         return this.isOptionValue(options, value);
     }
 
-    return options.some(function(each) {
+    return options.some(function (each) {
         return this.isOptionValue(this.extractArgument(each), value);
     }, this);
 };
 
-CmdAnonymizer.prototype.classify = function(word) {
+CmdAnonymizer.prototype.classify = function (word) {
     var arg = this.extractArgument(word),
         whitelist = [&#039;verbose&#039;, &#039;no-hooks&#039;];
 
@@ -170,7 +170,7 @@ CmdAnonymizer.prototype.classify = function(word) {
     this.last = undefined;
 };
 
-CmdAnonymizer.prototype.resolve = function(cmd) {
+CmdAnonymizer.prototype.resolve = function (cmd) {
     // quasi-strict white list approach (best-effort)
 
     this.invoked.push(cmd.shift());
@@ -180,7 +180,7 @@ CmdAnonymizer.prototype.resolve = function(cmd) {
     return this.invoked;
 };
 
-CmdAnonymizer.prototype.resolveToString = function(cmd) {
+CmdAnonymizer.prototype.resolveToString = function (cmd) {
     return this.resolve(cmd).join(&#039; &#039;);
 };
 

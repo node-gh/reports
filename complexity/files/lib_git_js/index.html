@@ -104,7 +104,7 @@ var logger = require(&#039;./logger&#039;),
     exec = require(&#039;./exec&#039;),
     git_command = process.env.GH_GIT_COMMAND || &#039;git&#039;;
 
-exports.checkout = function(branch, newBranch) {
+exports.checkout = function (branch, newBranch) {
     var args = [&#039;checkout&#039;, branch];
 
     if (newBranch) {
@@ -114,7 +114,7 @@ exports.checkout = function(branch, newBranch) {
     return exec.spawnSyncStream(git_command, args);
 };
 
-exports.clone = function(url, folder) {
+exports.clone = function (url, folder) {
     var args = [&#039;clone&#039;, url];
 
     if (folder) {
@@ -124,7 +124,7 @@ exports.clone = function(url, folder) {
     return exec.spawnSyncStream(git_command, args);
 };
 
-exports._merge = function(branch, type) {
+exports._merge = function (branch, type) {
     var res;
 
     try {
@@ -137,15 +137,15 @@ exports._merge = function(branch, type) {
     }
 };
 
-exports.merge = function(branch) {
+exports.merge = function (branch) {
     return this._merge(branch, &#039;merge&#039;);
 };
 
-exports.rebase = function(branch) {
+exports.rebase = function (branch) {
     return this._merge(branch, &#039;rebase&#039;);
 };
 
-exports.push = function(remote, branch) {
+exports.push = function (remote, branch) {
     var args = [&#039;push&#039;, remote];
 
     if (branch) {
@@ -155,13 +155,13 @@ exports.push = function(remote, branch) {
     return exec.spawnSyncStream(git_command, args);
 };
 
-exports.fetch = function(repoUrl, headBranch, pullBranch) {
+exports.fetch = function (repoUrl, headBranch, pullBranch) {
     var args = [&#039;fetch&#039;, repoUrl, headBranch + &#039;:&#039; + pullBranch];
 
     return exec.spawnSyncStream(git_command, args);
 };
 
-exports.countUserAdjacentCommits = function() {
+exports.countUserAdjacentCommits = function () {
     var git,
         params,
         commits = 0,
@@ -186,7 +186,7 @@ exports.countUserAdjacentCommits = function() {
     return commits;
 };
 
-exports.deleteBranch = function(branch) {
+exports.deleteBranch = function (branch) {
     var git = exec.spawnSync(git_command, [&#039;branch&#039;, &#039;-d&#039;, branch]);
 
     if (git.status !== 0) {
@@ -196,11 +196,11 @@ exports.deleteBranch = function(branch) {
     return git.stdout;
 };
 
-exports.findRoot = function() {
+exports.findRoot = function () {
     return exec.spawnSync(git_command, [&#039;rev-parse&#039;, &#039;--show-toplevel&#039;]).stdout;
 };
 
-exports.getCommitMessage = function(branch, number) {
+exports.getCommitMessage = function (branch, number) {
     var git,
         params = [&#039;log&#039;];
 
@@ -226,7 +226,7 @@ exports.getCommitMessage = function(branch, number) {
     return git.stdout;
 };
 
-exports.getConfig = function(key) {
+exports.getConfig = function (key) {
     var git = exec.spawnSync(git_command, [&#039;config&#039;, &#039;--get&#039;, key]);
 
     if (git.status !== 0) {
@@ -236,7 +236,7 @@ exports.getConfig = function(key) {
     return git.stdout;
 };
 
-exports.getCurrentBranch = function() {
+exports.getCurrentBranch = function () {
     var git = exec.spawnSync(git_command, [&#039;symbolic-ref&#039;, &#039;--short&#039;, &#039;HEAD&#039;]);
 
     if (git.status !== 0) {
@@ -247,11 +247,11 @@ exports.getCurrentBranch = function() {
     return git.stdout;
 };
 
-exports.getLastCommitMessage = function(branch) {
+exports.getLastCommitMessage = function (branch) {
     return exports.getCommitMessage(branch, 1);
 };
 
-exports.getLastCommitSHA = function() {
+exports.getLastCommitSHA = function () {
     var git = exec.spawnSync(git_command, [&#039;rev-parse&#039;, &#039;--short&#039;, &#039;HEAD&#039;]);
 
     if (git.status !== 0) {
@@ -261,7 +261,7 @@ exports.getLastCommitSHA = function() {
     return git.stdout;
 };
 
-exports.getRemoteUrl = function(remote) {
+exports.getRemoteUrl = function (remote) {
     try {
         return exports.getConfig(&#039;remote.&#039; + remote + &#039;.url&#039;);
     }
@@ -271,27 +271,27 @@ exports.getRemoteUrl = function(remote) {
     }
 };
 
-exports.getRepoFromRemoteURL = function(url) {
+exports.getRepoFromRemoteURL = function (url) {
     var parsed = exports.parseRemoteUrl(url);
 
     return parsed &amp;&amp; parsed[1];
 };
 
-exports.getUserFromRemoteUrl = function(url) {
+exports.getUserFromRemoteUrl = function (url) {
     var parsed = exports.parseRemoteUrl(url);
 
     return parsed &amp;&amp; parsed[0];
 };
 
-exports.getRepo = function(remote) {
+exports.getRepo = function (remote) {
     return exports.getRepoFromRemoteURL(exports.getRemoteUrl(remote));
 };
 
-exports.getUser = function(remote) {
+exports.getUser = function (remote) {
     return exports.getUserFromRemoteUrl(exports.getRemoteUrl(remote));
 };
 
-exports.parseRemoteUrl = function(url) {
+exports.parseRemoteUrl = function (url) {
     var parsed = /[\/:]([\w-]+)\/(.*?)(?:\.git)?$/.exec(url);
 
     if (parsed) {

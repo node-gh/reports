@@ -140,14 +140,14 @@ Notifications.DETAILS = {
         &#039;u&#039;: [&#039;--user&#039;],
         &#039;w&#039;: [&#039;--watch&#039;]
     },
-    payload: function(payload, options) {
+    payload: function (payload, options) {
         options.latest = true;
     }
 };
 
 // -- Commands -------------------------------------------------------------------------------------
 
-Notifications.prototype.run = function() {
+Notifications.prototype.run = function () {
     var instance = this,
         options = instance.options;
 
@@ -162,7 +162,7 @@ Notifications.prototype.run = function() {
     }
 };
 
-Notifications.prototype.latest = function(opt_watch) {
+Notifications.prototype.latest = function (opt_watch) {
     var instance = this,
         options = instance.options,
         operations,
@@ -172,21 +172,21 @@ Notifications.prototype.latest = function(opt_watch) {
 
     operations = [
 
-        function(callback) {
+        function (callback) {
             payload = {
                 user: options.user,
                 repo: options.repo
             };
 
-            base.github.events.getFromRepo(payload, function(err, data) {
+            base.github.events.getFromRepo(payload, function (err, data) {
                 if (!err) {
                     listEvents = data;
                 }
                 callback(err);
             });
         },
-        function(callback) {
-            listEvents.forEach(function(event) {
+        function (callback) {
+            listEvents.forEach(function (event) {
                 event.txt = instance.getMessage_(event);
 
                 if (opt_watch) {
@@ -204,7 +204,7 @@ Notifications.prototype.latest = function(opt_watch) {
         }
     ];
 
-    async.series(operations, function(err) {
+    async.series(operations, function (err) {
         if (err) {
             logger.error(&#039;Can\&#039;t get latest notifications.&#039;);
             return;
@@ -215,7 +215,7 @@ Notifications.prototype.latest = function(opt_watch) {
                 logger.log(logger.colors.yellow(options.user + &#039;/&#039; + options.repo));
             }
 
-            filteredListEvents.forEach(function(event) {
+            filteredListEvents.forEach(function (event) {
                 logger.log(logger.colors.magenta(&#039;@&#039; + event.actor.login) + &#039; &#039; +
                     event.txt + &#039; &#039; + logger.colors.cyan(options.repo) + &#039; &#039; +
                     logger.getDuration(event.created_at));
@@ -224,18 +224,18 @@ Notifications.prototype.latest = function(opt_watch) {
     });
 };
 
-Notifications.prototype.watch = function() {
+Notifications.prototype.watch = function () {
     var instance = this,
         intervalTime = 3000;
 
     instance.latest();
 
-    setInterval(function() {
+    setInterval(function () {
         instance.latest(true);
     }, intervalTime);
 };
 
-Notifications.prototype.getMessage_ = function(event) {
+Notifications.prototype.getMessage_ = function (event) {
     var txt = &#039;&#039;,
         type = event.type,
         payload = event.payload;

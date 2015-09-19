@@ -124,14 +124,14 @@ Hello.DETAILS = {
     shorthands: {
         &#039;w&#039;: [&#039;--world&#039;]
     },
-    payload: function(payload, options) {
+    payload: function (payload, options) {
         options.world = true;
     }
 };
 
 // -- Commands -------------------------------------------------------------------------------------
 
-Hello.prototype.run = function() {
+Hello.prototype.run = function () {
     var instance = this,
         options = instance.options;
 
@@ -140,7 +140,7 @@ Hello.prototype.run = function() {
     }
 };
 
-Hello.prototype.world = function() {
+Hello.prototype.world = function () {
     logger.log(&#039;hello world :)&#039;);
 };
 

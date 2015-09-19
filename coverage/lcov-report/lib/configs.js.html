@@ -556,7 +556,7 @@ var fs = require('fs'),
 &nbsp;
 // -- Config -------------------------------------------------------------------
 &nbsp;
-exports.getNodeModulesGlobalPath = function() {
+exports.getNodeModulesGlobalPath = function () {
     var result,
         path = exports.getConfig()[PLUGINS_PATH_KEY];
 &nbsp;
@@ -575,7 +575,7 @@ exports.getNodeModulesGlobalPath = function() {
     return path;
 };
 &nbsp;
-exports.getUserHomePath = function() {
+exports.getUserHomePath = function () {
     return userhome('.gh.json');
 };
 &nbsp;
@@ -587,11 +587,11 @@ function getConfig(opt_plugin) {
     try {
         projectConfig = JSON.parse(fs.readFileSync(exports.getProjectConfigPath()));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        Object.keys(globalConfig).forEach(<span class="fstat-no" title="function not covered" >function(key) {</span></span>
+<span class="cstat-no" title="statement not covered" >        Object.keys(globalConfig).forEach(<span class="fstat-no" title="function not covered" >function (key) {</span></span>
 <span class="cstat-no" title="statement not covered" >            result[key] = globalConfig[key];</span>
         });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        Object.keys(projectConfig).forEach(<span class="fstat-no" title="function not covered" >function(key) {</span></span>
+<span class="cstat-no" title="statement not covered" >        Object.keys(projectConfig).forEach(<span class="fstat-no" title="function not covered" >function (key) {</span></span>
 <span class="cstat-no" title="statement not covered" >            result[key] = projectConfig[key];</span>
         });
 &nbsp;
@@ -608,7 +608,7 @@ function getConfig(opt_plugin) {
     }
 }
 &nbsp;
-exports.getConfig = function(opt_plugin) {
+exports.getConfig = function (opt_plugin) {
     var config = cache[opt_plugin];
 &nbsp;
     if (!config) {
@@ -619,7 +619,7 @@ exports.getConfig = function(opt_plugin) {
     return config;
 };
 &nbsp;
-exports.getGlobalConfig = function(opt_plugin) {
+exports.getGlobalConfig = function (opt_plugin) {
     var config,
         configPath,
         userConfig;
@@ -633,12 +633,12 @@ exports.getGlobalConfig = function(opt_plugin) {
     config = JSON.parse(fs.readFileSync(exports.getGlobalConfigPath()));
     userConfig = JSON.parse(fs.readFileSync(configPath));
 &nbsp;
-    Object.keys(userConfig).forEach(function(key) {
+    Object.keys(userConfig).forEach(function (key) {
         config[key] = userConfig[key];
     });
 &nbsp;
     if (opt_plugin) {
-        exports.getPlugins().forEach(<span class="fstat-no" title="function not covered" >function(plugin) {</span>
+        exports.getPlugins().forEach(<span class="fstat-no" title="function not covered" >function (plugin) {</span>
 <span class="cstat-no" title="statement not covered" >            exports.addPluginConfig(config, plugin);</span>
         });
     }
@@ -646,15 +646,15 @@ exports.getGlobalConfig = function(opt_plugin) {
     return config;
 };
 &nbsp;
-exports.getGlobalConfigPath = function() {
+exports.getGlobalConfigPath = function () {
     return path.join(__dirname, '../', 'default.gh.json');
 };
 &nbsp;
-exports.getProjectConfigPath = function() {
+exports.getProjectConfigPath = function () {
     return path.join(process.cwd(), '.gh.json');
 };
 &nbsp;
-exports.removeGlobalConfig = <span class="fstat-no" title="function not covered" >function(key) {</span>
+exports.removeGlobalConfig = <span class="fstat-no" title="function not covered" >function (key) {</span>
 <span class="cstat-no" title="statement not covered" >    var config = exports.getGlobalConfig();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    delete config[key];</span>
@@ -663,14 +663,14 @@ exports.removeGlobalConfig = <span class="fstat-no" title="function not covered"
 <span class="cstat-no" title="statement not covered" >    cache = {};</span>
 };
 &nbsp;
-exports.createGlobalConfig = function() {
+exports.createGlobalConfig = function () {
     exports.saveJsonConfig(exports.getUserHomePath(),
         JSON.parse(fs.readFileSync(exports.getGlobalConfigPath()))
     );
     cache = {};
 };
 &nbsp;
-exports.writeGlobalConfig = function(jsonPath, value) {
+exports.writeGlobalConfig = function (jsonPath, value) {
     var config = exports.getGlobalConfig(),
         i,
         output,
@@ -689,7 +689,7 @@ exports.writeGlobalConfig = function(jsonPath, value) {
     cache = {};
 };
 &nbsp;
-exports.saveJsonConfig = function(path, object) {
+exports.saveJsonConfig = function (path, object) {
     var options = {
         mode: parseInt('0600', 8)
     };
@@ -697,7 +697,7 @@ exports.saveJsonConfig = function(path, object) {
     fs.writeFileSync(path, JSON.stringify(object, null, 4), options);
 };
 &nbsp;
-exports.writeGlobalConfigCredentials = <span class="fstat-no" title="function not covered" >function(user, token) {</span>
+exports.writeGlobalConfigCredentials = <span class="fstat-no" title="function not covered" >function (user, token) {</span>
 <span class="cstat-no" title="statement not covered" >    var configPath = exports.getUserHomePath();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    exports.writeGlobalConfig('github_user', user);</span>
@@ -707,7 +707,7 @@ exports.writeGlobalConfigCredentials = <span class="fstat-no" title="function no
 &nbsp;
 // -- Plugins ------------------------------------------------------------------
 &nbsp;
-exports.addPluginConfig = <span class="fstat-no" title="function not covered" >function(config, plugin) {</span>
+exports.addPluginConfig = <span class="fstat-no" title="function not covered" >function (config, plugin) {</span>
 <span class="cstat-no" title="statement not covered" >    var pluginConfig,</span>
         userConfig;
 &nbsp;
@@ -722,7 +722,7 @@ exports.addPluginConfig = <span class="fstat-no" title="function not covered" >f
         // Merge default plugin configuration with the user's.
 <span class="cstat-no" title="statement not covered" >        userConfig = config.plugins[plugin] || {};</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        Object.keys(userConfig).forEach(<span class="fstat-no" title="function not covered" >function(key) {</span></span>
+<span class="cstat-no" title="statement not covered" >        Object.keys(userConfig).forEach(<span class="fstat-no" title="function not covered" >function (key) {</span></span>
 <span class="cstat-no" title="statement not covered" >            pluginConfig[key] = userConfig[key];</span>
         });
 &nbsp;
@@ -743,7 +743,7 @@ function getPlugins() {
     }
 &nbsp;
     try {
-        plugins = fs.readdirSync(pluginsPath).filter(function(plugin) {
+        plugins = fs.readdirSync(pluginsPath).filter(function (plugin) {
             return plugin.substring(0, 3) === 'gh-';
         });
     }
@@ -756,7 +756,7 @@ function getPlugins() {
     }
 }
 &nbsp;
-exports.getPlugins = function() {
+exports.getPlugins = function () {
     <span class="missing-if-branch" title="else path not taken" >E</span>if (!plugins) {
         plugins = getPlugins();
     }
@@ -764,21 +764,21 @@ exports.getPlugins = function() {
     return plugins;
 };
 &nbsp;
-exports.getPlugin = <span class="fstat-no" title="function not covered" >function(plugin) {</span>
+exports.getPlugin = <span class="fstat-no" title="function not covered" >function (plugin) {</span>
 <span class="cstat-no" title="statement not covered" >    plugin = exports.getPluginBasename(plugin);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return require(exports.getPluginPath('gh-' + plugin));</span>
 };
 &nbsp;
-exports.getPluginPath = <span class="fstat-no" title="function not covered" >function(plugin) {</span>
+exports.getPluginPath = <span class="fstat-no" title="function not covered" >function (plugin) {</span>
 <span class="cstat-no" title="statement not covered" >    return which.sync(plugin);</span>
 };
 &nbsp;
-exports.getPluginBasename = <span class="fstat-no" title="function not covered" >function(plugin) {</span>
+exports.getPluginBasename = <span class="fstat-no" title="function not covered" >function (plugin) {</span>
 <span class="cstat-no" title="statement not covered" >    return plugin &amp;&amp; plugin.replace('gh-', '');</span>
 };
 &nbsp;
-exports.isPluginIgnored = <span class="fstat-no" title="function not covered" >function(plugin) {</span>
+exports.isPluginIgnored = <span class="fstat-no" title="function not covered" >function (plugin) {</span>
 <span class="cstat-no" title="statement not covered" >    if (exports.getConfig().ignored_plugins.indexOf(exports.getPluginBasename(plugin)) &gt; -1) {</span>
 <span class="cstat-no" title="statement not covered" >        return true;</span>
     }
@@ -792,7 +792,7 @@ exports.PLUGINS_PATH_KEY = PLUGINS_PATH_KEY;
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 19:29:54 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 21:33:04 GMT+0000 (UTC)</div>
 </div>
 <script src="../prettify.js"></script>
 <script>

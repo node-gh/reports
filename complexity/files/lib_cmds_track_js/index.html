@@ -131,7 +131,7 @@ Track.DETAILS = {
 
 // -- Commands -------------------------------------------------------------------------------------
 
-Track.prototype.run = function() {
+Track.prototype.run = function () {
     var options = this.options;
 
     if (options[&#039;opt-in&#039;]) {
@@ -145,7 +145,7 @@ Track.prototype.run = function() {
     this.isTracking();
 };
 
-Track.prototype.isTracking = function() {
+Track.prototype.isTracking = function () {
     var status = &#039;enable&#039;,
         next = &#039;opt-out&#039;,
         current = tracker.optOut !== false;
@@ -159,11 +159,11 @@ Track.prototype.isTracking = function() {
     logger.log(&#039;You can &#039; + next + &#039; it with: &#039; + logger.bold.cyan(&#039;gh track --&#039; + next));
 };
 
-Track.prototype.optIn = function() {
+Track.prototype.optIn = function () {
     tracker.optOut = false;
 };
 
-Track.prototype.optOut = function() {
+Track.prototype.optOut = function () {
     tracker.optOut = true;
 };
 

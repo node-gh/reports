@@ -2135,7 +2135,7 @@ PullRequest.DETAILS = {
         't': ['--title'],
         'u': ['--user']
     },
-    payload: <span class="fstat-no" title="function not covered" >function(payload, options) {</span>
+    payload: <span class="fstat-no" title="function not covered" >function (payload, options) {</span>
 <span class="cstat-no" title="statement not covered" >        if (payload[0]) {</span>
 <span class="cstat-no" title="statement not covered" >            options.fetch = true;</span>
         }
@@ -2162,7 +2162,7 @@ PullRequest.prototype.options = null;
 &nbsp;
 PullRequest.prototype.issues = null;
 &nbsp;
-PullRequest.prototype.run = <span class="fstat-no" title="function not covered" >function() {</span>
+PullRequest.prototype.run = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options;
 &nbsp;
@@ -2226,16 +2226,16 @@ PullRequest.prototype.run = <span class="fstat-no" title="function not covered" 
     }
 };
 &nbsp;
-PullRequest.prototype.addComplexityParamToPulls_ = <span class="fstat-no" title="function not covered" >function(pulls, opt_callback) {</span>
+PullRequest.prototype.addComplexityParamToPulls_ = <span class="fstat-no" title="function not covered" >function (pulls, opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         metrics,
         operations,
         options = instance.options;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    operations = pulls.map(<span class="fstat-no" title="function not covered" >function(pull) {</span></span>
-<span class="cstat-no" title="statement not covered" >        return <span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    operations = pulls.map(<span class="fstat-no" title="function not covered" >function (pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >        return <span class="fstat-no" title="function not covered" >function (callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >            options.number = pull.number;</span>
-<span class="cstat-no" title="statement not covered" >            instance.getPullRequest_(<span class="fstat-no" title="function not covered" >function(err, pull2) {</span></span>
+<span class="cstat-no" title="statement not covered" >            instance.getPullRequest_(<span class="fstat-no" title="function not covered" >function (err, pull2) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if (!err) {</span>
 <span class="cstat-no" title="statement not covered" >                    metrics = {</span>
                         additions: pull2.additions,
@@ -2251,16 +2251,16 @@ PullRequest.prototype.addComplexityParamToPulls_ = <span class="fstat-no" title=
         };
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function(err, results) {</span></span>
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function (err, results) {</span></span>
 <span class="cstat-no" title="statement not covered" >        opt_callback(err, results);</span>
     });
 };
 &nbsp;
-PullRequest.prototype.browser = <span class="fstat-no" title="function not covered" >function(user, repo, number) {</span>
+PullRequest.prototype.browser = <span class="fstat-no" title="function not covered" >function (user, repo, number) {</span>
 <span class="cstat-no" title="statement not covered" >    openUrl('https://github.com/' + user + '/' + repo + '/pull/' + number);</span>
 };
 &nbsp;
-PullRequest.prototype.calculateComplexity_ = <span class="fstat-no" title="function not covered" >function(metrics) {</span>
+PullRequest.prototype.calculateComplexity_ = <span class="fstat-no" title="function not covered" >function (metrics) {</span>
 <span class="cstat-no" title="statement not covered" >    var complexity,</span>
         weightAddition = 2,
         weightChangedFile = 2,
@@ -2277,7 +2277,7 @@ PullRequest.prototype.calculateComplexity_ = <span class="fstat-no" title="funct
 <span class="cstat-no" title="statement not covered" >    return complexity;</span>
 };
 &nbsp;
-PullRequest.prototype.close = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
+PullRequest.prototype.close = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         operations,
@@ -2285,19 +2285,19 @@ PullRequest.prototype.close = <span class="fstat-no" title="function not covered
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    operations = [</span>
 &nbsp;
-<span class="fstat-no" title="function not covered" >        function(callback) {</span>
-<span class="cstat-no" title="statement not covered" >            instance.getPullRequest_(<span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
+<span class="fstat-no" title="function not covered" >        function (callback) {</span>
+<span class="cstat-no" title="statement not covered" >            instance.getPullRequest_(<span class="fstat-no" title="function not covered" >function (err, data) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if (!err) {</span>
 <span class="cstat-no" title="statement not covered" >                    pull = data;</span>
                 }
 <span class="cstat-no" title="statement not covered" >                callback(err);</span>
             });
         },
-<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="fstat-no" title="function not covered" >        function (callback) {</span>
 <span class="cstat-no" title="statement not covered" >            instance.updatePullRequest_(</span>
                 pull.title, pull.body, PullRequest.STATE_CLOSED, callback);
         },
-<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="fstat-no" title="function not covered" >        function (callback) {</span>
 <span class="cstat-no" title="statement not covered" >            if (options.pullBranch === options.currentBranch) {</span>
 <span class="cstat-no" title="statement not covered" >                git.checkout(options.branch);</span>
             }
@@ -2310,12 +2310,12 @@ PullRequest.prototype.close = <span class="fstat-no" title="function not covered
         }
     ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback(err, pull);</span>
     });
 };
 &nbsp;
-PullRequest.prototype.checkPullRequestIntegrity_ = <span class="fstat-no" title="function not covered" >function(originalError, user, opt_callback) {</span>
+PullRequest.prototype.checkPullRequestIntegrity_ = <span class="fstat-no" title="function not covered" >function (originalError, user, opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         payload,
@@ -2327,9 +2327,9 @@ PullRequest.prototype.checkPullRequestIntegrity_ = <span class="fstat-no" title=
         state: PullRequest.STATE_OPEN
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    base.github.pullRequests.getAll(payload, <span class="fstat-no" title="function not covered" >function(err, pulls) {</span></span>
+<span class="cstat-no" title="statement not covered" >    base.github.pullRequests.getAll(payload, <span class="fstat-no" title="function not covered" >function (err, pulls) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (!err) {</span>
-<span class="cstat-no" title="statement not covered" >            pulls.forEach(<span class="fstat-no" title="function not covered" >function(data) {</span></span>
+<span class="cstat-no" title="statement not covered" >            pulls.forEach(<span class="fstat-no" title="function not covered" >function (data) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if ((data.base.ref === options.branch) &amp;&amp;</span>
                     (data.head.ref === options.currentBranch) &amp;&amp;
                     (data.base.sha === data.head.sha) &amp;&amp;
@@ -2347,13 +2347,13 @@ PullRequest.prototype.checkPullRequestIntegrity_ = <span class="fstat-no" title=
     });
 };
 &nbsp;
-PullRequest.prototype.fetch = <span class="fstat-no" title="function not covered" >function(opt_type, opt_callback) {</span>
+PullRequest.prototype.fetch = <span class="fstat-no" title="function not covered" >function (opt_type, opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         headBranch,
         repoUrl;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    instance.getPullRequest_(<span class="fstat-no" title="function not covered" >function(err, pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >    instance.getPullRequest_(<span class="fstat-no" title="function not covered" >function (err, pull) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (err) {</span>
 <span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
@@ -2372,11 +2372,11 @@ PullRequest.prototype.fetch = <span class="fstat-no" title="function not covered
     });
 };
 &nbsp;
-PullRequest.prototype.filterPullsSentByMe_ = <span class="fstat-no" title="function not covered" >function(pulls) {</span>
+PullRequest.prototype.filterPullsSentByMe_ = <span class="fstat-no" title="function not covered" >function (pulls) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    pulls = pulls.filter(<span class="fstat-no" title="function not covered" >function(pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >    pulls = pulls.filter(<span class="fstat-no" title="function not covered" >function (pull) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (options.loggedUser === pull.user.login) {</span>
 <span class="cstat-no" title="statement not covered" >            return pull;</span>
         }
@@ -2385,7 +2385,7 @@ PullRequest.prototype.filterPullsSentByMe_ = <span class="fstat-no" title="funct
 <span class="cstat-no" title="statement not covered" >    return pulls;</span>
 };
 &nbsp;
-PullRequest.prototype.forward = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
+PullRequest.prototype.forward = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         operations,
@@ -2394,18 +2394,18 @@ PullRequest.prototype.forward = <span class="fstat-no" title="function not cover
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    operations = [</span>
 &nbsp;
-<span class="fstat-no" title="function not covered" >        function(callback) {</span>
-<span class="cstat-no" title="statement not covered" >            instance.fetch(PullRequest.FETCH_TYPE_SILENT, <span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
+<span class="fstat-no" title="function not covered" >        function (callback) {</span>
+<span class="cstat-no" title="statement not covered" >            instance.fetch(PullRequest.FETCH_TYPE_SILENT, <span class="fstat-no" title="function not covered" >function (err, data) {</span></span>
 <span class="cstat-no" title="statement not covered" >                pull = data;</span>
 <span class="cstat-no" title="statement not covered" >                callback(err);</span>
             });
         },
-<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="fstat-no" title="function not covered" >        function (callback) {</span>
 <span class="cstat-no" title="statement not covered" >            options.title = pull.title;</span>
 <span class="cstat-no" title="statement not covered" >            options.description = pull.body;</span>
 <span class="cstat-no" title="statement not covered" >            options.submittedUser = pull.user.login;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            instance.submit(options.fwd, <span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
+<span class="cstat-no" title="statement not covered" >            instance.submit(options.fwd, <span class="fstat-no" title="function not covered" >function (err, data) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                    callback(err);</span>
 <span class="cstat-no" title="statement not covered" >                    return;</span>
@@ -2419,12 +2419,12 @@ PullRequest.prototype.forward = <span class="fstat-no" title="function not cover
         }
     ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback(err, submittedPull);</span>
     });
 };
 &nbsp;
-PullRequest.prototype.getPullRequest_ = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
+PullRequest.prototype.getPullRequest_ = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         payload;
@@ -2438,13 +2438,13 @@ PullRequest.prototype.getPullRequest_ = <span class="fstat-no" title="function n
 <span class="cstat-no" title="statement not covered" >    base.github.pullRequests.get(payload, opt_callback);</span>
 };
 &nbsp;
-PullRequest.prototype.getBranchNameFromPullNumber_ = <span class="fstat-no" title="function not covered" >function(number) {</span>
+PullRequest.prototype.getBranchNameFromPullNumber_ = <span class="fstat-no" title="function not covered" >function (number) {</span>
 <span class="cstat-no" title="statement not covered" >    if (number) {</span>
 <span class="cstat-no" title="statement not covered" >        return config.pull_branch_name_prefix + number;</span>
     }
 };
 &nbsp;
-PullRequest.prototype.getPullRequestNumberFromBranch_ = <span class="fstat-no" title="function not covered" >function() {</span>
+PullRequest.prototype.getPullRequestNumberFromBranch_ = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         prefix;
@@ -2456,7 +2456,7 @@ PullRequest.prototype.getPullRequestNumberFromBranch_ = <span class="fstat-no" t
     }
 };
 &nbsp;
-PullRequest.prototype.getPullsTemplateJson_ = <span class="fstat-no" title="function not covered" >function(pulls, opt_callback) {</span>
+PullRequest.prototype.getPullsTemplateJson_ = <span class="fstat-no" title="function not covered" >function (pulls, opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         branch,
@@ -2468,7 +2468,7 @@ PullRequest.prototype.getPullsTemplateJson_ = <span class="fstat-no" title="func
         branches: []
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    pulls.forEach(<span class="fstat-no" title="function not covered" >function(pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >    pulls.forEach(<span class="fstat-no" title="function not covered" >function (pull) {</span></span>
 <span class="cstat-no" title="statement not covered" >        branch = pull.base.ref;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (!options.branch || options.branch === branch) {</span>
@@ -2477,7 +2477,7 @@ PullRequest.prototype.getPullsTemplateJson_ = <span class="fstat-no" title="func
         }
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    Object.keys(branches).forEach(<span class="fstat-no" title="function not covered" >function(branch) {</span></span>
+<span class="cstat-no" title="statement not covered" >    Object.keys(branches).forEach(<span class="fstat-no" title="function not covered" >function (branch) {</span></span>
 <span class="cstat-no" title="statement not covered" >        json.branches.push({</span>
             name: branch,
             pulls: branches[branch],
@@ -2488,7 +2488,7 @@ PullRequest.prototype.getPullsTemplateJson_ = <span class="fstat-no" title="func
 <span class="cstat-no" title="statement not covered" >    opt_callback &amp;&amp; opt_callback(null, json);</span>
 };
 &nbsp;
-PullRequest.prototype.printPullInfo_ = function(pull) {
+PullRequest.prototype.printPullInfo_ = function (pull) {
     var options = this.options;
 &nbsp;
     logger.log(logger.colors.green('#' + pull.number) + ' ' +
@@ -2511,7 +2511,7 @@ PullRequest.prototype.printPullInfo_ = function(pull) {
     }
 };
 &nbsp;
-PullRequest.prototype.get = function(user, repo, number) {
+PullRequest.prototype.get = function (user, repo, number) {
     var pr = this,
         payload;
 &nbsp;
@@ -2521,7 +2521,7 @@ PullRequest.prototype.get = function(user, repo, number) {
         number: number
     };
 &nbsp;
-    base.github.pullRequests.get(payload, function(err, pull) {
+    base.github.pullRequests.get(payload, function (err, pull) {
         if (err) {
             logger.warn('Can\'t get pull request ' + user + '/' + repo + '/' + number);
             return;
@@ -2531,7 +2531,7 @@ PullRequest.prototype.get = function(user, repo, number) {
     });
 };
 &nbsp;
-PullRequest.prototype.list = <span class="fstat-no" title="function not covered" >function(user, repo, opt_callback) {</span>
+PullRequest.prototype.list = <span class="fstat-no" title="function not covered" >function (user, repo, opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         json,
@@ -2556,8 +2556,8 @@ PullRequest.prototype.list = <span class="fstat-no" title="function not covered"
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    operations = [</span>
 &nbsp;
-<span class="fstat-no" title="function not covered" >        function(callback) {</span>
-<span class="cstat-no" title="statement not covered" >            base.github.pullRequests.getAll(payload, <span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
+<span class="fstat-no" title="function not covered" >        function (callback) {</span>
+<span class="cstat-no" title="statement not covered" >            base.github.pullRequests.getAll(payload, <span class="fstat-no" title="function not covered" >function (err, data) {</span></span>
 <span class="cstat-no" title="statement not covered" >                pulls = [];</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >                if (!err) {</span>
@@ -2581,9 +2581,9 @@ PullRequest.prototype.list = <span class="fstat-no" title="function not covered"
             });
         },
 &nbsp;
-<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="fstat-no" title="function not covered" >        function (callback) {</span>
 <span class="cstat-no" title="statement not covered" >            if (options.sort &amp;&amp; options.sort === PullRequest.SORT_COMPLEXITY) {</span>
-<span class="cstat-no" title="statement not covered" >                instance.addComplexityParamToPulls_(pulls, <span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
+<span class="cstat-no" title="statement not covered" >                instance.addComplexityParamToPulls_(pulls, <span class="fstat-no" title="function not covered" >function (err, data) {</span></span>
 <span class="cstat-no" title="statement not covered" >                    if (!err) {</span>
 <span class="cstat-no" title="statement not covered" >                        pulls = instance.sortPullsByComplexity_(data);</span>
                     }
@@ -2596,8 +2596,8 @@ PullRequest.prototype.list = <span class="fstat-no" title="function not covered"
             }
         },
 &nbsp;
-<span class="fstat-no" title="function not covered" >        function(callback) {</span>
-<span class="cstat-no" title="statement not covered" >            instance.getPullsTemplateJson_(pulls, <span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
+<span class="fstat-no" title="function not covered" >        function (callback) {</span>
+<span class="cstat-no" title="statement not covered" >            instance.getPullsTemplateJson_(pulls, <span class="fstat-no" title="function not covered" >function (err, data) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if (!err) {</span>
 <span class="cstat-no" title="statement not covered" >                    json = data;</span>
                 }
@@ -2606,11 +2606,11 @@ PullRequest.prototype.list = <span class="fstat-no" title="function not covered"
         }
     ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (!err &amp;&amp; pulls.length) {</span>
 <span class="cstat-no" title="statement not covered" >            logger.log(logger.colors.yellow(user + '/' + repo));</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            json.branches.forEach(<span class="fstat-no" title="function not covered" >function(branch) {</span></span>
+<span class="cstat-no" title="statement not covered" >            json.branches.forEach(<span class="fstat-no" title="function not covered" >function (branch) {</span></span>
 <span class="cstat-no" title="statement not covered" >                logger.log(branch.name + ' (' + branch.total + ')');</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >                branch.pulls.forEach(instance.printPullInfo_, instance);</span>
@@ -2621,7 +2621,7 @@ PullRequest.prototype.list = <span class="fstat-no" title="function not covered"
     });
 };
 &nbsp;
-PullRequest.prototype.listFromAllRepositories = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
+PullRequest.prototype.listFromAllRepositories = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         payload,
@@ -2639,19 +2639,19 @@ PullRequest.prototype.listFromAllRepositories = <span class="fstat-no" title="fu
 <span class="cstat-no" title="statement not covered" >        apiMethod = 'getAll';</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    base.github.repos[apiMethod](payload, <span class="fstat-no" title="function not covered" >function(err, repositories) {</span></span>
+<span class="cstat-no" title="statement not covered" >    base.github.repos[apiMethod](payload, <span class="fstat-no" title="function not covered" >function (err, repositories) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (err) {</span>
 <span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
         }
         else {
-<span class="cstat-no" title="statement not covered" >            repositories.forEach(<span class="fstat-no" title="function not covered" >function(repository) {</span></span>
+<span class="cstat-no" title="statement not covered" >            repositories.forEach(<span class="fstat-no" title="function not covered" >function (repository) {</span></span>
 <span class="cstat-no" title="statement not covered" >                instance.list(repository.owner.login, repository.name, opt_callback);</span>
             });
         }
     });
 };
 &nbsp;
-PullRequest.prototype.listFromAllOrgRepositories = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
+PullRequest.prototype.listFromAllOrgRepositories = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         payload;
@@ -2662,19 +2662,19 @@ PullRequest.prototype.listFromAllOrgRepositories = <span class="fstat-no" title=
         org: options.org
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    base.github.repos.getFromOrg(payload, <span class="fstat-no" title="function not covered" >function(err, repositories) {</span></span>
+<span class="cstat-no" title="statement not covered" >    base.github.repos.getFromOrg(payload, <span class="fstat-no" title="function not covered" >function (err, repositories) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (err) {</span>
 <span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
         }
         else {
-<span class="cstat-no" title="statement not covered" >            repositories.forEach(<span class="fstat-no" title="function not covered" >function(repository) {</span></span>
+<span class="cstat-no" title="statement not covered" >            repositories.forEach(<span class="fstat-no" title="function not covered" >function (repository) {</span></span>
 <span class="cstat-no" title="statement not covered" >                instance.list(repository.owner.login, repository.name, opt_callback);</span>
             });
         }
     });
 };
 &nbsp;
-PullRequest.prototype.merge = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
+PullRequest.prototype.merge = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         method = 'merge';
@@ -2690,10 +2690,10 @@ PullRequest.prototype.merge = <span class="fstat-no" title="function not covered
 <span class="cstat-no" title="statement not covered" >    opt_callback &amp;&amp; opt_callback();</span>
 };
 &nbsp;
-PullRequest.prototype.open = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
+PullRequest.prototype.open = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    instance.getPullRequest_(<span class="fstat-no" title="function not covered" >function(err, pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >    instance.getPullRequest_(<span class="fstat-no" title="function not covered" >function (err, pull) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (err) {</span>
 <span class="cstat-no" title="statement not covered" >            opt_callback &amp;&amp; opt_callback(err);</span>
         }
@@ -2704,7 +2704,7 @@ PullRequest.prototype.open = <span class="fstat-no" title="function not covered"
     });
 };
 &nbsp;
-PullRequest.prototype.setMergeCommentRequiredOptions_ = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span>
+PullRequest.prototype.setMergeCommentRequiredOptions_ = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var options = this.options,</span>
         lastCommitSHA = git.getLastCommitSHA(),
         changes = git.countUserAdjacentCommits();
@@ -2720,11 +2720,11 @@ PullRequest.prototype.setMergeCommentRequiredOptions_ = <span class="fstat-no" t
 <span class="cstat-no" title="statement not covered" >    opt_callback &amp;&amp; opt_callback();</span>
 };
 &nbsp;
-PullRequest.prototype.sortPullsByComplexity_ = <span class="fstat-no" title="function not covered" >function(data) {</span>
+PullRequest.prototype.sortPullsByComplexity_ = <span class="fstat-no" title="function not covered" >function (data) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    data.sort(<span class="fstat-no" title="function not covered" >function(a, b) {</span></span>
+<span class="cstat-no" title="statement not covered" >    data.sort(<span class="fstat-no" title="function not covered" >function (a, b) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (a.complexity &gt; b.complexity) {</span>
 <span class="cstat-no" title="statement not covered" >            return -1;</span>
         }
@@ -2743,7 +2743,7 @@ PullRequest.prototype.sortPullsByComplexity_ = <span class="fstat-no" title="fun
 <span class="cstat-no" title="statement not covered" >    return data;</span>
 };
 &nbsp;
-PullRequest.prototype.submit = <span class="fstat-no" title="function not covered" >function(user, opt_callback) {</span>
+PullRequest.prototype.submit = <span class="fstat-no" title="function not covered" >function (user, opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         operations,
@@ -2753,18 +2753,18 @@ PullRequest.prototype.submit = <span class="fstat-no" title="function not covere
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    operations = [</span>
 &nbsp;
-<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="fstat-no" title="function not covered" >        function (callback) {</span>
 <span class="cstat-no" title="statement not covered" >            git.push(config.default_remote, pullBranch);</span>
 <span class="cstat-no" title="statement not covered" >            callback();</span>
         },
-<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="fstat-no" title="function not covered" >        function (callback) {</span>
 <span class="cstat-no" title="statement not covered" >            if (!options.title) {</span>
 <span class="cstat-no" title="statement not covered" >                options.title = git.getLastCommitMessage(pullBranch);</span>
             }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            callback();</span>
         },
-<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="fstat-no" title="function not covered" >        function (callback) {</span>
 <span class="cstat-no" title="statement not covered" >            var payload = {</span>
                 base: options.branch,
                 head: options.user + ':' + pullBranch,
@@ -2784,7 +2784,7 @@ PullRequest.prototype.submit = <span class="fstat-no" title="function not covere
         }
     ];
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function(err, results) {</span></span>
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function (err, results) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (err) {</span>
 <span class="cstat-no" title="statement not covered" >            instance.checkPullRequestIntegrity_(err, user, opt_callback);</span>
         }
@@ -2794,7 +2794,7 @@ PullRequest.prototype.submit = <span class="fstat-no" title="function not covere
     });
 };
 &nbsp;
-PullRequest.prototype.updatePullRequest_ = <span class="fstat-no" title="function not covered" >function(title, opt_body, state, opt_callback) {</span>
+PullRequest.prototype.updatePullRequest_ = <span class="fstat-no" title="function not covered" >function (title, opt_body, state, opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         payload;
@@ -2815,7 +2815,7 @@ PullRequest.prototype.updatePullRequest_ = <span class="fstat-no" title="functio
 <span class="cstat-no" title="statement not covered" >    base.github.pullRequests.update(payload, opt_callback);</span>
 };
 &nbsp;
-PullRequest.prototype._fetchHandler = <span class="fstat-no" title="function not covered" >function() {</span>
+PullRequest.prototype._fetchHandler = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = this.options,
         fetchType = PullRequest.FETCH_TYPE_CHECKOUT;
@@ -2827,7 +2827,7 @@ PullRequest.prototype._fetchHandler = <span class="fstat-no" title="function not
 <span class="cstat-no" title="statement not covered" >        fetchType = PullRequest.FETCH_TYPE_REBASE;</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    hooks.invoke('pull-request.fetch', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    hooks.invoke('pull-request.fetch', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >        var operation = '',</span>
             branch = options.pullBranch;
 &nbsp;
@@ -2845,7 +2845,7 @@ PullRequest.prototype._fetchHandler = <span class="fstat-no" title="function not
             logger.colors.green('#' + options.number) + operation +
             ' into branch ' + logger.colors.green(branch));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        instance.fetch(fetchType, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >        instance.fetch(fetchType, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >            if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                logger.error('Can\'t fetch pull request ' + options.number + '.');</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
@@ -2856,12 +2856,12 @@ PullRequest.prototype._fetchHandler = <span class="fstat-no" title="function not
     });
 };
 &nbsp;
-PullRequest.prototype._mergeHandler = <span class="fstat-no" title="function not covered" >function() {</span>
+PullRequest.prototype._mergeHandler = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = this.options,
         operation = 'Merging';
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    hooks.invoke('pull-request.merge', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    hooks.invoke('pull-request.merge', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (options.rebase) {</span>
 <span class="cstat-no" title="statement not covered" >            operation = 'Rebasing';</span>
         }
@@ -2874,15 +2874,15 @@ PullRequest.prototype._mergeHandler = <span class="fstat-no" title="function not
     });
 };
 &nbsp;
-PullRequest.prototype._fwdHandler = <span class="fstat-no" title="function not covered" >function() {</span>
+PullRequest.prototype._fwdHandler = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = this.options;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    hooks.invoke('pull-request.fwd', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    hooks.invoke('pull-request.fwd', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >        logger.log('Forwarding pull request ' +</span>
             logger.colors.green('#' + options.number) + ' to ' + logger.colors.magenta('@' + options.fwd));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        instance.forward(<span class="fstat-no" title="function not covered" >function(err, pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >        instance.forward(<span class="fstat-no" title="function not covered" >function (err, pull) {</span></span>
 <span class="cstat-no" title="statement not covered" >            if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                logger.error('Can\'t forward pull request ' + options.number + ' to ' + options.fwd + '.');</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
@@ -2898,14 +2898,14 @@ PullRequest.prototype._fwdHandler = <span class="fstat-no" title="function not c
     });
 };
 &nbsp;
-PullRequest.prototype._closeHandler = <span class="fstat-no" title="function not covered" >function() {</span>
+PullRequest.prototype._closeHandler = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = this.options;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    hooks.invoke('pull-request.close', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    hooks.invoke('pull-request.close', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >        logger.log('Closing pull request ' + logger.colors.green('#' + options.number));</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        instance.close(<span class="fstat-no" title="function not covered" >function(err, pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >        instance.close(<span class="fstat-no" title="function not covered" >function (err, pull) {</span></span>
 <span class="cstat-no" title="statement not covered" >            if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                logger.warn('Can\'t close pull request ' + options.number + '.');</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
@@ -2918,12 +2918,12 @@ PullRequest.prototype._closeHandler = <span class="fstat-no" title="function not
     });
 };
 &nbsp;
-PullRequest.prototype._commentHandler = <span class="fstat-no" title="function not covered" >function() {</span>
+PullRequest.prototype._commentHandler = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var options = this.options;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    logger.log('Adding comment on pull request ' + logger.colors.green('#' + options.number));</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    this.issue.comment(<span class="fstat-no" title="function not covered" >function(err, pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >    this.issue.comment(<span class="fstat-no" title="function not covered" >function (err, pull) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (err) {</span>
 <span class="cstat-no" title="statement not covered" >            logger.error('Can\'t comment on pull request ' + options.number + '.');</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
@@ -2933,11 +2933,11 @@ PullRequest.prototype._commentHandler = <span class="fstat-no" title="function n
     });
 };
 &nbsp;
-PullRequest.prototype._infoHandler = <span class="fstat-no" title="function not covered" >function() {</span>
+PullRequest.prototype._infoHandler = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = this.options;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    instance.get(options.user, options.repo, options.number, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >    instance.get(options.user, options.repo, options.number, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (err) {</span>
 <span class="cstat-no" title="statement not covered" >            logger.error('Can\'t get pull requests.');</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
@@ -2945,7 +2945,7 @@ PullRequest.prototype._infoHandler = <span class="fstat-no" title="function not 
     });
 };
 &nbsp;
-PullRequest.prototype._listHandler = <span class="fstat-no" title="function not covered" >function() {</span>
+PullRequest.prototype._listHandler = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = this.options,
         who;
@@ -2962,7 +2962,7 @@ PullRequest.prototype._listHandler = <span class="fstat-no" title="function not 
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        logger.log('Listing all ' + options.state + ' pull requests for ' + logger.colors.green(who));</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        instance.listFromAllRepositories(<span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >        instance.listFromAllRepositories(<span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >            if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                logger.error('Can\'t list all pull requests from repos.');</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
@@ -2979,7 +2979,7 @@ PullRequest.prototype._listHandler = <span class="fstat-no" title="function not 
 <span class="cstat-no" title="statement not covered" >            logger.log('Listing ' + options.state + ' pull requests on ' +</span>
                 logger.colors.green(options.user + '/' + options.repo));
         }
-<span class="cstat-no" title="statement not covered" >        instance.list(options.user, options.repo, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >        instance.list(options.user, options.repo, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >            if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                logger.error('Can\'t list pull requests.');</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
@@ -2988,14 +2988,14 @@ PullRequest.prototype._listHandler = <span class="fstat-no" title="function not 
     }
 };
 &nbsp;
-PullRequest.prototype._openHandler = <span class="fstat-no" title="function not covered" >function() {</span>
+PullRequest.prototype._openHandler = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = this.options;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    hooks.invoke('pull-request.open', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    hooks.invoke('pull-request.open', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >        logger.log('Opening pull request ' + logger.colors.green('#' + options.number));</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        instance.open(<span class="fstat-no" title="function not covered" >function(err, pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >        instance.open(<span class="fstat-no" title="function not covered" >function (err, pull) {</span></span>
 <span class="cstat-no" title="statement not covered" >            if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                logger.error('Can\'t open pull request ' + options.number + '.');</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
@@ -3007,14 +3007,14 @@ PullRequest.prototype._openHandler = <span class="fstat-no" title="function not 
     });
 };
 &nbsp;
-PullRequest.prototype._submitHandler = <span class="fstat-no" title="function not covered" >function() {</span>
+PullRequest.prototype._submitHandler = <span class="fstat-no" title="function not covered" >function () {</span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = this.options;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    hooks.invoke('pull-request.submit', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    hooks.invoke('pull-request.submit', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >        logger.log('Submitting pull request to ' + logger.colors.magenta('@' + options.submit));</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        instance.submit(options.submit, <span class="fstat-no" title="function not covered" >function(err, pull) {</span></span>
+<span class="cstat-no" title="statement not covered" >        instance.submit(options.submit, <span class="fstat-no" title="function not covered" >function (err, pull) {</span></span>
 <span class="cstat-no" title="statement not covered" >            if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                logger.error('Can\'t submit pull request. ' + JSON.parse(err.message).errors[0].message);</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
@@ -3036,7 +3036,7 @@ exports.Impl = PullRequest;
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 19:29:54 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 21:33:04 GMT+0000 (UTC)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>

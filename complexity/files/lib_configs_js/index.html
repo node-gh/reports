@@ -112,7 +112,7 @@ var fs = require(&#039;fs&#039;),
 
 // -- Config -------------------------------------------------------------------
 
-exports.getNodeModulesGlobalPath = function() {
+exports.getNodeModulesGlobalPath = function () {
     var result,
         path = exports.getConfig()[PLUGINS_PATH_KEY];
 
@@ -131,7 +131,7 @@ exports.getNodeModulesGlobalPath = function() {
     return path;
 };
 
-exports.getUserHomePath = function() {
+exports.getUserHomePath = function () {
     return userhome(&#039;.gh.json&#039;);
 };
 
@@ -143,11 +143,11 @@ function getConfig(opt_plugin) {
     try {
         projectConfig = JSON.parse(fs.readFileSync(exports.getProjectConfigPath()));
 
-        Object.keys(globalConfig).forEach(function(key) {
+        Object.keys(globalConfig).forEach(function (key) {
             result[key] = globalConfig[key];
         });
 
-        Object.keys(projectConfig).forEach(function(key) {
+        Object.keys(projectConfig).forEach(function (key) {
             result[key] = projectConfig[key];
         });
 
@@ -164,7 +164,7 @@ function getConfig(opt_plugin) {
     }
 }
 
-exports.getConfig = function(opt_plugin) {
+exports.getConfig = function (opt_plugin) {
     var config = cache[opt_plugin];
 
     if (!config) {
@@ -175,7 +175,7 @@ exports.getConfig = function(opt_plugin) {
     return config;
 };
 
-exports.getGlobalConfig = function(opt_plugin) {
+exports.getGlobalConfig = function (opt_plugin) {
     var config,
         configPath,
         userConfig;
@@ -189,12 +189,12 @@ exports.getGlobalConfig = function(opt_plugin) {
     config = JSON.parse(fs.readFileSync(exports.getGlobalConfigPath()));
     userConfig = JSON.parse(fs.readFileSync(configPath));
 
-    Object.keys(userConfig).forEach(function(key) {
+    Object.keys(userConfig).forEach(function (key) {
         config[key] = userConfig[key];
     });
 
     if (opt_plugin) {
-        exports.getPlugins().forEach(function(plugin) {
+        exports.getPlugins().forEach(function (plugin) {
             exports.addPluginConfig(config, plugin);
         });
     }
@@ -202,15 +202,15 @@ exports.getGlobalConfig = function(opt_plugin) {
     return config;
 };
 
-exports.getGlobalConfigPath = function() {
+exports.getGlobalConfigPath = function () {
     return path.join(__dirname, &#039;../&#039;, &#039;default.gh.json&#039;);
 };
 
-exports.getProjectConfigPath = function() {
+exports.getProjectConfigPath = function () {
     return path.join(process.cwd(), &#039;.gh.json&#039;);
 };
 
-exports.removeGlobalConfig = function(key) {
+exports.removeGlobalConfig = function (key) {
     var config = exports.getGlobalConfig();
 
     delete config[key];
@@ -219,14 +219,14 @@ exports.removeGlobalConfig = function(key) {
     cache = {};
 };
 
-exports.createGlobalConfig = function() {
+exports.createGlobalConfig = function () {
     exports.saveJsonConfig(exports.getUserHomePath(),
         JSON.parse(fs.readFileSync(exports.getGlobalConfigPath()))
     );
     cache = {};
 };
 
-exports.writeGlobalConfig = function(jsonPath, value) {
+exports.writeGlobalConfig = function (jsonPath, value) {
     var config = exports.getGlobalConfig(),
         i,
         output,
@@ -245,7 +245,7 @@ exports.writeGlobalConfig = function(jsonPath, value) {
     cache = {};
 };
 
-exports.saveJsonConfig = function(path, object) {
+exports.saveJsonConfig = function (path, object) {
     var options = {
         mode: parseInt(&#039;0600&#039;, 8)
     };
@@ -253,7 +253,7 @@ exports.saveJsonConfig = function(path, object) {
     fs.writeFileSync(path, JSON.stringify(object, null, 4), options);
 };
 
-exports.writeGlobalConfigCredentials = function(user, token) {
+exports.writeGlobalConfigCredentials = function (user, token) {
     var configPath = exports.getUserHomePath();
 
     exports.writeGlobalConfig(&#039;github_user&#039;, user);
@@ -263,7 +263,7 @@ exports.writeGlobalConfigCredentials = function(user, token) {
 
 // -- Plugins ------------------------------------------------------------------
 
-exports.addPluginConfig = function(config, plugin) {
+exports.addPluginConfig = function (config, plugin) {
     var pluginConfig,
         userConfig;
 
@@ -278,7 +278,7 @@ exports.addPluginConfig = function(config, plugin) {
         // Merge default plugin configuration with the user&#039;s.
         userConfig = config.plugins[plugin] || {};
 
-        Object.keys(userConfig).forEach(function(key) {
+        Object.keys(userConfig).forEach(function (key) {
             pluginConfig[key] = userConfig[key];
         });
 
@@ -299,7 +299,7 @@ function getPlugins() {
     }
 
     try {
-        plugins = fs.readdirSync(pluginsPath).filter(function(plugin) {
+        plugins = fs.readdirSync(pluginsPath).filter(function (plugin) {
             return plugin.substring(0, 3) === &#039;gh-&#039;;
         });
     }
@@ -312,7 +312,7 @@ function getPlugins() {
     }
 }
 
-exports.getPlugins = function() {
+exports.getPlugins = function () {
     if (!plugins) {
         plugins = getPlugins();
     }
@@ -320,21 +320,21 @@ exports.getPlugins = function() {
     return plugins;
 };
 
-exports.getPlugin = function(plugin) {
+exports.getPlugin = function (plugin) {
     plugin = exports.getPluginBasename(plugin);
 
     return require(exports.getPluginPath(&#039;gh-&#039; + plugin));
 };
 
-exports.getPluginPath = function(plugin) {
+exports.getPluginPath = function (plugin) {
     return which.sync(plugin);
 };
 
-exports.getPluginBasename = function(plugin) {
+exports.getPluginBasename = function (plugin) {
     return plugin &amp;&amp; plugin.replace(&#039;gh-&#039;, &#039;&#039;);
 };
 
-exports.isPluginIgnored = function(plugin) {
+exports.isPluginIgnored = function (plugin) {
     if (exports.getConfig().ignored_plugins.indexOf(exports.getPluginBasename(plugin)) &gt; -1) {
         return true;
     }

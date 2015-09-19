@@ -135,7 +135,7 @@ Help.DETAILS = {
 
 // -- Commands -------------------------------------------------------------------------------------
 
-Help.prototype.run = function() {
+Help.prototype.run = function () {
     var instance = this,
         commands = [],
         cmdDir = path.join(__dirname, &#039;../cmds/&#039;),
@@ -151,7 +151,7 @@ Help.prototype.run = function() {
     // Get external plugins
     plugins = configs.getPlugins();
 
-    plugins.forEach(function(plugin) {
+    plugins.forEach(function (plugin) {
         try {
             files.push(configs.getPluginPath(plugin));
         }
@@ -166,7 +166,7 @@ Help.prototype.run = function() {
         filter = options.argv.remain[1];
     }
 
-    files.forEach(function(dir) {
+    files.forEach(function (dir) {
         var cmd = require(path.resolve(cmdDir, dir)),
             alias = cmd.Impl.DETAILS.alias || &#039;&#039;,
             flags = [],
@@ -207,11 +207,11 @@ Help.prototype.run = function() {
     logger.log(this.listCommands_(commands));
 };
 
-Help.prototype.listFlags_ = function(command) {
+Help.prototype.listFlags_ = function (command) {
     var flags = command.flags,
         content = &#039;&#039;;
 
-    flags.forEach(function(flag) {
+    flags.forEach(function (flag) {
         content += &#039;    &#039;;
 
         if (flag.shorthand) {
@@ -238,7 +238,7 @@ Help.prototype.listFlags_ = function(command) {
     return content;
 };
 
-Help.prototype.listCommands_ = function(commands) {
+Help.prototype.listCommands_ = function (commands) {
     var content = &#039;usage: gh &lt;command&gt; [payload] [--flags] [--verbose] [--no-hooks]\n\n&#039;,
         pos,
         command;
@@ -267,7 +267,7 @@ Help.prototype.listCommands_ = function(commands) {
     return content;
 };
 
-Help.prototype.groupOptions_ = function(details) {
+Help.prototype.groupOptions_ = function (details) {
     var instance = this,
         cmd,
         options,
@@ -277,11 +277,11 @@ Help.prototype.groupOptions_ = function(details) {
     options = Object.keys(details.options);
     shorthands = Object.keys(details.shorthands);
 
-    options.forEach(function(option) {
+    options.forEach(function (option) {
         var foundShorthand,
             type;
 
-        shorthands.forEach(function(shorthand) {
+        shorthands.forEach(function (shorthand) {
             var shorthandValue = details.shorthands[shorthand][0];
 
             if (shorthandValue === &#039;--&#039; + option) {
@@ -303,7 +303,7 @@ Help.prototype.groupOptions_ = function(details) {
     return grouped;
 };
 
-Help.prototype.getType_ = function(type) {
+Help.prototype.getType_ = function (type) {
     var types,
         separator = &#039;, &#039;;
 
@@ -354,7 +354,7 @@ Help.prototype.getType_ = function(type) {
     return type;
 };
 
-Help.prototype.isCommand_ = function(details, option) {
+Help.prototype.isCommand_ = function (details, option) {
     if (details.commands &amp;&amp; (details.commands.indexOf(option) &gt; -1)) {
         return true;
     }

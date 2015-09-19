@@ -195,7 +195,7 @@ PullRequest.DETAILS = {
         &#039;t&#039;: [&#039;--title&#039;],
         &#039;u&#039;: [&#039;--user&#039;]
     },
-    payload: function(payload, options) {
+    payload: function (payload, options) {
         if (payload[0]) {
             options.fetch = true;
         }
@@ -222,7 +222,7 @@ PullRequest.prototype.options = null;
 
 PullRequest.prototype.issues = null;
 
-PullRequest.prototype.run = function() {
+PullRequest.prototype.run = function () {
     var instance = this,
         options = instance.options;
 
@@ -286,16 +286,16 @@ PullRequest.prototype.run = function() {
     }
 };
 
-PullRequest.prototype.addComplexityParamToPulls_ = function(pulls, opt_callback) {
+PullRequest.prototype.addComplexityParamToPulls_ = function (pulls, opt_callback) {
     var instance = this,
         metrics,
         operations,
         options = instance.options;
 
-    operations = pulls.map(function(pull) {
-        return function(callback) {
+    operations = pulls.map(function (pull) {
+        return function (callback) {
             options.number = pull.number;
-            instance.getPullRequest_(function(err, pull2) {
+            instance.getPullRequest_(function (err, pull2) {
                 if (!err) {
                     metrics = {
                         additions: pull2.additions,
@@ -311,16 +311,16 @@ PullRequest.prototype.addComplexityParamToPulls_ = function(pulls, opt_callback)
         };
     });
 
-    async.series(operations, function(err, results) {
+    async.series(operations, function (err, results) {
         opt_callback(err, results);
     });
 };
 
-PullRequest.prototype.browser = function(user, repo, number) {
+PullRequest.prototype.browser = function (user, repo, number) {
     openUrl(&#039;https://github.com/&#039; + user + &#039;/&#039; + repo + &#039;/pull/&#039; + number);
 };
 
-PullRequest.prototype.calculateComplexity_ = function(metrics) {
+PullRequest.prototype.calculateComplexity_ = function (metrics) {
     var complexity,
         weightAddition = 2,
         weightChangedFile = 2,
@@ -337,7 +337,7 @@ PullRequest.prototype.calculateComplexity_ = function(metrics) {
     return complexity;
 };
 
-PullRequest.prototype.close = function(opt_callback) {
+PullRequest.prototype.close = function (opt_callback) {
     var instance = this,
         options = instance.options,
         operations,
@@ -345,19 +345,19 @@ PullRequest.prototype.close = function(opt_callback) {
 
     operations = [
 
-        function(callback) {
-            instance.getPullRequest_(function(err, data) {
+        function (callback) {
+            instance.getPullRequest_(function (err, data) {
                 if (!err) {
                     pull = data;
                 }
                 callback(err);
             });
         },
-        function(callback) {
+        function (callback) {
             instance.updatePullRequest_(
                 pull.title, pull.body, PullRequest.STATE_CLOSED, callback);
         },
-        function(callback) {
+        function (callback) {
             if (options.pullBranch === options.currentBranch) {
                 git.checkout(options.branch);
             }
@@ -370,12 +370,12 @@ PullRequest.prototype.close = function(opt_callback) {
         }
     ];
 
-    async.series(operations, function(err) {
+    async.series(operations, function (err) {
         opt_callback &amp;&amp; opt_callback(err, pull);
     });
 };
 
-PullRequest.prototype.checkPullRequestIntegrity_ = function(originalError, user, opt_callback) {
+PullRequest.prototype.checkPullRequestIntegrity_ = function (originalError, user, opt_callback) {
     var instance = this,
         options = instance.options,
         payload,
@@ -387,9 +387,9 @@ PullRequest.prototype.checkPullRequestIntegrity_ = function(originalError, user,
         state: PullRequest.STATE_OPEN
     };
 
-    base.github.pullRequests.getAll(payload, function(err, pulls) {
+    base.github.pullRequests.getAll(payload, function (err, pulls) {
         if (!err) {
-            pulls.forEach(function(data) {
+            pulls.forEach(function (data) {
                 if ((data.base.ref === options.branch) &amp;&amp;
                     (data.head.ref === options.currentBranch) &amp;&amp;
                     (data.base.sha === data.head.sha) &amp;&amp;
@@ -407,13 +407,13 @@ PullRequest.prototype.checkPullRequestIntegrity_ = function(originalError, user,
     });
 };
 
-PullRequest.prototype.fetch = function(opt_type, opt_callback) {
+PullRequest.prototype.fetch = function (opt_type, opt_callback) {
     var instance = this,
         options = instance.options,
         headBranch,
         repoUrl;
 
-    instance.getPullRequest_(function(err, pull) {
+    instance.getPullRequest_(function (err, pull) {
         if (err) {
             opt_callback &amp;&amp; opt_callback(err);
             return;
@@ -432,11 +432,11 @@ PullRequest.prototype.fetch = function(opt_type, opt_callback) {
     });
 };
 
-PullRequest.prototype.filterPullsSentByMe_ = function(pulls) {
+PullRequest.prototype.filterPullsSentByMe_ = function (pulls) {
     var instance = this,
         options = instance.options;
 
-    pulls = pulls.filter(function(pull) {
+    pulls = pulls.filter(function (pull) {
         if (options.loggedUser === pull.user.login) {
             return pull;
         }
@@ -445,7 +445,7 @@ PullRequest.prototype.filterPullsSentByMe_ = function(pulls) {
     return pulls;
 };
 
-PullRequest.prototype.forward = function(opt_callback) {
+PullRequest.prototype.forward = function (opt_callback) {
     var instance = this,
         options = instance.options,
         operations,
@@ -454,18 +454,18 @@ PullRequest.prototype.forward = function(opt_callback) {
 
     operations = [
 
-        function(callback) {
-            instance.fetch(PullRequest.FETCH_TYPE_SILENT, function(err, data) {
+        function (callback) {
+            instance.fetch(PullRequest.FETCH_TYPE_SILENT, function (err, data) {
                 pull = data;
                 callback(err);
             });
         },
-        function(callback) {
+        function (callback) {
             options.title = pull.title;
             options.description = pull.body;
             options.submittedUser = pull.user.login;
 
-            instance.submit(options.fwd, function(err, data) {
+            instance.submit(options.fwd, function (err, data) {
                 if (err) {
                     callback(err);
                     return;
@@ -479,12 +479,12 @@ PullRequest.prototype.forward = function(opt_callback) {
         }
     ];
 
-    async.series(operations, function(err) {
+    async.series(operations, function (err) {
         opt_callback &amp;&amp; opt_callback(err, submittedPull);
     });
 };
 
-PullRequest.prototype.getPullRequest_ = function(opt_callback) {
+PullRequest.prototype.getPullRequest_ = function (opt_callback) {
     var instance = this,
         options = instance.options,
         payload;
@@ -498,13 +498,13 @@ PullRequest.prototype.getPullRequest_ = function(opt_callback) {
     base.github.pullRequests.get(payload, opt_callback);
 };
 
-PullRequest.prototype.getBranchNameFromPullNumber_ = function(number) {
+PullRequest.prototype.getBranchNameFromPullNumber_ = function (number) {
     if (number) {
         return config.pull_branch_name_prefix + number;
     }
 };
 
-PullRequest.prototype.getPullRequestNumberFromBranch_ = function() {
+PullRequest.prototype.getPullRequestNumberFromBranch_ = function () {
     var instance = this,
         options = instance.options,
         prefix;
@@ -516,7 +516,7 @@ PullRequest.prototype.getPullRequestNumberFromBranch_ = function() {
     }
 };
 
-PullRequest.prototype.getPullsTemplateJson_ = function(pulls, opt_callback) {
+PullRequest.prototype.getPullsTemplateJson_ = function (pulls, opt_callback) {
     var instance = this,
         options = instance.options,
         branch,
@@ -528,7 +528,7 @@ PullRequest.prototype.getPullsTemplateJson_ = function(pulls, opt_callback) {
         branches: []
     };
 
-    pulls.forEach(function(pull) {
+    pulls.forEach(function (pull) {
         branch = pull.base.ref;
 
         if (!options.branch || options.branch === branch) {
@@ -537,7 +537,7 @@ PullRequest.prototype.getPullsTemplateJson_ = function(pulls, opt_callback) {
         }
     });
 
-    Object.keys(branches).forEach(function(branch) {
+    Object.keys(branches).forEach(function (branch) {
         json.branches.push({
             name: branch,
             pulls: branches[branch],
@@ -548,7 +548,7 @@ PullRequest.prototype.getPullsTemplateJson_ = function(pulls, opt_callback) {
     opt_callback &amp;&amp; opt_callback(null, json);
 };
 
-PullRequest.prototype.printPullInfo_ = function(pull) {
+PullRequest.prototype.printPullInfo_ = function (pull) {
     var options = this.options;
 
     logger.log(logger.colors.green(&#039;#&#039; + pull.number) + &#039; &#039; +
@@ -571,7 +571,7 @@ PullRequest.prototype.printPullInfo_ = function(pull) {
     }
 };
 
-PullRequest.prototype.get = function(user, repo, number) {
+PullRequest.prototype.get = function (user, repo, number) {
     var pr = this,
         payload;
 
@@ -581,7 +581,7 @@ PullRequest.prototype.get = function(user, repo, number) {
         number: number
     };
 
-    base.github.pullRequests.get(payload, function(err, pull) {
+    base.github.pullRequests.get(payload, function (err, pull) {
         if (err) {
             logger.warn(&#039;Can\&#039;t get pull request &#039; + user + &#039;/&#039; + repo + &#039;/&#039; + number);
             return;
@@ -591,7 +591,7 @@ PullRequest.prototype.get = function(user, repo, number) {
     });
 };
 
-PullRequest.prototype.list = function(user, repo, opt_callback) {
+PullRequest.prototype.list = function (user, repo, opt_callback) {
     var instance = this,
         options = instance.options,
         json,
@@ -616,8 +616,8 @@ PullRequest.prototype.list = function(user, repo, opt_callback) {
 
     operations = [
 
-        function(callback) {
-            base.github.pullRequests.getAll(payload, function(err, data) {
+        function (callback) {
+            base.github.pullRequests.getAll(payload, function (err, data) {
                 pulls = [];
 
                 if (!err) {
@@ -641,9 +641,9 @@ PullRequest.prototype.list = function(user, repo, opt_callback) {
             });
         },
 
-        function(callback) {
+        function (callback) {
             if (options.sort &amp;&amp; options.sort === PullRequest.SORT_COMPLEXITY) {
-                instance.addComplexityParamToPulls_(pulls, function(err, data) {
+                instance.addComplexityParamToPulls_(pulls, function (err, data) {
                     if (!err) {
                         pulls = instance.sortPullsByComplexity_(data);
                     }
@@ -656,8 +656,8 @@ PullRequest.prototype.list = function(user, repo, opt_callback) {
             }
         },
 
-        function(callback) {
-            instance.getPullsTemplateJson_(pulls, function(err, data) {
+        function (callback) {
+            instance.getPullsTemplateJson_(pulls, function (err, data) {
                 if (!err) {
                     json = data;
                 }
@@ -666,11 +666,11 @@ PullRequest.prototype.list = function(user, repo, opt_callback) {
         }
     ];
 
-    async.series(operations, function(err) {
+    async.series(operations, function (err) {
         if (!err &amp;&amp; pulls.length) {
             logger.log(logger.colors.yellow(user + &#039;/&#039; + repo));
 
-            json.branches.forEach(function(branch) {
+            json.branches.forEach(function (branch) {
                 logger.log(branch.name + &#039; (&#039; + branch.total + &#039;)&#039;);
 
                 branch.pulls.forEach(instance.printPullInfo_, instance);
@@ -681,7 +681,7 @@ PullRequest.prototype.list = function(user, repo, opt_callback) {
     });
 };
 
-PullRequest.prototype.listFromAllRepositories = function(opt_callback) {
+PullRequest.prototype.listFromAllRepositories = function (opt_callback) {
     var instance = this,
         options = instance.options,
         payload,
@@ -699,19 +699,19 @@ PullRequest.prototype.listFromAllRepositories = function(opt_callback) {
         apiMethod = &#039;getAll&#039;;
     }
 
-    base.github.repos[apiMethod](payload, function(err, repositories) {
+    base.github.repos[apiMethod](payload, function (err, repositories) {
         if (err) {
             opt_callback &amp;&amp; opt_callback(err);
         }
         else {
-            repositories.forEach(function(repository) {
+            repositories.forEach(function (repository) {
                 instance.list(repository.owner.login, repository.name, opt_callback);
             });
         }
     });
 };
 
-PullRequest.prototype.listFromAllOrgRepositories = function(opt_callback) {
+PullRequest.prototype.listFromAllOrgRepositories = function (opt_callback) {
     var instance = this,
         options = instance.options,
         payload;
@@ -722,19 +722,19 @@ PullRequest.prototype.listFromAllOrgRepositories = function(opt_callback) {
         org: options.org
     };
 
-    base.github.repos.getFromOrg(payload, function(err, repositories) {
+    base.github.repos.getFromOrg(payload, function (err, repositories) {
         if (err) {
             opt_callback &amp;&amp; opt_callback(err);
         }
         else {
-            repositories.forEach(function(repository) {
+            repositories.forEach(function (repository) {
                 instance.list(repository.owner.login, repository.name, opt_callback);
             });
         }
     });
 };
 
-PullRequest.prototype.merge = function(opt_callback) {
+PullRequest.prototype.merge = function (opt_callback) {
     var instance = this,
         options = instance.options,
         method = &#039;merge&#039;;
@@ -750,10 +750,10 @@ PullRequest.prototype.merge = function(opt_callback) {
     opt_callback &amp;&amp; opt_callback();
 };
 
-PullRequest.prototype.open = function(opt_callback) {
+PullRequest.prototype.open = function (opt_callback) {
     var instance = this;
 
-    instance.getPullRequest_(function(err, pull) {
+    instance.getPullRequest_(function (err, pull) {
         if (err) {
             opt_callback &amp;&amp; opt_callback(err);
         }
@@ -764,7 +764,7 @@ PullRequest.prototype.open = function(opt_callback) {
     });
 };
 
-PullRequest.prototype.setMergeCommentRequiredOptions_ = function(opt_callback) {
+PullRequest.prototype.setMergeCommentRequiredOptions_ = function (opt_callback) {
     var options = this.options,
         lastCommitSHA = git.getLastCommitSHA(),
         changes = git.countUserAdjacentCommits();
@@ -780,11 +780,11 @@ PullRequest.prototype.setMergeCommentRequiredOptions_ = function(opt_callback) {
     opt_callback &amp;&amp; opt_callback();
 };
 
-PullRequest.prototype.sortPullsByComplexity_ = function(data) {
+PullRequest.prototype.sortPullsByComplexity_ = function (data) {
     var instance = this,
         options = instance.options;
 
-    data.sort(function(a, b) {
+    data.sort(function (a, b) {
         if (a.complexity &gt; b.complexity) {
             return -1;
         }
@@ -803,7 +803,7 @@ PullRequest.prototype.sortPullsByComplexity_ = function(data) {
     return data;
 };
 
-PullRequest.prototype.submit = function(user, opt_callback) {
+PullRequest.prototype.submit = function (user, opt_callback) {
     var instance = this,
         options = instance.options,
         operations,
@@ -813,18 +813,18 @@ PullRequest.prototype.submit = function(user, opt_callback) {
 
     operations = [
 
-        function(callback) {
+        function (callback) {
             git.push(config.default_remote, pullBranch);
             callback();
         },
-        function(callback) {
+        function (callback) {
             if (!options.title) {
                 options.title = git.getLastCommitMessage(pullBranch);
             }
 
             callback();
         },
-        function(callback) {
+        function (callback) {
             var payload = {
                 base: options.branch,
                 head: options.user + &#039;:&#039; + pullBranch,
@@ -844,7 +844,7 @@ PullRequest.prototype.submit = function(user, opt_callback) {
         }
     ];
 
-    async.series(operations, function(err, results) {
+    async.series(operations, function (err, results) {
         if (err) {
             instance.checkPullRequestIntegrity_(err, user, opt_callback);
         }
@@ -854,7 +854,7 @@ PullRequest.prototype.submit = function(user, opt_callback) {
     });
 };
 
-PullRequest.prototype.updatePullRequest_ = function(title, opt_body, state, opt_callback) {
+PullRequest.prototype.updatePullRequest_ = function (title, opt_body, state, opt_callback) {
     var instance = this,
         options = instance.options,
         payload;
@@ -875,7 +875,7 @@ PullRequest.prototype.updatePullRequest_ = function(title, opt_body, state, opt_
     base.github.pullRequests.update(payload, opt_callback);
 };
 
-PullRequest.prototype._fetchHandler = function() {
+PullRequest.prototype._fetchHandler = function () {
     var instance = this,
         options = this.options,
         fetchType = PullRequest.FETCH_TYPE_CHECKOUT;
@@ -887,7 +887,7 @@ PullRequest.prototype._fetchHandler = function() {
         fetchType = PullRequest.FETCH_TYPE_REBASE;
     }
 
-    hooks.invoke(&#039;pull-request.fetch&#039;, instance, function(afterHooksCallback) {
+    hooks.invoke(&#039;pull-request.fetch&#039;, instance, function (afterHooksCallback) {
         var operation = &#039;&#039;,
             branch = options.pullBranch;
 
@@ -905,7 +905,7 @@ PullRequest.prototype._fetchHandler = function() {
             logger.colors.green(&#039;#&#039; + options.number) + operation +
             &#039; into branch &#039; + logger.colors.green(branch));
 
-        instance.fetch(fetchType, function(err) {
+        instance.fetch(fetchType, function (err) {
             if (err) {
                 logger.error(&#039;Can\&#039;t fetch pull request &#039; + options.number + &#039;.&#039;);
                 return;
@@ -916,12 +916,12 @@ PullRequest.prototype._fetchHandler = function() {
     });
 };
 
-PullRequest.prototype._mergeHandler = function() {
+PullRequest.prototype._mergeHandler = function () {
     var instance = this,
         options = this.options,
         operation = &#039;Merging&#039;;
 
-    hooks.invoke(&#039;pull-request.merge&#039;, instance, function(afterHooksCallback) {
+    hooks.invoke(&#039;pull-request.merge&#039;, instance, function (afterHooksCallback) {
         if (options.rebase) {
             operation = &#039;Rebasing&#039;;
         }
@@ -934,15 +934,15 @@ PullRequest.prototype._mergeHandler = function() {
     });
 };
 
-PullRequest.prototype._fwdHandler = function() {
+PullRequest.prototype._fwdHandler = function () {
     var instance = this,
         options = this.options;
 
-    hooks.invoke(&#039;pull-request.fwd&#039;, instance, function(afterHooksCallback) {
+    hooks.invoke(&#039;pull-request.fwd&#039;, instance, function (afterHooksCallback) {
         logger.log(&#039;Forwarding pull request &#039; +
             logger.colors.green(&#039;#&#039; + options.number) + &#039; to &#039; + logger.colors.magenta(&#039;@&#039; + options.fwd));
 
-        instance.forward(function(err, pull) {
+        instance.forward(function (err, pull) {
             if (err) {
                 logger.error(&#039;Can\&#039;t forward pull request &#039; + options.number + &#039; to &#039; + options.fwd + &#039;.&#039;);
                 return;
@@ -958,14 +958,14 @@ PullRequest.prototype._fwdHandler = function() {
     });
 };
 
-PullRequest.prototype._closeHandler = function() {
+PullRequest.prototype._closeHandler = function () {
     var instance = this,
         options = this.options;
 
-    hooks.invoke(&#039;pull-request.close&#039;, instance, function(afterHooksCallback) {
+    hooks.invoke(&#039;pull-request.close&#039;, instance, function (afterHooksCallback) {
         logger.log(&#039;Closing pull request &#039; + logger.colors.green(&#039;#&#039; + options.number));
 
-        instance.close(function(err, pull) {
+        instance.close(function (err, pull) {
             if (err) {
                 logger.warn(&#039;Can\&#039;t close pull request &#039; + options.number + &#039;.&#039;);
                 return;
@@ -978,12 +978,12 @@ PullRequest.prototype._closeHandler = function() {
     });
 };
 
-PullRequest.prototype._commentHandler = function() {
+PullRequest.prototype._commentHandler = function () {
     var options = this.options;
 
     logger.log(&#039;Adding comment on pull request &#039; + logger.colors.green(&#039;#&#039; + options.number));
 
-    this.issue.comment(function(err, pull) {
+    this.issue.comment(function (err, pull) {
         if (err) {
             logger.error(&#039;Can\&#039;t comment on pull request &#039; + options.number + &#039;.&#039;);
             return;
@@ -993,11 +993,11 @@ PullRequest.prototype._commentHandler = function() {
     });
 };
 
-PullRequest.prototype._infoHandler = function() {
+PullRequest.prototype._infoHandler = function () {
     var instance = this,
         options = this.options;
 
-    instance.get(options.user, options.repo, options.number, function(err) {
+    instance.get(options.user, options.repo, options.number, function (err) {
         if (err) {
             logger.error(&#039;Can\&#039;t get pull requests.&#039;);
             return;
@@ -1005,7 +1005,7 @@ PullRequest.prototype._infoHandler = function() {
     });
 };
 
-PullRequest.prototype._listHandler = function() {
+PullRequest.prototype._listHandler = function () {
     var instance = this,
         options = this.options,
         who;
@@ -1022,7 +1022,7 @@ PullRequest.prototype._listHandler = function() {
 
         logger.log(&#039;Listing all &#039; + options.state + &#039; pull requests for &#039; + logger.colors.green(who));
 
-        instance.listFromAllRepositories(function(err) {
+        instance.listFromAllRepositories(function (err) {
             if (err) {
                 logger.error(&#039;Can\&#039;t list all pull requests from repos.&#039;);
                 return;
@@ -1039,7 +1039,7 @@ PullRequest.prototype._listHandler = function() {
             logger.log(&#039;Listing &#039; + options.state + &#039; pull requests on &#039; +
                 logger.colors.green(options.user + &#039;/&#039; + options.repo));
         }
-        instance.list(options.user, options.repo, function(err) {
+        instance.list(options.user, options.repo, function (err) {
             if (err) {
                 logger.error(&#039;Can\&#039;t list pull requests.&#039;);
                 return;
@@ -1048,14 +1048,14 @@ PullRequest.prototype._listHandler = function() {
     }
 };
 
-PullRequest.prototype._openHandler = function() {
+PullRequest.prototype._openHandler = function () {
     var instance = this,
         options = this.options;
 
-    hooks.invoke(&#039;pull-request.open&#039;, instance, function(afterHooksCallback) {
+    hooks.invoke(&#039;pull-request.open&#039;, instance, function (afterHooksCallback) {
         logger.log(&#039;Opening pull request &#039; + logger.colors.green(&#039;#&#039; + options.number));
 
-        instance.open(function(err, pull) {
+        instance.open(function (err, pull) {
             if (err) {
                 logger.error(&#039;Can\&#039;t open pull request &#039; + options.number + &#039;.&#039;);
                 return;
@@ -1067,14 +1067,14 @@ PullRequest.prototype._openHandler = function() {
     });
 };
 
-PullRequest.prototype._submitHandler = function() {
+PullRequest.prototype._submitHandler = function () {
     var instance = this,
         options = this.options;
 
-    hooks.invoke(&#039;pull-request.submit&#039;, instance, function(afterHooksCallback) {
+    hooks.invoke(&#039;pull-request.submit&#039;, instance, function (afterHooksCallback) {
         logger.log(&#039;Submitting pull request to &#039; + logger.colors.magenta(&#039;@&#039; + options.submit));
 
-        instance.submit(options.submit, function(err, pull) {
+        instance.submit(options.submit, function (err, pull) {
             if (err) {
                 logger.error(&#039;Can\&#039;t submit pull request. &#039; + JSON.parse(err.message).errors[0].message);
                 return;

@@ -136,7 +136,7 @@ Alias.DETAILS = {
         &#039;r&#039;: [&#039;--remove&#039;],
         &#039;u&#039;: [&#039;--user&#039;]
     },
-    payload: function(payload, options) {
+    payload: function (payload, options) {
         if (payload[0]) {
             options.add = payload[0];
             options.user = payload[1];
@@ -149,7 +149,7 @@ Alias.DETAILS = {
 
 // -- Commands -------------------------------------------------------------------------------------
 
-Alias.prototype.run = function() {
+Alias.prototype.run = function () {
     var instance = this,
         options = instance.options;
 
@@ -163,7 +163,7 @@ Alias.prototype.run = function() {
     }
 
     if (options.list) {
-        instance.list(function(err, data) {
+        instance.list(function (err, data) {
             var item;
 
             for (item in data) {
@@ -180,18 +180,18 @@ Alias.prototype.run = function() {
     }
 };
 
-Alias.prototype.add = function() {
+Alias.prototype.add = function () {
     var instance = this,
         options = instance.options;
 
     configs.writeGlobalConfig(&#039;alias.&#039; + options.add, options.user);
 };
 
-Alias.prototype.list = function(opt_callback) {
+Alias.prototype.list = function (opt_callback) {
     opt_callback &amp;&amp; opt_callback(null, config.alias);
 };
 
-Alias.prototype.remove = function() {
+Alias.prototype.remove = function () {
     var instance = this,
         options = instance.options;
 

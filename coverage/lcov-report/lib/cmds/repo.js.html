@@ -805,7 +805,7 @@
         't': ['--type'],
         'u': ['--user']
     },
-    payload: <span class="fstat-no" title="function not covered" >function(payload, options) {</span>
+    payload: <span class="fstat-no" title="function not covered" >function (payload, options) {</span>
 <span class="cstat-no" title="statement not covered" >        options.browser = true;</span>
     }
 };
@@ -820,7 +820,7 @@
 &nbsp;
 // -- Commands -------------------------------------------------------------------------------------
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Repo.prototype.run = <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >Repo.prototype.run = <span class="fstat-no" title="function not covered" >function () {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         user = options.loggedUser;
@@ -830,7 +830,7 @@
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.delete) {</span>
-<span class="cstat-no" title="statement not covered" >        hooks.invoke('repo.delete', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('repo.delete', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >            logger.log('Deleting repo ' + logger.colors.green(options.user + '/' + options.delete));</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            inquirer.prompt(</span>
@@ -840,9 +840,9 @@
                         message: 'Are you sure? This action CANNOT be undone. [y/N]',
                         name: 'confirmation'
                     }
-                ], <span class="fstat-no" title="function not covered" >function(answers) {</span>
+                ], <span class="fstat-no" title="function not covered" >function (answers) {</span>
 <span class="cstat-no" title="statement not covered" >                    if (answers.confirmation.toLowerCase() === 'y') {</span>
-<span class="cstat-no" title="statement not covered" >                        instance.delete(options.user, options.delete, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >                        instance.delete(options.user, options.delete, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >                            if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                                logger.error('Can\'t delete repo.');</span>
 <span class="cstat-no" title="statement not covered" >                                return;</span>
@@ -859,7 +859,7 @@
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.fork) {</span>
-<span class="cstat-no" title="statement not covered" >        hooks.invoke('repo.fork', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('repo.fork', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >            if (options.organization) {</span>
 <span class="cstat-no" title="statement not covered" >                user = options.organization;</span>
             }
@@ -869,7 +869,7 @@
 <span class="cstat-no" title="statement not covered" >            logger.log('Forking repo ' + logger.colors.green(options.user + '/' + options.repo) +</span>
                 ' on ' + logger.colors.green(user + '/' + options.repo));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            instance.fork(<span class="fstat-no" title="function not covered" >function(err1, repo) {</span></span>
+<span class="cstat-no" title="statement not covered" >            instance.fork(<span class="fstat-no" title="function not covered" >function (err1, repo) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if (err1) {</span>
 <span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t fork. ' + JSON.parse(err1).message);</span>
 <span class="cstat-no" title="statement not covered" >                    return;</span>
@@ -901,7 +901,7 @@
         }
 &nbsp;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        instance.list(user, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
+<span class="cstat-no" title="statement not covered" >        instance.list(user, <span class="fstat-no" title="function not covered" >function (err) {</span></span>
 <span class="cstat-no" title="statement not covered" >            if (err) {</span>
 <span class="cstat-no" title="statement not covered" >                logger.error('Can\'t list repos.');</span>
             }
@@ -909,7 +909,7 @@
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.new) {</span>
-<span class="cstat-no" title="statement not covered" >        hooks.invoke('repo.new', instance, <span class="fstat-no" title="function not covered" >function(afterHooksCallback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        hooks.invoke('repo.new', instance, <span class="fstat-no" title="function not covered" >function (afterHooksCallback) {</span></span>
 <span class="cstat-no" title="statement not covered" >            options.repo = options.new;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            if (options.organization) {</span>
@@ -918,7 +918,7 @@
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            logger.log('Creating a new repo on ' + logger.colors.green(options.user + '/' + options.new));</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            instance.new(<span class="fstat-no" title="function not covered" >function(err1, repo) {</span></span>
+<span class="cstat-no" title="statement not covered" >            instance.new(<span class="fstat-no" title="function not covered" >function (err1, repo) {</span></span>
 <span class="cstat-no" title="statement not covered" >                if (err1) {</span>
 <span class="cstat-no" title="statement not covered" >                    logger.error('Can\'t create new repo. ' + JSON.parse(err1.message).message);</span>
 <span class="cstat-no" title="statement not covered" >                    return;</span>
@@ -936,16 +936,16 @@
     }
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Repo.prototype.browser = <span class="fstat-no" title="function not covered" >function(user, repo) {</span></span>
+<span class="cstat-no" title="statement not covered" >Repo.prototype.browser = <span class="fstat-no" title="function not covered" >function (user, repo) {</span></span>
 <span class="cstat-no" title="statement not covered" >    openUrl('https://github.com/' + user + '/' + repo);</span>
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Repo.prototype.clone_ = <span class="fstat-no" title="function not covered" >function(user, repo, repo_url) {</span></span>
+<span class="cstat-no" title="statement not covered" >Repo.prototype.clone_ = <span class="fstat-no" title="function not covered" >function (user, repo, repo_url) {</span></span>
 <span class="cstat-no" title="statement not covered" >    logger.log('Cloning ' + logger.colors.green(user + '/' + repo));</span>
 <span class="cstat-no" title="statement not covered" >    git.clone(url.parse(repo_url).href, repo);</span>
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Repo.prototype.delete = <span class="fstat-no" title="function not covered" >function(user, repo, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >Repo.prototype.delete = <span class="fstat-no" title="function not covered" >function (user, repo, opt_callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var payload;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    payload = {</span>
@@ -956,7 +956,7 @@
 <span class="cstat-no" title="statement not covered" >    base.github.repos.delete(payload, opt_callback);</span>
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Repo.prototype.list = <span class="fstat-no" title="function not covered" >function(user, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >Repo.prototype.list = <span class="fstat-no" title="function not covered" >function (user, opt_callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         method = 'getFromUser',
         options = instance.options,
@@ -982,12 +982,12 @@
         }
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    base.github.repos[method](payload, <span class="fstat-no" title="function not covered" >function(err, repos) {</span></span>
+<span class="cstat-no" title="statement not covered" >    base.github.repos[method](payload, <span class="fstat-no" title="function not covered" >function (err, repos) {</span></span>
 <span class="cstat-no" title="statement not covered" >        instance.listCallback_(err, repos, opt_callback);</span>
     });
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Repo.prototype.listCallback_ = <span class="fstat-no" title="function not covered" >function(err, repos, opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >Repo.prototype.listCallback_ = <span class="fstat-no" title="function not covered" >function (err, repos, opt_callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         pos,
@@ -1028,7 +1028,7 @@
     }
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Repo.prototype.fork = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >Repo.prototype.fork = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         payload;
@@ -1045,7 +1045,7 @@
 <span class="cstat-no" title="statement not covered" >    base.github.repos.fork(payload, opt_callback);</span>
 };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Repo.prototype.new = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >Repo.prototype.new = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         payload,
@@ -1089,7 +1089,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 19:29:54 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 21:33:04 GMT+0000 (UTC)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>
