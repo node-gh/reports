@@ -15,10 +15,10 @@
 <div class="header low">
     <h1>Code coverage report for <span class="entity">lib/cmds/repo.js</span></h1>
     <h2>
-        Statements: <span class="metric">0.8% <small>(1 / 125)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">0% <small>(0 / 82)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">0% <small>(0 / 20)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">0.8% <small>(1 / 125)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">0.77% <small>(1 / 130)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 88)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">0% <small>(0 / 19)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">0.77% <small>(1 / 130)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/cmds/</a> &#187; repo.js</div>
@@ -373,7 +373,12 @@
 346
 347
 348
-349</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+349
+350
+351
+352
+353
+354</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -457,15 +462,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -528,6 +533,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -536,6 +543,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -619,10 +629,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -657,6 +665,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -778,7 +788,7 @@
         'organization': String,
         'private': Boolean,
         'repo': String,
-        'type': ['all', 'member', 'owner', 'public', 'private'],
+        'type': ['all', 'forks', 'member', 'owner', 'public', 'private', 'sources'],
         'user': String
     },
     shorthands: {
@@ -801,10 +811,12 @@
 };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >Repo.TYPE_ALL = 'all';</span>
+<span class="cstat-no" title="statement not covered" >Repo.TYPE_FORKS = 'forks';</span>
 <span class="cstat-no" title="statement not covered" >Repo.TYPE_MEMBER = 'member';</span>
 <span class="cstat-no" title="statement not covered" >Repo.TYPE_OWNER = 'owner';</span>
 <span class="cstat-no" title="statement not covered" >Repo.TYPE_PRIVATE = 'private';</span>
 <span class="cstat-no" title="statement not covered" >Repo.TYPE_PUBLIC = 'public';</span>
+<span class="cstat-no" title="statement not covered" >Repo.TYPE_SOURCES = 'sources';</span>
 &nbsp;
 // -- Commands -------------------------------------------------------------------------------------
 &nbsp;
@@ -812,8 +824,6 @@
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
         options = instance.options,
         user = options.loggedUser;
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    options.type = options.type || Repo.TYPE_ALL;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.browser) {</span>
 <span class="cstat-no" title="statement not covered" >        instance.browser(options.user, options.repo);</span>
@@ -877,14 +887,19 @@
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.list) {</span>
-<span class="cstat-no" title="statement not covered" >        user = options.user;</span>
-&nbsp;
 <span class="cstat-no" title="statement not covered" >        if (options.organization) {</span>
 <span class="cstat-no" title="statement not covered" >            user = options.organization;</span>
+<span class="cstat-no" title="statement not covered" >            options.type = options.type || Repo.TYPE_ALL;</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >            user = options.user;</span>
+<span class="cstat-no" title="statement not covered" >            options.type = options.type || Repo.TYPE_OWNER;</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        logger.log('Listing ' + logger.colors.green(options.type) + ' repos for ' +</span>
-            logger.colors.green(user));
+<span class="cstat-no" title="statement not covered" >        if (options.isTTY.out) {</span>
+<span class="cstat-no" title="statement not covered" >            logger.log('Listing ' + logger.colors.green(options.type) + ' repos for ' +</span>
+                logger.colors.green(user));
+        }
+&nbsp;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        instance.list(user, <span class="fstat-no" title="function not covered" >function(err) {</span></span>
 <span class="cstat-no" title="statement not covered" >            if (err) {</span>
@@ -958,20 +973,18 @@
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.type === 'public' || options.type === 'private') {</span>
-<span class="cstat-no" title="statement not covered" >        if (user !== options.user) {</span>
-<span class="cstat-no" title="statement not covered" >            logger.error('You can only list public and private repos of your own.');</span>
+<span class="cstat-no" title="statement not covered" >        if (user === options.user) {</span>
+<span class="cstat-no" title="statement not covered" >            method = 'getAll';</span>
         }
         else {
-<span class="cstat-no" title="statement not covered" >            base.github.repos.getAll(payload, <span class="fstat-no" title="function not covered" >function(err, repos) {</span></span>
-<span class="cstat-no" title="statement not covered" >                instance.listCallback_(err, repos, opt_callback);</span>
-            });
+<span class="cstat-no" title="statement not covered" >            logger.error('You can only list your own public and private repos of your own.');</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
         }
     }
-    else {
-<span class="cstat-no" title="statement not covered" >        base.github.repos[method](payload, <span class="fstat-no" title="function not covered" >function(err, repos) {</span></span>
-<span class="cstat-no" title="statement not covered" >            instance.listCallback_(err, repos, opt_callback);</span>
-        });
-    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    base.github.repos[method](payload, <span class="fstat-no" title="function not covered" >function(err, repos) {</span></span>
+<span class="cstat-no" title="statement not covered" >        instance.listCallback_(err, repos, opt_callback);</span>
+    });
 };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >Repo.prototype.listCallback_ = <span class="fstat-no" title="function not covered" >function(err, repos, opt_callback) {</span></span>
@@ -1004,8 +1017,10 @@
 <span class="cstat-no" title="statement not covered" >                    logger.log('last update ' + logger.getDuration(repo.updated_at));</span>
                 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                logger.log(logger.colors.green('forks: ' + repo.forks +</span>
-                    ', stars: ' + repo.watchers + ', issues: ' + repo.open_issues) + '\n');
+<span class="cstat-no" title="statement not covered" >                if (options.isTTY.out) {</span>
+<span class="cstat-no" title="statement not covered" >                    logger.log(logger.colors.green('forks: ' + repo.forks +</span>
+                            ', stars: ' + repo.watchers + ', issues: ' + repo.open_issues) + '\n');
+                }
             }
         }
 &nbsp;
@@ -1074,7 +1089,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Sep 17 2015 22:54:13 GMT+0000 (UTC)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Sep 19 2015 19:29:54 GMT+0000 (UTC)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>
