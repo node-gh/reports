@@ -198,28 +198,7 @@
 153
 154
 155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+156</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -276,7 +255,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -297,7 +275,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -307,7 +284,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -326,6 +302,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -338,7 +315,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -377,180 +353,168 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
- * Copyright 2013-2015, All Rights Reserved.
- *
- * Code licensed under the BSD License:
- * https://github.com/node-gh/gh/blob/master/LICENSE.md
- *
- * @author Eduardo Lundgren &lt;edu@rdo.io&gt;
- */
-&nbsp;
-'use strict';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 &nbsp;
 var async = require('async'),
     configs = require('./configs'),
     exec = require('./exec'),
     truncate = require('truncate'),
     logger = require('./logger'),
-    config = configs.getConfig(true);
+    config = configs.getConfig(true)
 &nbsp;
-exports.createContext = <span class="fstat-no" title="function not covered" >function (scope) {</span>
+exports.createContext = <span class="fstat-no" title="function not covered" >function(scope) {</span>
 <span class="cstat-no" title="statement not covered" >    return {</span>
         options: scope.options,
-        signature: config.signature
-    };
-};
+        signature: config.signature,
+    }
+}
 &nbsp;
-exports.getHooksArrayFromPath_ = <span class="fstat-no" title="function not covered" >function (path, opt_config) {</span>
+exports.getHooksArrayFromPath_ = <span class="fstat-no" title="function not covered" >function(path, opt_config) {</span>
 <span class="cstat-no" title="statement not covered" >    var keys = path.split('.'),</span>
         key = keys.shift(),
-        hooks;
+        hooks
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    opt_config = opt_config || config;</span>
+<span class="cstat-no" title="statement not covered" >    opt_config = opt_config || config</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    hooks = opt_config.hooks || {};</span>
+<span class="cstat-no" title="statement not covered" >    hooks = opt_config.hooks || {}</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    while (hooks[key]) {</span>
-<span class="cstat-no" title="statement not covered" >        hooks = hooks[key];</span>
-<span class="cstat-no" title="statement not covered" >        key = keys.shift();</span>
+<span class="cstat-no" title="statement not covered" >        hooks = hooks[key]</span>
+<span class="cstat-no" title="statement not covered" >        key = keys.shift()</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return Array.isArray(hooks) ? hooks : [];</span>
-};
+<span class="cstat-no" title="statement not covered" >    return Array.isArray(hooks) ? hooks : []</span>
+}
 &nbsp;
-exports.getHooksFromPath = <span class="fstat-no" title="function not covered" >function (path) {</span>
+exports.getHooksFromPath = <span class="fstat-no" title="function not covered" >function(path) {</span>
 <span class="cstat-no" title="statement not covered" >    var hooks,</span>
         plugins = configs.getPlugins(),
-        pluginHooks = [];
+        pluginHooks = []
 &nbsp;
     // First, load all core hooks for the specified path.
-<span class="cstat-no" title="statement not covered" >    hooks = exports.getHooksArrayFromPath_(path);</span>
+<span class="cstat-no" title="statement not covered" >    hooks = exports.getHooksArrayFromPath_(path)</span>
 &nbsp;
     // Second, search all installed plugins and load the hooks for each into
     // core hooks array.
-<span class="cstat-no" title="statement not covered" >    plugins.forEach(<span class="fstat-no" title="function not covered" >function (plugin) {</span></span>
-<span class="cstat-no" title="statement not covered" >        var pluginConfig;</span>
+<span class="cstat-no" title="statement not covered" >    plugins.forEach(<span class="fstat-no" title="function not covered" >function(plugin) {</span></span>
+<span class="cstat-no" title="statement not covered" >        var pluginConfig</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        plugin = configs.getPluginBasename(plugin);</span>
+<span class="cstat-no" title="statement not covered" >        plugin = configs.getPluginBasename(plugin)</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (config.plugins &amp;&amp; !configs.isPluginIgnored(plugin)) {</span>
-<span class="cstat-no" title="statement not covered" >            pluginConfig = config.plugins[plugin];</span>
+<span class="cstat-no" title="statement not covered" >            pluginConfig = config.plugins[plugin]</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            if (pluginConfig) {</span>
-<span class="cstat-no" title="statement not covered" >                pluginHooks = pluginHooks.concat(</span>
-                    exports.getHooksArrayFromPath_(path, pluginConfig));
+<span class="cstat-no" title="statement not covered" >                pluginHooks = pluginHooks.concat(exports.getHooksArrayFromPath_(path, pluginConfig))</span>
             }
         }
-    });
+    })
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return hooks.concat(pluginHooks);</span>
-};
+<span class="cstat-no" title="statement not covered" >    return hooks.concat(pluginHooks)</span>
+}
 &nbsp;
-exports.invoke = <span class="fstat-no" title="function not covered" >function (path, scope, opt_callback) {</span>
+exports.invoke = <span class="fstat-no" title="function not covered" >function(path, scope, opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var after = exports.getHooksFromPath(path + '.after'),</span>
         before = exports.getHooksFromPath(path + '.before'),
         beforeOperations,
         afterOperations,
         options = scope.options,
-        context;
+        context
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.hooks === false || process.env.NODEGH_HOOK_IS_LOCKED) {</span>
-<span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback();</span>
-<span class="cstat-no" title="statement not covered" >        return;</span>
+<span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback()</span>
+<span class="cstat-no" title="statement not covered" >        return</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    context = exports.createContext(scope);</span>
+<span class="cstat-no" title="statement not covered" >    context = exports.createContext(scope)</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    beforeOperations = [</span>
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            exports.setupPlugins_(context, 'setupBeforeHooks', callback)</span>
+        },
+    ]
 &nbsp;
-<span class="fstat-no" title="function not covered" >        function (callback) {</span>
-<span class="cstat-no" title="statement not covered" >            exports.setupPlugins_(context, 'setupBeforeHooks', callback);</span>
-        }
-    ];
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    before.forEach(<span class="fstat-no" title="function not covered" >function (cmd) {</span></span>
-<span class="cstat-no" title="statement not covered" >        beforeOperations.push(exports.wrapCommand_(cmd, context, 'before'));</span>
-    });
+<span class="cstat-no" title="statement not covered" >    before.forEach(<span class="fstat-no" title="function not covered" >function(cmd) {</span></span>
+<span class="cstat-no" title="statement not covered" >        beforeOperations.push(exports.wrapCommand_(cmd, context, 'before'))</span>
+    })
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    afterOperations = [</span>
+<span class="fstat-no" title="function not covered" >        function(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            exports.setupPlugins_(context, 'setupAfterHooks', callback)</span>
+        },
+    ]
 &nbsp;
-<span class="fstat-no" title="function not covered" >        function (callback) {</span>
-<span class="cstat-no" title="statement not covered" >            exports.setupPlugins_(context, 'setupAfterHooks', callback);</span>
-        }
-    ];
+<span class="cstat-no" title="statement not covered" >    after.forEach(<span class="fstat-no" title="function not covered" >function(cmd) {</span></span>
+<span class="cstat-no" title="statement not covered" >        afterOperations.push(exports.wrapCommand_(cmd, context, 'after'))</span>
+    })
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    after.forEach(<span class="fstat-no" title="function not covered" >function (cmd) {</span></span>
-<span class="cstat-no" title="statement not covered" >        afterOperations.push(exports.wrapCommand_(cmd, context, 'after'));</span>
-    });
+<span class="cstat-no" title="statement not covered" >    afterOperations.push(<span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        process.env.NODEGH_HOOK_IS_LOCKED = false</span>
+<span class="cstat-no" title="statement not covered" >        callback()</span>
+    })
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    afterOperations.push(<span class="fstat-no" title="function not covered" >function (callback) {</span></span>
-<span class="cstat-no" title="statement not covered" >        process.env.NODEGH_HOOK_IS_LOCKED = false;</span>
-<span class="cstat-no" title="statement not covered" >        callback();</span>
-    });
+<span class="cstat-no" title="statement not covered" >    process.env.NODEGH_HOOK_IS_LOCKED = true</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    process.env.NODEGH_HOOK_IS_LOCKED = true;</span>
+<span class="cstat-no" title="statement not covered" >    async.series(beforeOperations, <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp;</span>
+            opt_callback(<span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >                async.series(afterOperations)</span>
+            })
+    })
+}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    async.series(beforeOperations, <span class="fstat-no" title="function not covered" >function () {</span></span>
-<span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback(<span class="fstat-no" title="function not covered" >function () {</span></span>
-<span class="cstat-no" title="statement not covered" >            async.series(afterOperations);</span>
-        });
-    });
-};
-&nbsp;
-exports.setupPlugins_ = <span class="fstat-no" title="function not covered" >function (context, setupFn, opt_callback) {</span>
+exports.setupPlugins_ = <span class="fstat-no" title="function not covered" >function(context, setupFn, opt_callback) {</span>
 <span class="cstat-no" title="statement not covered" >    var plugins = configs.getPlugins(),</span>
-        operations = [];
+        operations = []
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    plugins.forEach(<span class="fstat-no" title="function not covered" >function (plugin) {</span></span>
+<span class="cstat-no" title="statement not covered" >    plugins.forEach(<span class="fstat-no" title="function not covered" >function(plugin) {</span></span>
 <span class="cstat-no" title="statement not covered" >        try {</span>
-<span class="cstat-no" title="statement not covered" >            plugin = configs.getPlugin(plugin);</span>
-        }
-        catch(e) {
-<span class="cstat-no" title="statement not covered" >            logger.warn('Can\'t get ' + plugin + ' plugin.');</span>
+<span class="cstat-no" title="statement not covered" >            plugin = configs.getPlugin(plugin)</span>
+        } catch (e) {
+<span class="cstat-no" title="statement not covered" >            logger.warn("Can't get " + plugin + ' plugin.')</span>
         }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (plugin &amp;&amp; plugin[setupFn]) {</span>
-<span class="cstat-no" title="statement not covered" >            operations.push(<span class="fstat-no" title="function not covered" >function (callback) {</span></span>
-<span class="cstat-no" title="statement not covered" >                plugin[setupFn](context, callback);</span>
-            });
+<span class="cstat-no" title="statement not covered" >            operations.push(<span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >                plugin[setupFn](context, callback)</span>
+            })
         }
-    });
+    })
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function () {</span></span>
-<span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback();</span>
-    });
-};
+<span class="cstat-no" title="statement not covered" >    async.series(operations, <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >        opt_callback &amp;&amp; opt_callback()</span>
+    })
+}
 &nbsp;
-exports.wrapCommand_ = <span class="fstat-no" title="function not covered" >function (cmd, context, when) {</span>
-<span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >function (callback) {</span></span>
-<span class="cstat-no" title="statement not covered" >        var raw = logger.compileTemplate(cmd, context);</span>
+exports.wrapCommand_ = <span class="fstat-no" title="function not covered" >function(cmd, context, when) {</span>
+<span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >function(callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >        var raw = logger.compileTemplate(cmd, context)</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (!raw) {</span>
-<span class="cstat-no" title="statement not covered" >            callback &amp;&amp; callback();</span>
-<span class="cstat-no" title="statement not covered" >            return;</span>
+<span class="cstat-no" title="statement not covered" >            callback &amp;&amp; callback()</span>
+<span class="cstat-no" title="statement not covered" >            return</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        logger.log(logger.colors.cyan('[hook]'), truncate(raw.trim(), 120));</span>
+<span class="cstat-no" title="statement not covered" >        logger.log(logger.colors.cyan('[hook]'), truncate(raw.trim(), 120))</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        try {</span>
-<span class="cstat-no" title="statement not covered" >            exec.execSyncInteractiveStream(raw, {cwd: process.cwd()});</span>
-        } catch(e) {
-<span class="cstat-no" title="statement not covered" >            logger.debug('[' + when + ' hook failure]');</span>
+<span class="cstat-no" title="statement not covered" >            exec.execSyncInteractiveStream(raw, { cwd: process.cwd() })</span>
+        } catch (e) {
+<span class="cstat-no" title="statement not covered" >            logger.debug('[' + when + ' hook failure]')</span>
         } finally {
-<span class="cstat-no" title="statement not covered" >            logger.debug(logger.colors.cyan('[end of ' + when + ' hook]'));</span>
+<span class="cstat-no" title="statement not covered" >            logger.debug(logger.colors.cyan('[end of ' + when + ' hook]'))</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        callback &amp;&amp; callback();</span>
-    };
-};
+<span class="cstat-no" title="statement not covered" >        callback &amp;&amp; callback()</span>
+    }
+}
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Apr 02 2017 20:06:41 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jan 04 2018 07:00:30 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>

@@ -140,32 +140,7 @@
 95
 96
 97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+98</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -199,14 +174,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -267,29 +237,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
- * Copyright 2013-2015, All Rights Reserved.
- *
- * Code licensed under the BSD License:
- * https://github.com/node-gh/gh/blob/master/LICENSE.md
- *
- * @author Eduardo Lundgren &lt;eduardo.lundgren@gmail.com&gt;
- * @author Zeno Rocha &lt;zno.rocha@gmail.com&gt;
- */
-&nbsp;
-'use strict';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 &nbsp;
 // -- Requires -------------------------------------------------------------------------------------
 &nbsp;
 <span class="cstat-no" title="statement not covered" >var base = require('../base'),</span>
     configs = require('../configs'),
     logger = require('../logger'),
-    config = base.getConfig();
+    config = base.getConfig()
 &nbsp;
 // -- Constructor ----------------------------------------------------------------------------------
 &nbsp;
 <span class="fstat-no" title="function not covered" >function Alias(options) {</span>
-<span class="cstat-no" title="statement not covered" >    this.options = options;</span>
+<span class="cstat-no" title="statement not covered" >    this.options = options</span>
 }
 &nbsp;
 // -- Constants ------------------------------------------------------------------------------------
@@ -297,95 +257,90 @@
 <span class="cstat-no" title="statement not covered" >Alias.DETAILS = {</span>
     alias: 'al',
     description: 'Create alias for a username.',
-    commands: [
-        'add',
-        'list',
-        'remove'
-    ],
+    commands: ['add', 'list', 'remove'],
     options: {
-        'add': String,
-        'list': Boolean,
-        'remove': String,
-        'user': String
+        add: String,
+        list: Boolean,
+        remove: String,
+        user: String,
     },
     shorthands: {
-        'a': ['--add'],
-        'l': ['--list'],
-        'r': ['--remove'],
-        'u': ['--user']
+        a: ['--add'],
+        l: ['--list'],
+        r: ['--remove'],
+        u: ['--user'],
     },
-    payload: <span class="fstat-no" title="function not covered" >function (payload, options) {</span>
+    payload: <span class="fstat-no" title="function not covered" >function(payload, options) {</span>
 <span class="cstat-no" title="statement not covered" >        if (payload[0]) {</span>
-<span class="cstat-no" title="statement not covered" >            options.add = payload[0];</span>
-<span class="cstat-no" title="statement not covered" >            options.user = payload[1];</span>
+<span class="cstat-no" title="statement not covered" >            options.add = payload[0]</span>
+<span class="cstat-no" title="statement not covered" >            options.user = payload[1]</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >            options.list = true</span>
         }
-        else {
-<span class="cstat-no" title="statement not covered" >            options.list = true;</span>
-        }
-    }
-};
+    },
+}
 &nbsp;
 // -- Commands -------------------------------------------------------------------------------------
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Alias.prototype.run = <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >Alias.prototype.run = <span class="fstat-no" title="function not covered" >function() {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
-        options = instance.options;
+        options = instance.options
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.add) {</span>
 <span class="cstat-no" title="statement not covered" >        if (!options.user) {</span>
-<span class="cstat-no" title="statement not covered" >            logger.error('You must specify an user, try --user username.');</span>
+<span class="cstat-no" title="statement not covered" >            logger.error('You must specify an user, try --user username.')</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        logger.debug('Creating alias ' + options.add);</span>
-<span class="cstat-no" title="statement not covered" >        instance.add();</span>
+<span class="cstat-no" title="statement not covered" >        logger.debug('Creating alias ' + options.add)</span>
+<span class="cstat-no" title="statement not covered" >        instance.add()</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.list) {</span>
-<span class="cstat-no" title="statement not covered" >        instance.list(<span class="fstat-no" title="function not covered" >function (err, data) {</span></span>
-<span class="cstat-no" title="statement not covered" >            var item;</span>
+<span class="cstat-no" title="statement not covered" >        instance.list(<span class="fstat-no" title="function not covered" >function(err, data) {</span></span>
+<span class="cstat-no" title="statement not covered" >            var item</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            for (item in data) {</span>
 <span class="cstat-no" title="statement not covered" >                if (data.hasOwnProperty(item)) {</span>
-<span class="cstat-no" title="statement not covered" >                    logger.log(logger.colors.cyan(item) + ': ' + logger.colors.magenta(data[item]));</span>
+<span class="cstat-no" title="statement not covered" >                    logger.log(logger.colors.cyan(item) + ': ' + logger.colors.magenta(data[item]))</span>
                 }
             }
-        });
+        })
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.remove) {</span>
-<span class="cstat-no" title="statement not covered" >        logger.debug('Removing alias ' + options.remove);</span>
-<span class="cstat-no" title="statement not covered" >        instance.remove();</span>
+<span class="cstat-no" title="statement not covered" >        logger.debug('Removing alias ' + options.remove)</span>
+<span class="cstat-no" title="statement not covered" >        instance.remove()</span>
     }
-};
+}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Alias.prototype.add = <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >Alias.prototype.add = <span class="fstat-no" title="function not covered" >function() {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
-        options = instance.options;
+        options = instance.options
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    configs.writeGlobalConfig('alias.' + options.add, options.user);</span>
-};
+<span class="cstat-no" title="statement not covered" >    configs.writeGlobalConfig('alias.' + options.add, options.user)</span>
+}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Alias.prototype.list = <span class="fstat-no" title="function not covered" >function (opt_callback) {</span></span>
-<span class="cstat-no" title="statement not covered" >    opt_callback &amp;&amp; opt_callback(null, config.alias);</span>
-};
+<span class="cstat-no" title="statement not covered" >Alias.prototype.list = <span class="fstat-no" title="function not covered" >function(opt_callback) {</span></span>
+<span class="cstat-no" title="statement not covered" >    opt_callback &amp;&amp; opt_callback(null, config.alias)</span>
+}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Alias.prototype.remove = <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >Alias.prototype.remove = <span class="fstat-no" title="function not covered" >function() {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
-        options = instance.options;
+        options = instance.options
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    delete config.alias[options.remove];</span>
+<span class="cstat-no" title="statement not covered" >    delete config.alias[options.remove]</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    configs.writeGlobalConfig('alias', config.alias);</span>
-};
+<span class="cstat-no" title="statement not covered" >    configs.writeGlobalConfig('alias', config.alias)</span>
+}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >exports.Impl = Alias;</span>
+<span class="cstat-no" title="statement not covered" >exports.Impl = Alias</span>
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Apr 02 2017 20:06:41 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jan 04 2018 07:00:30 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../prettify.js"></script>

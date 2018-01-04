@@ -88,27 +88,7 @@
 43
 44
 45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+46</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -133,8 +113,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -155,25 +133,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
- * Copyright 2013-2015, All Rights Reserved.
- *
- * Code licensed under the BSD License:
- * https://github.com/node-gh/gh/blob/master/LICENSE.md
- *
- * @author Author &lt;email@email.com&gt;
- */
-&nbsp;
-'use strict';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 &nbsp;
 // -- Requires -------------------------------------------------------------------------------------
 &nbsp;
-<span class="cstat-no" title="statement not covered" >var logger = require('../logger');</span>
+<span class="cstat-no" title="statement not covered" >var logger = require('../logger')</span>
 &nbsp;
 // -- Constructor ----------------------------------------------------------------------------------
 &nbsp;
 <span class="fstat-no" title="function not covered" >function Hello(options) {</span>
-<span class="cstat-no" title="statement not covered" >    this.options = options;</span>
+<span class="cstat-no" title="statement not covered" >    this.options = options</span>
 }
 &nbsp;
 // -- Constants ------------------------------------------------------------------------------------
@@ -181,43 +150,41 @@
 <span class="cstat-no" title="statement not covered" >Hello.DETAILS = {</span>
     alias: 'he',
     description: 'Hello world example. Copy to start a new command.',
-    commands: [
-        'world'
-    ],
+    commands: ['world'],
     options: {
-        'world': Boolean
+        world: Boolean,
     },
     shorthands: {
-        'w': ['--world']
+        w: ['--world'],
     },
-    payload: <span class="fstat-no" title="function not covered" >function (payload, options) {</span>
-<span class="cstat-no" title="statement not covered" >        options.world = true;</span>
-    }
-};
+    payload: <span class="fstat-no" title="function not covered" >function(payload, options) {</span>
+<span class="cstat-no" title="statement not covered" >        options.world = true</span>
+    },
+}
 &nbsp;
 // -- Commands -------------------------------------------------------------------------------------
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Hello.prototype.run = <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >Hello.prototype.run = <span class="fstat-no" title="function not covered" >function() {</span></span>
 <span class="cstat-no" title="statement not covered" >    var instance = this,</span>
-        options = instance.options;
+        options = instance.options
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (options.world) {</span>
-<span class="cstat-no" title="statement not covered" >        instance.world();</span>
+<span class="cstat-no" title="statement not covered" >        instance.world()</span>
     }
-};
+}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >Hello.prototype.world = <span class="fstat-no" title="function not covered" >function () {</span></span>
-<span class="cstat-no" title="statement not covered" >    logger.log('hello world :)');</span>
-};
+<span class="cstat-no" title="statement not covered" >Hello.prototype.world = <span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >    logger.log('hello world :)')</span>
+}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >exports.Impl = Hello;</span>
+<span class="cstat-no" title="statement not covered" >exports.Impl = Hello</span>
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Apr 02 2017 20:06:41 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jan 04 2018 07:00:30 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../../prettify.js"></script>

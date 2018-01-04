@@ -114,28 +114,7 @@
 69
 70
 71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+72</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -161,7 +140,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -207,95 +185,84 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
- * Copyright 2013-2015, All Rights Reserved.
- *
- * Code licensed under the BSD License:
- * https://github.com/node-gh/gh/blob/master/LICENSE.md
- *
- * @author Zeno Rocha &lt;zno.rocha@gmail.com&gt;
- * @author Henrique Vicente &lt;henriquevicente@gmail.com&gt;
- */
-&nbsp;
-'use strict';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 &nbsp;
 var child_process = require('child_process'),
-    logger = require('./logger');
+    logger = require('./logger')
 &nbsp;
-exports.spawnSync = function (cmd, args, options) {
-    var exec;
+exports.spawnSync = function(cmd, args, options) {
+    var exec
 &nbsp;
-    logger.debug('spawnSync: ' + cmd + ' ' + args.join(' '));
+    logger.debug('spawnSync: ' + cmd + ' ' + args.join(' '))
 &nbsp;
-    exec = child_process.spawnSync(cmd, args, options);
+    exec = child_process.spawnSync(cmd, args, options)
 &nbsp;
     <span class="missing-if-branch" title="if path not taken" >I</span>if (exec.error &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >exec.error.code === 'ENOENT' </span>&amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >process.platform === 'win32')</span> {
-<span class="cstat-no" title="statement not covered" >        logger.debug('Invoking patched sapwnSync due to Windows\' libuv bug');</span>
-<span class="cstat-no" title="statement not covered" >        exec = child_process.spawnSync(cmd + '.cmd', args, options);</span>
+<span class="cstat-no" title="statement not covered" >        logger.debug("Invoking patched sapwnSync due to Windows' libuv bug")</span>
+<span class="cstat-no" title="statement not covered" >        exec = child_process.spawnSync(cmd + '.cmd', args, options)</span>
     }
 &nbsp;
     return {
         stdout: exec.stdout.toString().trim(),
         stderr: exec.stderr.toString().trim(),
-        status: exec.status
-    };
-};
+        status: exec.status,
+    }
+}
 &nbsp;
-exports.spawnSyncStream = <span class="fstat-no" title="function not covered" >function (cmd, args, options) {</span>
-<span class="cstat-no" title="statement not covered" >    var proc,</span>
-        err;
+exports.spawnSyncStream = <span class="fstat-no" title="function not covered" >function(cmd, args, options) {</span>
+<span class="cstat-no" title="statement not covered" >    var proc, err</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!options) {</span>
-<span class="cstat-no" title="statement not covered" >        options = {};</span>
+<span class="cstat-no" title="statement not covered" >        options = {}</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    options.stdio = ['pipe', process.stdout, process.stderr];</span>
+<span class="cstat-no" title="statement not covered" >    options.stdio = ['pipe', process.stdout, process.stderr]</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    logger.debug('spawnSyncStream: ' + cmd + ' ' + args.join(' '));</span>
+<span class="cstat-no" title="statement not covered" >    logger.debug('spawnSyncStream: ' + cmd + ' ' + args.join(' '))</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    proc = child_process.spawnSync(cmd, args, options);</span>
+<span class="cstat-no" title="statement not covered" >    proc = child_process.spawnSync(cmd, args, options)</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (proc.status !== 0) {</span>
-<span class="cstat-no" title="statement not covered" >        err = new Error();</span>
-<span class="cstat-no" title="statement not covered" >        err.code = proc.status;</span>
-<span class="cstat-no" title="statement not covered" >        err.message = 'Child process terminated with error code ' + err.code;</span>
+<span class="cstat-no" title="statement not covered" >        err = new Error()</span>
+<span class="cstat-no" title="statement not covered" >        err.code = proc.status</span>
+<span class="cstat-no" title="statement not covered" >        err.message = 'Child process terminated with error code ' + err.code</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        throw err;</span>
+<span class="cstat-no" title="statement not covered" >        throw err</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return proc;</span>
-};
+<span class="cstat-no" title="statement not covered" >    return proc</span>
+}
 &nbsp;
-exports.execSync = <span class="fstat-no" title="function not covered" >function (cmd, options) {</span>
+exports.execSync = <span class="fstat-no" title="function not covered" >function(cmd, options) {</span>
 <span class="cstat-no" title="statement not covered" >    if (!options) {</span>
-<span class="cstat-no" title="statement not covered" >        options = {};</span>
+<span class="cstat-no" title="statement not covered" >        options = {}</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    logger.debug('execSync: ' + cmd);</span>
+<span class="cstat-no" title="statement not covered" >    logger.debug('execSync: ' + cmd)</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    options.stdio = ['pipe', process.stdout, process.stderr];</span>
+<span class="cstat-no" title="statement not covered" >    options.stdio = ['pipe', process.stdout, process.stderr]</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return child_process.execSync(cmd, options);</span>
-};
+<span class="cstat-no" title="statement not covered" >    return child_process.execSync(cmd, options)</span>
+}
 &nbsp;
-exports.execSyncInteractiveStream = <span class="fstat-no" title="function not covered" >function (cmd, options) {</span>
+exports.execSyncInteractiveStream = <span class="fstat-no" title="function not covered" >function(cmd, options) {</span>
 <span class="cstat-no" title="statement not covered" >    if (!options) {</span>
-<span class="cstat-no" title="statement not covered" >        options = {};</span>
+<span class="cstat-no" title="statement not covered" >        options = {}</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    logger.debug('execSyncInteractiveStream: ' + cmd);</span>
+<span class="cstat-no" title="statement not covered" >    logger.debug('execSyncInteractiveStream: ' + cmd)</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    options.stdio = 'inherit';</span>
+<span class="cstat-no" title="statement not covered" >    options.stdio = 'inherit'</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return child_process.execSync(cmd, options);</span>
-};
+<span class="cstat-no" title="statement not covered" >    return child_process.execSync(cmd, options)</span>
+}
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Apr 02 2017 20:06:41 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jan 04 2018 07:00:30 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>

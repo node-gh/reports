@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">26.26% </span>
+        <span class="strong">26.53% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>26/99</span>
+        <span class='fraction'>26/98</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">8.82% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>1/21</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">26.26% </span>
+        <span class="strong">26.53% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>26/99</span>
+        <span class='fraction'>26/98</span>
       </div>
     </div>
   </div>
@@ -242,28 +242,7 @@
 197
 198
 199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+200</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -290,8 +269,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -429,7 +406,6 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -465,224 +441,212 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
- * Copyright 2013-2015, All Rights Reserved.
- *
- * Code licensed under the BSD License:
- * https://github.com/node-gh/gh/blob/master/LICENSE.md
- *
- * @author Eduardo Lundgren &lt;edu@rdo.io&gt;
- */
-&nbsp;
-'use strict';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 &nbsp;
 var logger = require('./logger'),
     exec = require('./exec'),
-    git_command = process.env.GH_GIT_COMMAND || 'git';
+    git_command = process.env.GH_GIT_COMMAND || 'git'
 &nbsp;
-exports.checkout = <span class="fstat-no" title="function not covered" >function (branch, newBranch) {</span>
-<span class="cstat-no" title="statement not covered" >    var args = ['checkout', branch];</span>
+exports.checkout = <span class="fstat-no" title="function not covered" >function(branch, newBranch) {</span>
+<span class="cstat-no" title="statement not covered" >    var args = ['checkout', branch]</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (newBranch) {</span>
-<span class="cstat-no" title="statement not covered" >        args.push('-B', newBranch);</span>
+<span class="cstat-no" title="statement not covered" >        args.push('-B', newBranch)</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return exec.spawnSyncStream(git_command, args);</span>
-};
+<span class="cstat-no" title="statement not covered" >    return exec.spawnSyncStream(git_command, args)</span>
+}
 &nbsp;
-exports.clone = <span class="fstat-no" title="function not covered" >function (url, folder) {</span>
-<span class="cstat-no" title="statement not covered" >    var args = ['clone', url];</span>
+exports.clone = <span class="fstat-no" title="function not covered" >function(url, folder) {</span>
+<span class="cstat-no" title="statement not covered" >    var args = ['clone', url]</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (folder) {</span>
-<span class="cstat-no" title="statement not covered" >        args.push(folder);</span>
+<span class="cstat-no" title="statement not covered" >        args.push(folder)</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return exec.spawnSyncStream(git_command, args);</span>
-};
+<span class="cstat-no" title="statement not covered" >    return exec.spawnSyncStream(git_command, args)</span>
+}
 &nbsp;
-exports._merge = <span class="fstat-no" title="function not covered" >function (branch, type) {</span>
-<span class="cstat-no" title="statement not covered" >    var res;</span>
-&nbsp;
+exports._merge = <span class="fstat-no" title="function not covered" >function(branch, type) {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >        res = exec.spawnSyncStream(git_command, [type, branch]);</span>
-    } catch(err) {
+<span class="cstat-no" title="statement not covered" >        exec.spawnSyncStream(git_command, [type, branch])</span>
+    } catch (err) {
 <span class="cstat-no" title="statement not covered" >        if (err.code &amp;&amp; err.code !== 0) {</span>
-<span class="cstat-no" title="statement not covered" >            exec.spawnSyncStream(git_command, [type, '--abort']);</span>
-<span class="cstat-no" title="statement not covered" >            throw err;</span>
+<span class="cstat-no" title="statement not covered" >            exec.spawnSyncStream(git_command, [type, '--abort'])</span>
+<span class="cstat-no" title="statement not covered" >            throw err</span>
         }
     }
-};
+}
 &nbsp;
-exports.merge = <span class="fstat-no" title="function not covered" >function (branch) {</span>
-<span class="cstat-no" title="statement not covered" >    return this._merge(branch, 'merge');</span>
-};
+exports.merge = <span class="fstat-no" title="function not covered" >function(branch) {</span>
+<span class="cstat-no" title="statement not covered" >    return this._merge(branch, 'merge')</span>
+}
 &nbsp;
-exports.rebase = <span class="fstat-no" title="function not covered" >function (branch) {</span>
-<span class="cstat-no" title="statement not covered" >    return this._merge(branch, 'rebase');</span>
-};
+exports.rebase = <span class="fstat-no" title="function not covered" >function(branch) {</span>
+<span class="cstat-no" title="statement not covered" >    return this._merge(branch, 'rebase')</span>
+}
 &nbsp;
-exports.push = <span class="fstat-no" title="function not covered" >function (remote, branch) {</span>
-<span class="cstat-no" title="statement not covered" >    var args = ['push', remote];</span>
+exports.push = <span class="fstat-no" title="function not covered" >function(remote, branch) {</span>
+<span class="cstat-no" title="statement not covered" >    var args = ['push', remote]</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (branch) {</span>
-<span class="cstat-no" title="statement not covered" >        args.push(branch);</span>
+<span class="cstat-no" title="statement not covered" >        args.push(branch)</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return exec.spawnSyncStream(git_command, args);</span>
-};
+<span class="cstat-no" title="statement not covered" >    return exec.spawnSyncStream(git_command, args)</span>
+}
 &nbsp;
-exports.fetch = <span class="fstat-no" title="function not covered" >function (repoUrl, headBranch, pullBranch) {</span>
-<span class="cstat-no" title="statement not covered" >    var args = ['fetch', repoUrl, headBranch + ':' + pullBranch, '--no-tags'];</span>
+exports.fetch = <span class="fstat-no" title="function not covered" >function(repoUrl, headBranch, pullBranch) {</span>
+<span class="cstat-no" title="statement not covered" >    var args = ['fetch', repoUrl, headBranch + ':' + pullBranch, '--no-tags']</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return exec.spawnSyncStream(git_command, args);</span>
-};
+<span class="cstat-no" title="statement not covered" >    return exec.spawnSyncStream(git_command, args)</span>
+}
 &nbsp;
-exports.countUserAdjacentCommits = <span class="fstat-no" title="function not covered" >function () {</span>
+exports.countUserAdjacentCommits = <span class="fstat-no" title="function not covered" >function() {</span>
 <span class="cstat-no" title="statement not covered" >    var git,</span>
         params,
         commits = 0,
         user = exports.getConfig('user.name'),
-        author;
+        author
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    do {</span>
-<span class="cstat-no" title="statement not covered" >        params = ['log', '-1', '--skip=' + commits, '--pretty=%an'];</span>
-<span class="cstat-no" title="statement not covered" >        git = exec.spawnSync(git_command, params);</span>
+<span class="cstat-no" title="statement not covered" >        params = ['log', '-1', '--skip=' + commits, '--pretty=%an']</span>
+<span class="cstat-no" title="statement not covered" >        git = exec.spawnSync(git_command, params)</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (git.status !== 0) {</span>
-<span class="cstat-no" title="statement not covered" >            logger.error(git.stderr);</span>
+<span class="cstat-no" title="statement not covered" >            logger.error(git.stderr)</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        author = git.stdout;</span>
+<span class="cstat-no" title="statement not covered" >        author = git.stdout</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        commits += 1;</span>
-    } while (author === user);
+<span class="cstat-no" title="statement not covered" >        commits += 1</span>
+    } while (author === user)
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    commits -= 1;</span>
+<span class="cstat-no" title="statement not covered" >    commits -= 1</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return commits;</span>
-};
+<span class="cstat-no" title="statement not covered" >    return commits</span>
+}
 &nbsp;
-exports.deleteBranch = <span class="fstat-no" title="function not covered" >function (branch) {</span>
-<span class="cstat-no" title="statement not covered" >    var git = exec.spawnSync(git_command, ['branch', '-d', branch]);</span>
+exports.deleteBranch = <span class="fstat-no" title="function not covered" >function(branch) {</span>
+<span class="cstat-no" title="statement not covered" >    var git = exec.spawnSync(git_command, ['branch', '-d', branch])</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (git.status !== 0) {</span>
-<span class="cstat-no" title="statement not covered" >        logger.debug(git.stderr);</span>
+<span class="cstat-no" title="statement not covered" >        logger.debug(git.stderr)</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return git.stdout;</span>
-};
+<span class="cstat-no" title="statement not covered" >    return git.stdout</span>
+}
 &nbsp;
-exports.findRoot = <span class="fstat-no" title="function not covered" >function () {</span>
-<span class="cstat-no" title="statement not covered" >    return exec.spawnSync(git_command, ['rev-parse', '--show-toplevel']).stdout;</span>
-};
+exports.findRoot = <span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >    return exec.spawnSync(git_command, ['rev-parse', '--show-toplevel']).stdout</span>
+}
 &nbsp;
-exports.getCommitMessage = <span class="fstat-no" title="function not covered" >function (branch, number) {</span>
+exports.getCommitMessage = <span class="fstat-no" title="function not covered" >function(branch, number) {</span>
 <span class="cstat-no" title="statement not covered" >    var git,</span>
-        params = ['log'];
+        params = ['log']
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!number) {</span>
-<span class="cstat-no" title="statement not covered" >        number = 1;</span>
+<span class="cstat-no" title="statement not covered" >        number = 1</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    params.push('-' + number, '--first-parent', '--no-merges', '--pretty=%s');</span>
+<span class="cstat-no" title="statement not covered" >    params.push('-' + number, '--first-parent', '--no-merges', '--pretty=%s')</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (branch) {</span>
-<span class="cstat-no" title="statement not covered" >        params.push(branch);</span>
+<span class="cstat-no" title="statement not covered" >        params.push(branch)</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    params.push('--');</span>
+<span class="cstat-no" title="statement not covered" >    params.push('--')</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    git = exec.spawnSync(git_command, params);</span>
+<span class="cstat-no" title="statement not covered" >    git = exec.spawnSync(git_command, params)</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (git.status !== 0) {</span>
-<span class="cstat-no" title="statement not covered" >        logger.debug('Can\'t get commit message.');</span>
-<span class="cstat-no" title="statement not covered" >        return;</span>
+<span class="cstat-no" title="statement not covered" >        logger.debug("Can't get commit message.")</span>
+<span class="cstat-no" title="statement not covered" >        return</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return git.stdout;</span>
-};
+<span class="cstat-no" title="statement not covered" >    return git.stdout</span>
+}
 &nbsp;
-exports.getConfig = <span class="fstat-no" title="function not covered" >function (key) {</span>
-<span class="cstat-no" title="statement not covered" >    var git = exec.spawnSync(git_command, ['config', '--get', key]);</span>
+exports.getConfig = <span class="fstat-no" title="function not covered" >function(key) {</span>
+<span class="cstat-no" title="statement not covered" >    var git = exec.spawnSync(git_command, ['config', '--get', key])</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (git.status !== 0) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new Error('No git config found for ' + key + '\n');</span>
+<span class="cstat-no" title="statement not covered" >        throw new Error('No git config found for ' + key + '\n')</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return git.stdout;</span>
-};
+<span class="cstat-no" title="statement not covered" >    return git.stdout</span>
+}
 &nbsp;
-exports.getCurrentBranch = <span class="fstat-no" title="function not covered" >function () {</span>
-<span class="cstat-no" title="statement not covered" >    var git = exec.spawnSync(git_command, ['symbolic-ref', '--short', 'HEAD']);</span>
+exports.getCurrentBranch = <span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >    var git = exec.spawnSync(git_command, ['symbolic-ref', '--short', 'HEAD'])</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (git.status !== 0) {</span>
-<span class="cstat-no" title="statement not covered" >        logger.debug('Can\'t get current branch.');</span>
-<span class="cstat-no" title="statement not covered" >        return;</span>
+<span class="cstat-no" title="statement not covered" >        logger.debug("Can't get current branch.")</span>
+<span class="cstat-no" title="statement not covered" >        return</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return git.stdout;</span>
-};
+<span class="cstat-no" title="statement not covered" >    return git.stdout</span>
+}
 &nbsp;
-exports.getLastCommitMessage = <span class="fstat-no" title="function not covered" >function (branch) {</span>
-<span class="cstat-no" title="statement not covered" >    return exports.getCommitMessage(branch, 1);</span>
-};
+exports.getLastCommitMessage = <span class="fstat-no" title="function not covered" >function(branch) {</span>
+<span class="cstat-no" title="statement not covered" >    return exports.getCommitMessage(branch, 1)</span>
+}
 &nbsp;
-exports.getLastCommitSHA = <span class="fstat-no" title="function not covered" >function () {</span>
-<span class="cstat-no" title="statement not covered" >    var git = exec.spawnSync(git_command, ['rev-parse', '--short', 'HEAD']);</span>
+exports.getLastCommitSHA = <span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >    var git = exec.spawnSync(git_command, ['rev-parse', '--short', 'HEAD'])</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (git.status !== 0) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new Error('Can\'t retrieve last commit.');</span>
+<span class="cstat-no" title="statement not covered" >        throw new Error("Can't retrieve last commit.")</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return git.stdout;</span>
-};
+<span class="cstat-no" title="statement not covered" >    return git.stdout</span>
+}
 &nbsp;
-exports.getRemoteUrl = <span class="fstat-no" title="function not covered" >function (remote) {</span>
+exports.getRemoteUrl = <span class="fstat-no" title="function not covered" >function(remote) {</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >        return exports.getConfig('remote.' + remote + '.url');</span>
+<span class="cstat-no" title="statement not covered" >        return exports.getConfig('remote.' + remote + '.url')</span>
+    } catch (e) {
+<span class="cstat-no" title="statement not covered" >        logger.debug("Can't get remote URL.")</span>
+<span class="cstat-no" title="statement not covered" >        return</span>
     }
-    catch(e) {
-<span class="cstat-no" title="statement not covered" >        logger.debug('Can\'t get remote URL.');</span>
-<span class="cstat-no" title="statement not covered" >        return;</span>
-    }
-};
+}
 &nbsp;
-exports.getRepoFromRemoteURL = <span class="fstat-no" title="function not covered" >function (url) {</span>
-<span class="cstat-no" title="statement not covered" >    var parsed = exports.parseRemoteUrl(url);</span>
+exports.getRepoFromRemoteURL = <span class="fstat-no" title="function not covered" >function(url) {</span>
+<span class="cstat-no" title="statement not covered" >    var parsed = exports.parseRemoteUrl(url)</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return parsed &amp;&amp; parsed[1];</span>
-};
+<span class="cstat-no" title="statement not covered" >    return parsed &amp;&amp; parsed[1]</span>
+}
 &nbsp;
-exports.getUserFromRemoteUrl = <span class="fstat-no" title="function not covered" >function (url) {</span>
-<span class="cstat-no" title="statement not covered" >    var parsed = exports.parseRemoteUrl(url);</span>
+exports.getUserFromRemoteUrl = <span class="fstat-no" title="function not covered" >function(url) {</span>
+<span class="cstat-no" title="statement not covered" >    var parsed = exports.parseRemoteUrl(url)</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return parsed &amp;&amp; parsed[0];</span>
-};
+<span class="cstat-no" title="statement not covered" >    return parsed &amp;&amp; parsed[0]</span>
+}
 &nbsp;
-exports.getRepo = <span class="fstat-no" title="function not covered" >function (remote) {</span>
-<span class="cstat-no" title="statement not covered" >    return exports.getRepoFromRemoteURL(exports.getRemoteUrl(remote));</span>
-};
+exports.getRepo = <span class="fstat-no" title="function not covered" >function(remote) {</span>
+<span class="cstat-no" title="statement not covered" >    return exports.getRepoFromRemoteURL(exports.getRemoteUrl(remote))</span>
+}
 &nbsp;
-exports.getUser = <span class="fstat-no" title="function not covered" >function (remote) {</span>
-<span class="cstat-no" title="statement not covered" >    return exports.getUserFromRemoteUrl(exports.getRemoteUrl(remote));</span>
-};
+exports.getUser = <span class="fstat-no" title="function not covered" >function(remote) {</span>
+<span class="cstat-no" title="statement not covered" >    return exports.getUserFromRemoteUrl(exports.getRemoteUrl(remote))</span>
+}
 &nbsp;
-exports.parseRemoteUrl = function (url) {
-    var parsed = /[\/:]([\w-]+)\/(.*?)(?:\.git)?$/.exec(url);
+exports.parseRemoteUrl = function(url) {
+    var parsed = /[\/:]([\w-]+)\/(.*?)(?:\.git)?$/.exec(url)
 &nbsp;
     <span class="missing-if-branch" title="else path not taken" >E</span>if (parsed) {
-        parsed.shift();
+        parsed.shift()
     }
 &nbsp;
-    return parsed;
-};
+    return parsed
+}
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Apr 02 2017 20:06:41 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jan 04 2018 07:00:30 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>
