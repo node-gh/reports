@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">69.91% </span>
+        <span class="strong">68.7% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>79/113</span>
+        <span class='fraction'>79/115</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">47.5% </span>
+        <span class="strong">55% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>19/40</span>
+        <span class='fraction'>22/40</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">62.5% </span>
+        <span class="strong">56% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>15/24</span>
+        <span class='fraction'>14/25</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">69.91% </span>
+        <span class="strong">68.7% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>79/113</span>
+        <span class='fraction'>79/115</span>
       </div>
     </div>
   </div>
@@ -300,7 +300,11 @@
 255
 256
 257
-258</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+258
+259
+260
+261
+262</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -342,7 +346,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -353,23 +361,23 @@
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-yes">43×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-yes">44×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -598,6 +606,10 @@ exports.getNodeModulesGlobalPath = function() {
     return path
 }
 &nbsp;
+exports.getProjectConfigPath = function() {
+    return path.join(process.cwd(), '.gh.json')
+}
+&nbsp;
 exports.getUserHomePath = function() {
     return userhome('.gh.json')
 }
@@ -608,25 +620,25 @@ function getConfig(opt_plugin) {
         result = {}
 &nbsp;
     try {
-        projectConfig = JSON.parse(fs.readFileSync(exports.getUserHomePath()))
+        projectConfig = JSON.parse(fs.readFileSync(exports.getProjectConfigPath()))
 &nbsp;
-        Object.keys(globalConfig).forEach(function(key) {
-            result[key] = globalConfig[key]
+<span class="cstat-no" title="statement not covered" >        Object.keys(globalConfig).forEach(<span class="fstat-no" title="function not covered" >function(key) {</span></span>
+<span class="cstat-no" title="statement not covered" >            result[key] = globalConfig[key]</span>
         })
 &nbsp;
-        Object.keys(projectConfig).forEach(function(key) {
-            result[key] = projectConfig[key]
+<span class="cstat-no" title="statement not covered" >        Object.keys(projectConfig).forEach(<span class="fstat-no" title="function not covered" >function(key) {</span></span>
+<span class="cstat-no" title="statement not covered" >            result[key] = projectConfig[key]</span>
         })
 &nbsp;
-        return result
+<span class="cstat-no" title="statement not covered" >        return result</span>
     } catch (e) {
-<span class="cstat-no" title="statement not covered" >        logger.debug(e.message)</span>
+        logger.debug(e.message)
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (e.code !== 'MODULE_NOT_FOUND' &amp;&amp; e.code !== 'ENOENT') {</span>
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (e.code !== 'MODULE_NOT_FOUND' &amp;&amp; e.code !== 'ENOENT') {
 <span class="cstat-no" title="statement not covered" >            throw e</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return globalConfig</span>
+        return globalConfig
     }
 }
 &nbsp;
@@ -820,7 +832,7 @@ exports.PLUGINS_PATH_KEY = PLUGINS_PATH_KEY
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Mar 10 2018 01:57:43 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Mar 16 2018 01:35:45 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>
