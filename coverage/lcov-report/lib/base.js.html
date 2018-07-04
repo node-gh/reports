@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">36.36% </span>
+        <span class="strong">23.21% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>12/33</span>
+        <span class='fraction'>13/56</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/14</span>
+        <span class='fraction'>0/24</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/11</span>
+        <span class='fraction'>0/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">36.36% </span>
+        <span class="strong">23.21% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>12/33</span>
+        <span class='fraction'>13/56</span>
       </div>
     </div>
   </div>
@@ -131,7 +131,50 @@
 86
 87
 88
-89</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -166,6 +209,49 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -247,13 +333,56 @@ exports.clone = <span class="fstat-no" title="function not covered" >function(o)
 exports.load = <span class="fstat-no" title="function not covered" >function() {</span>
 <span class="cstat-no" title="statement not covered" >    var config = configs.getConfig()</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    exports.github = new Github({</span>
+<span class="cstat-no" title="statement not covered" >    const github = new Github({</span>
         debug: false,
         host: config.api.host,
         protocol: config.api.protocol,
         version: config.api.version,
         pathPrefix: config.api.pathPrefix,
     })
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function paginate(method) {</span>
+<span class="cstat-no" title="statement not covered" >        return <span class="fstat-no" title="function not covered" >function paginatedMethod(payload, cb) {</span></span>
+<span class="cstat-no" title="statement not covered" >            let results = []</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            const getSubsequentPages = (link, pagesCb) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                if (github.hasNextPage(link)) {</span>
+<span class="cstat-no" title="statement not covered" >                    github.getNextPage(link, (err, res) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                        if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                            return pagesCb(err)</span>
+                        }
+<span class="cstat-no" title="statement not covered" >                        results = res</span>
+<span class="cstat-no" title="statement not covered" >                        return getSubsequentPages(res.meta.link, pagesCb)</span>
+                    })
+                }
+<span class="cstat-no" title="statement not covered" >                pagesCb()</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            method(payload, (err, res) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                    return cb(err, null)</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if (!Array.isArray(res)) {</span>
+<span class="cstat-no" title="statement not covered" >                    return cb(err, res)</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                results = res</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                getSubsequentPages(res.meta.link, err =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                    cb(err, results)</span>
+                })
+            })
+        }
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    for (let key in github.repos) {</span>
+<span class="cstat-no" title="statement not covered" >        if (typeof github.repos[key] === 'function') {</span>
+<span class="cstat-no" title="statement not covered" >            github.repos[key] = paginate(github.repos[key])</span>
+        }
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    exports.github = github</span>
 }
 &nbsp;
 exports.asyncReadPackages = <span class="fstat-no" title="function not covered" >function(callback) {</span>
@@ -313,7 +442,7 @@ exports.writeGlobalConfig = configs.writeGlobalConfig
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jun 15 2018 01:13:26 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jul 04 2018 03:17:33 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>
