@@ -198,7 +198,19 @@
 153
 154
 155
-156</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -290,10 +302,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -362,104 +386,116 @@
  * @author Eduardo Lundgren &lt;edu@rdo.io&gt;
  */
 &nbsp;
-'use strict';
+'use strict'
 &nbsp;
 <span class="fstat-no" title="function not covered" >function _classCallCheck(instance, Constructor) {</span>
 <span class="cstat-no" title="statement not covered" >    if (!(instance instanceof Constructor)) {</span>
-<span class="cstat-no" title="statement not covered" >        throw new TypeError('Cannot call a class as a function');</span>
+<span class="cstat-no" title="statement not covered" >        throw new TypeError('Cannot call a class as a function')</span>
     }
 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >var _request = require('request');</span>
-<span class="cstat-no" title="statement not covered" >var http = require('http');</span>
-<span class="cstat-no" title="statement not covered" >var _url = require('url');</span>
-<span class="cstat-no" title="statement not covered" >var lodash = require('lodash');</span>
-<span class="cstat-no" title="statement not covered" >var logger = require('./logger');</span>
+<span class="cstat-no" title="statement not covered" >var _request = require('request')</span>
+<span class="cstat-no" title="statement not covered" >var http = require('http')</span>
+<span class="cstat-no" title="statement not covered" >var _url = require('url')</span>
+<span class="cstat-no" title="statement not covered" >var lodash = require('lodash')</span>
+<span class="cstat-no" title="statement not covered" >var logger = require('./logger')</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >var RestApiClient = (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >var RestApiClient = (<span class="fstat-no" title="function not covered" >function() {</span></span>
 <span class="fstat-no" title="function not covered" >    function RestApiClient(options) {</span>
-<span class="cstat-no" title="statement not covered" >        _classCallCheck(this, RestApiClient);</span>
+<span class="cstat-no" title="statement not covered" >        _classCallCheck(this, RestApiClient)</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        options = lodash.merge(this.DEFAULT_CONFIG, options);</span>
-<span class="cstat-no" title="statement not covered" >        this.options = options;</span>
+<span class="cstat-no" title="statement not covered" >        options = lodash.merge(this.DEFAULT_CONFIG, options)</span>
+<span class="cstat-no" title="statement not covered" >        this.options = options</span>
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    RestApiClient.prototype.encode = <span class="fstat-no" title="function not covered" >function encode() {</span></span>
-<span class="cstat-no" title="statement not covered" >        return encodeURIComponent.apply(this, arguments);</span>
-    };
+<span class="cstat-no" title="statement not covered" >        return encodeURIComponent.apply(this, arguments)</span>
+    }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    RestApiClient.prototype.url = <span class="fstat-no" title="function not covered" >function url(pathname, query) {</span></span>
-<span class="cstat-no" title="statement not covered" >        var options = this.options;</span>
+<span class="cstat-no" title="statement not covered" >        var options = this.options</span>
 <span class="cstat-no" title="statement not covered" >        var uri = _url.format({</span>
             protocol: options.protocol,
             hostname: options.host,
             port: options.port,
             pathname: options.base + pathname,
-            query: query
-        });
+            query: query,
+        })
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return decodeURIComponent(uri);</span>
-    };
+<span class="cstat-no" title="statement not covered" >        return decodeURIComponent(uri)</span>
+    }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    RestApiClient.prototype.authorize = <span class="fstat-no" title="function not covered" >function authorize(p) {</span></span>
-<span class="cstat-no" title="statement not covered" >        var options = this.options;</span>
+<span class="cstat-no" title="statement not covered" >        var options = this.options</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (p.oauth) {</span>
-<span class="cstat-no" title="statement not covered" >            p.oauth = options.oauth;</span>
-<span class="cstat-no" title="statement not covered" >            return;</span>
+<span class="cstat-no" title="statement not covered" >            p.oauth = options.oauth</span>
+<span class="cstat-no" title="statement not covered" >            return</span>
         }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (typeof options.user === 'string') {</span>
 <span class="cstat-no" title="statement not covered" >            p.auth = {</span>
                 user: options.user,
-                pass: options.password
-            };
+                pass: options.password,
+            }
         }
-    };
+    }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    RestApiClient.prototype.request = <span class="fstat-no" title="function not covered" >function request(method, path, params) {</span></span>
 <span class="cstat-no" title="statement not covered" >        if (typeof path === 'object') {</span>
-<span class="cstat-no" title="statement not covered" >            var args = Array.from(path);</span>
-<span class="cstat-no" title="statement not covered" >            args.unshift(method);</span>
-<span class="cstat-no" title="statement not covered" >            return this.request.apply(this, args);</span>
+<span class="cstat-no" title="statement not covered" >            var args = Array.from(path)</span>
+<span class="cstat-no" title="statement not covered" >            args.unshift(method)</span>
+<span class="cstat-no" title="statement not covered" >            return this.request.apply(this, args)</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        var options = this.options;</span>
+<span class="cstat-no" title="statement not covered" >        var options = this.options</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        var p = {</span>
             strictSSL: options.strictSSL,
             method: method,
             uri: this.url(path),
             json: true,
-            followAllRedirects: true
-        };
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        if (params) {</span>
-<span class="cstat-no" title="statement not covered" >            p = lodash.merge(p, params);</span>
+            followAllRedirects: true,
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        this.authorize(p);</span>
+<span class="cstat-no" title="statement not covered" >        if (params) {</span>
+<span class="cstat-no" title="statement not covered" >            p = lodash.merge(p, params)</span>
+        }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        var id = Math.floor(Math.random() * 10000000);</span>
-<span class="cstat-no" title="statement not covered" >        var begin = new Date().getTime();</span>
+<span class="cstat-no" title="statement not covered" >        this.authorize(p)</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return new Promise(<span class="fstat-no" title="function not covered" >function (resolve, reject) {</span></span>
-<span class="cstat-no" title="statement not covered" >            logger.debug('New request #' + id + ' started at ' + begin + ':\n' + method + ' ' + p.uri);</span>
-<span class="cstat-no" title="statement not covered" >            logger.insane(p);</span>
-<span class="cstat-no" title="statement not covered" >            _request(p, <span class="fstat-no" title="function not covered" >function (error, response) {</span></span>
-<span class="cstat-no" title="statement not covered" >                var end = new Date().getTime();</span>
-<span class="cstat-no" title="statement not covered" >                logger.debug('End of request #' + id + ' at ' + end + ' (' + (end - begin) + 'ms)' + ' with status code: ' + (response &amp;&amp; response.statusCode));</span>
+<span class="cstat-no" title="statement not covered" >        var id = Math.floor(Math.random() * 10000000)</span>
+<span class="cstat-no" title="statement not covered" >        var begin = new Date().getTime()</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return new Promise(<span class="fstat-no" title="function not covered" >function(resolve, reject) {</span></span>
+<span class="cstat-no" title="statement not covered" >            logger.debug(</span>
+                'New request #' + id + ' started at ' + begin + ':\n' + method + ' ' + p.uri
+            )
+<span class="cstat-no" title="statement not covered" >            logger.insane(p)</span>
+<span class="cstat-no" title="statement not covered" >            _request(p, <span class="fstat-no" title="function not covered" >function(error, response) {</span></span>
+<span class="cstat-no" title="statement not covered" >                var end = new Date().getTime()</span>
+<span class="cstat-no" title="statement not covered" >                logger.debug(</span>
+                    'End of request #' +
+                        id +
+                        ' at ' +
+                        end +
+                        ' (' +
+                        (end - begin) +
+                        'ms)' +
+                        ' with status code: ' +
+                        (response &amp;&amp; response.statusCode)
+                )
 &nbsp;
 <span class="cstat-no" title="statement not covered" >                if (response) {</span>
-<span class="cstat-no" title="statement not covered" >                    logger.insane('Response headers:');</span>
-<span class="cstat-no" title="statement not covered" >                    logger.insane(response.headers);</span>
-<span class="cstat-no" title="statement not covered" >                    logger.debug('Response body');</span>
-<span class="cstat-no" title="statement not covered" >                    logger.debug(response.body);</span>
+<span class="cstat-no" title="statement not covered" >                    logger.insane('Response headers:')</span>
+<span class="cstat-no" title="statement not covered" >                    logger.insane(response.headers)</span>
+<span class="cstat-no" title="statement not covered" >                    logger.debug('Response body')</span>
+<span class="cstat-no" title="statement not covered" >                    logger.debug(response.body)</span>
                 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >                if (error) {</span>
-<span class="cstat-no" title="statement not covered" >                    reject(error);</span>
-<span class="cstat-no" title="statement not covered" >                    return;</span>
+<span class="cstat-no" title="statement not covered" >                    reject(error)</span>
+<span class="cstat-no" title="statement not covered" >                    return</span>
                 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >                if (response.statusCode &lt; 200 || response.statusCode &gt; 399) {</span>
@@ -467,34 +503,34 @@
                         error: response.statusCode + ' ' + http.STATUS_CODES[response.statusCode],
                         code: response.statusCode,
                         msg: http.STATUS_CODES[response.statusCode],
-                        response: response
-                    });
-<span class="cstat-no" title="statement not covered" >                    return;</span>
+                        response: response,
+                    })
+<span class="cstat-no" title="statement not covered" >                    return</span>
                 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                resolve(response);</span>
-            });
-        });
-    };
+<span class="cstat-no" title="statement not covered" >                resolve(response)</span>
+            })
+        })
+    }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    RestApiClient.prototype.get = <span class="fstat-no" title="function not covered" >function get() {</span></span>
-<span class="cstat-no" title="statement not covered" >        return this.request('GET', arguments);</span>
-    };
+<span class="cstat-no" title="statement not covered" >        return this.request('GET', arguments)</span>
+    }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    RestApiClient.prototype.post = <span class="fstat-no" title="function not covered" >function post() {</span></span>
-<span class="cstat-no" title="statement not covered" >        return this.request('POST', arguments);</span>
-    };
+<span class="cstat-no" title="statement not covered" >        return this.request('POST', arguments)</span>
+    }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    RestApiClient.prototype.put = <span class="fstat-no" title="function not covered" >function put() {</span></span>
-<span class="cstat-no" title="statement not covered" >        return this.request('PUT', arguments);</span>
-    };
+<span class="cstat-no" title="statement not covered" >        return this.request('PUT', arguments)</span>
+    }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    RestApiClient.prototype['delete'] = <span class="fstat-no" title="function not covered" >function _delete() {</span></span>
-<span class="cstat-no" title="statement not covered" >        return this.request('DELETE', arguments);</span>
-    };
+<span class="cstat-no" title="statement not covered" >        return this.request('DELETE', arguments)</span>
+    }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return RestApiClient;</span>
-})();
+<span class="cstat-no" title="statement not covered" >    return RestApiClient</span>
+})()
 &nbsp;
 <span class="cstat-no" title="statement not covered" >RestApiClient.prototype.DEFAULT_CONFIG = {</span>
     protocol: 'https',
@@ -504,17 +540,17 @@
     password: 'password',
     base: '',
     // oauth: undefined,
-    strictSSL: true
-};
+    strictSSL: true,
+}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >module.exports = RestApiClient;</span>
+<span class="cstat-no" title="statement not covered" >module.exports = RestApiClient</span>
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jul 04 2018 03:36:41 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jul 04 2018 03:54:15 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>
