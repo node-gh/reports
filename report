@@ -1,15 +1,15 @@
-Source code report for node-gh/gh@f2c9b6f510fc75f6b1f17adfb6b9f3dcd93b0c13
-Revision: f2c9b6f510fc75f6b1f17adfb6b9f3dcd93b0c13 (master)
-Date: Sun Aug 26 08:11:36 UTC 2018
-https://travis-ci.org/node-gh/gh/jobs/420698460
+Source code report for node-gh/gh@7f57c48211e65b0cf582c2c416845278fe9d4471
+Revision: 7f57c48211e65b0cf582c2c416845278fe9d4471 (master)
+Date: Sun Aug 26 08:25:58 UTC 2018
+https://travis-ci.org/node-gh/gh/jobs/420700783
 
-Travis Build ID: 420698459
-Travis Build number: 831
-Travis Job ID: 420698460
-Travis Job Number: 831.1
+Travis Build ID: 420700782
+Travis Build number: 833
+Travis Job ID: 420700783
+Travis Job Number: 833.1
 Travis repo slug: node-gh/gh
 
-Linux travis-job-node-gh-gh-420698460.travisci.net 4.4.0-112-generic #135-Ubuntu SMP Fri Jan 19 11:48:36 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+Linux travis-job-node-gh-gh-420700783.travisci.net 4.4.0-112-generic #135-Ubuntu SMP Fri Jan 19 11:48:36 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
 
 node v6.14.4
 npm 6.4.0
